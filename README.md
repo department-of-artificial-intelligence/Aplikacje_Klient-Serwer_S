@@ -37,8 +37,8 @@
     ```
 7) Proszę upewnić się że narzędzia `dotnet-ef tool update` oraz `dotnet-aspnet-codegenerator` są poprawnie zainstalowane, w tym celu proszę wykonać poniższe polecenia.    
     ```
-    dotnet tool update --global dotnet-ef --version 6.0.10
-    dotnet tool update -g dotnet-aspnet-codegenerator --version 6.0.10
+    dotnet tool update --global dotnet-ef --version 8.0.2
+    dotnet tool update -g dotnet-aspnet-codegenerator --version 8.0.2
     ```
     
 8) W celu weryfikacji poprawności działania aplikacji proszę ją uruchomić.
@@ -69,41 +69,19 @@
 ```
 
 ### Umieszenie rozwiązania w archiwum
-1)  Po otrzymaniu oceny proszę w folderze `Kolokwium` wykonać poniższe polecenia.
-    ```powershell
-    Remove-Item Kolokwium.Web/bin -Recurse -Force
-    Remove-Item Kolokwium.Web/obj -Recurse -Force
-    Remove-Item Kolokwium.API/bin -Recurse -Force
-    Remove-Item Kolokwium.API/obj -Recurse -Force
-    Remove-Item Kolokwium.ViewModel/bin -Recurse -Force
-    Remove-Item Kolokwium.ViewModel/obj -Recurse -Force
-    Remove-Item Kolokwium.Test/bin -Recurse -Force
-    Remove-Item Kolokwium.Test/obj -Recurse -Force
-    Remove-Item Kolokwium.Services/bin -Recurse -Force
-    Remove-Item Kolokwium.Services/obj -Recurse -Force
-    Remove-Item Kolokwium.DAL/bin -Recurse -Force
-    Remove-Item Kolokwium.DAL/obj -Recurse -Force
-    Remove-Item Kolokwium.Model/bin -Recurse -Force
-    Remove-Item Kolokwium.Model/obj -Recurse -Force  
-    
-    ```
-    Proszę się upewnić że foldery `bin` i `obj` zostały usunięte ze wszystkich projektów.
+1)  Po zakończeniu kolokwium usunąc foldery `bin` i `obj` ze wszystkich projektów.
     
     <img src="Img/del_folders.png" width=600 height=300></img>
+ 
+2)  Następnie proszę spakować całą solucję do pliku `*.zip` (nazwa dowolna). 
+ 
+    <img src="Img/zip.png" width=700 height=200></img>
     
-2)  Następnie proszę spakować rozwiązanie przy pomocy poniższego kodu. Plik `Rozwiazanie_Kolokwium.zip` będzie znajdował sie w folderze `Kolokwium`
-
-    ```
-    tar caf Rozwiazanie_Kolokwium.zip --exclude=./Rozwiazanie_Kolokwium.zip Kolokwium 
-    ```
-    
-3)  Proszę przejść pod adres [Archiver](http://ik2a.kik.pcz.czest.pl/archiver/TestArchive/Index)
+3)  Proszę przejść pod adres [Archiver](https://ik2a.kik.pcz.pl/archiver/TestArchive/Index)
 4)  Następnie proszę wybrać Państwa test i kilknąć przycisk `Link`.
 
     ![Alt text](Img/ArchiverUpload1.png?raw=true)
     
-5)  Proszę wypełnić formularz podając swoje dane, wskazać plik `Rozwiazanie_Kolokwium.zip`, a następnie nacisnąc przycisk `Upload`
+5)  Proszę wypełnić formularz podając swoje dane, wskazać plik `*.zip` (można równeż przeciągnąć), a następnie nacisnąc przycisk `Upload`
 
     ![Alt text](Img/ArchiverUpload2.png?raw=true)
-    
- 
