@@ -1,0 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using System;
+namespace SchoolRegister.Model.DataModels;
+public enum Role : int
+{
+    User = 0,
+    Student = 1,
+    Parent = 2,
+    Teacher = 3,
+    Admin = 4
+}
