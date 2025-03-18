@@ -2,8 +2,8 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Grade
 {
-    public DateTime DateOfIssue {get;set;}
-    public GradeScale GradeScale {get; set;}
+    public DateTime DateOfIssue {get;set;} = DateTime.Now;
+    public GradeScale GradeValue {get; set;}
 
     public Subject Subject {get; set;} = null!;
 
