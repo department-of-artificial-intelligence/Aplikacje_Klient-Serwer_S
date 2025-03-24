@@ -1,11 +1,20 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SchoolRegister.Model.DataModels
 {
-    public class Grade{
+    public class Grade
+    {
+        [Key]
+        public int Id { get; set; }
+        
         public DateTime DateOfIssue { get; set; } = DateTime.Now;
         public GradeScale GradeValue { get; set; }
-        public Subject Subject { get; set; } = null!;
+
         public int SubjectId { get; set; }
+        public virtual Subject Subject { get; set; } = null!;
+
         public int StudentId { get; set; }
-        public Student Student { get; set; } = null!;
+        public virtual Student Student { get; set; } = null!;
     }
 }
