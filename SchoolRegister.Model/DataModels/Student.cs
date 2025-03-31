@@ -8,17 +8,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Student : User
 {
-    public virtual Group Group { get; set; }= null!;
+    public virtual Group Group { get; set; } = null!;
     [ForeignKey("Group")]
-    public int? GroupId{
+    public int? GroupId
+    {
         get; set;
     }
-    public IList<Grade> Grades {get; set;}= default!;
-    public virtual Parent? Parent {get; set;}= null!;
-    
+    public IList<Grade> Grades { get; set; } = default!;
+    public virtual Parent? Parent { get; set; } = null!;
+
     [ForeignKey("Parent")]
-    public int? ParentId {get; set;}
-    
+    public int? ParentId { get; set; }
+
     [NotMapped]
     public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d :
     Math.Round(Grades.Average(g => (int)g.GradeValue), 1);

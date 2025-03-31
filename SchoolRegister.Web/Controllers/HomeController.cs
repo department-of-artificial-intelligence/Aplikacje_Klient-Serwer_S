@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SchoolRegister.Web;
-using SchoolRegister.DAL;
+using SchoolRegister.Web.Models;
+
 namespace SchoolRegister.Web.Controllers;
 
 public class HomeController : Controller

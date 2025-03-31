@@ -1,5 +1,5 @@
-//namespace SchoolRegister.Web.Models;
-namespace SchoolRegister.ViewModels.VM;
+namespace SchoolRegister.Web.Models;
+
 public class ErrorViewModel
 {
     public string? RequestId { get; set; }
