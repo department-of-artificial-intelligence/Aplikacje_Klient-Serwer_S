@@ -1,17 +1,21 @@
 using System.Text.RegularExpressions;
 using SchoolRegister.Model.DataModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Student : User
 {
-    public Group Group {get;set;} = null!;
+    public Group? Group {get;set;} = null!;
+    [ForeignKey("Group")]
     public int? GroupId {get;set;}
 
     public IList<Grade> Grades {get;set;} = null!;
 
     public Parent Parent {get;set;} = null!;
 
+    [ForeignKey("Parent")]
     public int? ParentId {get; set;}
 
+    [NotMapped]
     public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d : Math.Round(Grades.Average(g => (int)g.GradeValue), 1);
 
     public IDictionary<string, double> AverageGradePerSubject => Grades == null ? new Dictionary<string, double>() :
