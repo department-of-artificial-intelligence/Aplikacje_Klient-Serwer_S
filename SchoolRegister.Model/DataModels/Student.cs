@@ -4,13 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Student : User
 {
-    public Group? Group {get;set;} = null!;
+    public virtual Group? Group {get;set;} = null!;
     [ForeignKey("Group")]
     public int? GroupId {get;set;}
 
+    //[ForeignKey("Grade")]
+    [NotMapped]
     public IList<Grade> Grades {get;set;} = null!;
 
-    public Parent Parent {get;set;} = null!;
+    public virtual Parent Parent {get;set;} = null!;
 
     [ForeignKey("Parent")]
     public int? ParentId {get; set;}

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Subject
 {
@@ -10,11 +11,14 @@ public class Subject
 
     public string Description {get;set;} = null!;
 
-    public IList<SubjectGroup> SubjectGroups {get; set;} = null!;
+    
+    public virtual IList<SubjectGroup> SubjectGroups {get; set;} = null!;
 
-    public Teacher Teacher {get;set;} = null!;
+    public virtual Teacher Teacher {get;set;} = null!;
 
+    [ForeignKey ("Teacher")]
     public int? TeacherId {get;set;}
 
-    public IList<Grade> Grades{get;set;} = null!;
+    [NotMapped]
+    public virtual IList<Grade> Grades{get;set;} = null!;
 }

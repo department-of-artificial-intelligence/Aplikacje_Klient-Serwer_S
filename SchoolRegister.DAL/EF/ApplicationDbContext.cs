@@ -43,14 +43,18 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 
         modelBuilder.Entity<SubjectGroup>()
             .HasKey(sg => new { sg.GroupId, sg.SubjectId });
-            modelBuilder.Entity<SubjectGroup>()
+
+        modelBuilder.Entity<SubjectGroup>()
             .HasOne(g => g.Group)
-            .WithMany(sg => sg.SubjectGroup)
+            .WithMany(sg => sg.SubjectGroups)
             .HasForeignKey(g => g.GroupId);
-            modelBuilder.Entity<SubjectGroup>()
+
+        modelBuilder.Entity<SubjectGroup>()
             .HasOne(s => s.Subject)
             .WithMany(sg => sg.SubjectGroups)
             .HasForeignKey(s => s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Grade>().HasNoKey();
     }
 }
