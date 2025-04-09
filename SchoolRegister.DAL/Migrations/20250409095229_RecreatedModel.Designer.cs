@@ -12,8 +12,8 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250409091323_FullModel")]
-    partial class FullModel
+    [Migration("20250409095229_RecreatedModel")]
+    partial class RecreatedModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
