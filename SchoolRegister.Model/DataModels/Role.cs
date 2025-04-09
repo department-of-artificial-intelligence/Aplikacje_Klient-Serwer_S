@@ -11,4 +11,5 @@ public class Role : IdentityRole<int>
         RoleValue = rolevalue;
         Name = name;
     }
+    public Role() {}
 }

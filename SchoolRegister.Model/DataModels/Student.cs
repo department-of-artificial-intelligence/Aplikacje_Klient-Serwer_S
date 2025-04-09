@@ -8,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Student : User
 {
-    public virtual Group Group { get; set; } = null!;
+    public virtual Group? Group { get; set; } = null!;
     [ForeignKey("Group")]
     public int? GroupId
     {
         get; set;
     }
-    public IList<Grade> Grades { get; set; } = default!;
+    public virtual IList<Grade> Grades { get; set; } = default!;
     public virtual Parent? Parent { get; set; } = null!;
 
     [ForeignKey("Parent")]
