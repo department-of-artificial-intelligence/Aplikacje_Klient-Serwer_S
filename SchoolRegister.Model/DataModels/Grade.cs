@@ -7,10 +7,10 @@ namespace SchoolRegister.Model.DataModels
         public virtual DateTime DateOfIssue { get; set; } = DateTime.Now;
         public virtual GradeScale GradeValue { get; set; }
         public virtual Subject Subject { get; set; } = null!;
+        [ForeignKey("SubjectId")]
         public int SubjectId { get; set; }
-        public virtual Subject Subject { get; set; } = null!;
-
         public int StudentId { get; set; }
+        [ForeignKey("StudentId")]
         public virtual Student Student { get; set; } = null!;
     }
 }
