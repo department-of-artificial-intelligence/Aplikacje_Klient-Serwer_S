@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography.X509Certificates;
 namespace SchoolRegister.Model.DataModels;
 public class Parent : User{
-    public IList <Student> Students {get; set;} =null!;
+    public virtual IList <Student> Students {get; set;} =null!;
 }
