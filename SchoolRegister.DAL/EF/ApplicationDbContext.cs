@@ -66,6 +66,9 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
         .HasForeignKey(g => g.StudentId)
         .OnDelete(DeleteBehavior.Restrict);
         
+    modelBuilder.Entity<Grade>()
+        .HasKey(g => new { g.SubjectId, g.StudentId });
+
 
     // SubjectGroup (many-to-many: Subject <-> Group)
     modelBuilder.Entity<SubjectGroup>(entity =>
