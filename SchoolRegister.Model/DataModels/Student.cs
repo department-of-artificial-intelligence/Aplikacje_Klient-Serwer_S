@@ -4,7 +4,7 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Student : User
     {
-        public virtual Group Group { get; set; }
+        public virtual Group Group { get; set; } = null!;
 
         [ForeignKey("Group")]
         public int? GroupId { get; set; }
