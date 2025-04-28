@@ -55,7 +55,7 @@ public class SubjectServiceUnitTests : BaseUnitTests
     {
         Id = 1,
         Name = "Aplikacje webowe",
-        Description = null,
+        Description = null!,
         TeacherId = 1
         };
         var editedSubjectVm = _subjectService.AddOrUpdateSubject(editSubjectVm);

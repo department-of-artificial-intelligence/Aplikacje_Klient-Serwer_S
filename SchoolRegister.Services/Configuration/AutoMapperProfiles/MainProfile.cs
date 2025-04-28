@@ -37,5 +37,8 @@ public class MainProfile : Profile
         CreateMap<Student, StudentVm>();
         CreateMap<Subject, SubjectVm>();
 
+        CreateMap<Student, StudentVm>();
+
+
     }
 }
