@@ -39,6 +39,9 @@ public class MainProfile : Profile
 
         CreateMap<Student, StudentVm>();
 
+        CreateMap<AttachDetachSubjectGroupVm, SubjectGroup>()
+        .ForMember(dest => dest.SubjectId, opt => opt.MapFrom(src => src.SubjectId))
+        .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src => src.GroupId));
 
     }
 }

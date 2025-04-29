@@ -45,7 +45,7 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<StudentVm>(student);
         }
 
-        public GroupVm AttachSubjectToGroup(AttachDetachSubjectToGroupVm attachSubjectToGroupVm)
+        public GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectToGroupVm)
         {
             var subjectGroup = new SubjectGroup
             {
@@ -87,7 +87,7 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<StudentVm>(student);
         }
 
-        public GroupVm DetachSubjectFromGroup(AttachDetachSubjectToGroupVm detachSubjectFromGroupVm)
+        public GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectFromGroupVm)
         {
             var subjectGroup = DbContext.SubjectGroups
                 .FirstOrDefault(x => x.SubjectId == detachSubjectFromGroupVm.SubjectId && x.GroupId == detachSubjectFromGroupVm.GroupId);
