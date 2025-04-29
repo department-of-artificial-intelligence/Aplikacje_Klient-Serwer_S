@@ -67,7 +67,7 @@ namespace SchoolRegister.Tests.UnitTests
             {
                 Id = 1,
                 Name = "Aplikacje webowe",
-                Description = null,
+                Description = null!,
                 TeacherId = 1
             };
 
