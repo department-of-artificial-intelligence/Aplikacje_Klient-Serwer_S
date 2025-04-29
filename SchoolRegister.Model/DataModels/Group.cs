@@ -1,10 +1,17 @@
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SchoolRegister.Model.DataModels
 {
     public class Group
     {
-        public int Id {get; set;}
-        public required string Name {get; set;}
-        public required IList<Student> Students {get; set;}
-        public required IList<SubjectGroup> SubjectGroups {get; set;}
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; } = null!;
+        public virtual IList<Student> Students { get; set; } = new List<Student>();
+        public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
     }
 }

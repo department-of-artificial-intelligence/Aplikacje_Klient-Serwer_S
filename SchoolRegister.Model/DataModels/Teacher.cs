@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using System;
+
 namespace SchoolRegister.Model.DataModels
 {
     public class Teacher : User
-    {
-        public required IList<Subject> Subjects {get; set;}
-        public required string Title {get; set;}
-    }
+        {
+            public string Title { get; set; } = null!;
+            public virtual List<Subject> Subjects { get; set; } = new();    
+        }
 }

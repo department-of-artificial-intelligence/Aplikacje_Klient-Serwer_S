@@ -1,13 +1,19 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SchoolRegister.Model.DataModels
 {
     public class Subject
     {
-        public int Id {get; set;}
-        public required string Name {get; set;}
-        public required string Description {get;set;}
-        public required IList<SubjectGroup> SubjectGroups {get; set;}
-        public required Teacher Teacher {get; set;}
-        public int? TeacherId {get; set;}
-        public required IList<Grade> Grades {get; set;}
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        [ForeignKey("TeacherId")]
+        public virtual Teacher Teacher { get; set; } = null!;
+        public int? TeacherId { get; set; }
+        public virtual IList<Grade> Grades { get; set; } = null!;
+        public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
     }
 }
