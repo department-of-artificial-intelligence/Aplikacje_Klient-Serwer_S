@@ -7,7 +7,8 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
 using SchoolRegister.Services.Interfaces;
-namespace SchoolRegister.Tests;
+namespace SchoolRegister.Tests; 
+
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
