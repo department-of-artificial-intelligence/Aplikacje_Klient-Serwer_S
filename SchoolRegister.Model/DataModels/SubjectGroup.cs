@@ -12,6 +12,7 @@ public class SubjectGroup{
    public int SubjectId {get;set;}
    public Group Group {get;set;} =null!;
 
+   [ForeignKey("Group")]
    public int GroupId {get;set;}
 
 }

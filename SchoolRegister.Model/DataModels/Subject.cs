@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolRegister.Model.DataModels;
 
+[Table("Subject")]
 public class Subject{
     [Key]
     public int Id {get;set;}
@@ -12,6 +13,7 @@ public class Subject{
     public string Name{get;set;} =null!;
     public string Description{get;set;} =null!;
     public IList<SubjectGroup> SubjectGroups {get;set;} = new List<SubjectGroup>();
+    [ForeignKey("TeacherId")]
     public Teacher Teacher{get;set;} =null!;
     public int? TeacherId {get;set;}
     public IList<Grade> Grades {get;set;} =null!;
