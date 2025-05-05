@@ -1,16 +1,20 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolRegister.Model.DataModels;
 
 public class Student:User{
-    public Group Group {get;set;} =null!;
+    public virtual Group Group {get; set; }
+    [ForeignKey("Group")]
     public int? GroupId {get;set;}
     public IList<Grade> Grades { get; set; }  = new List<Grade>();
     public Parent Parent {get;set;} =null!;
     public int? ParentId {get;set;}
 
+    [NotMapped]
     public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d :
     Math.Round(Grades.Average(g=>(int)g.GradeValue),1);
 
