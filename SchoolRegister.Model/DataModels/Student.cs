@@ -10,8 +10,9 @@ public class Student:User{
     public virtual Group Group {get; set; }
     [ForeignKey("Group")]
     public int? GroupId {get;set;}
-    public IList<Grade> Grades { get; set; }  = new List<Grade>();
-    public Parent Parent {get;set;} =null!;
+    [NotMapped]
+    public virtual IList<Grade> Grades { get; set; }  = new List<Grade>();
+    public virtual Parent Parent {get;set;} =null!;
     public int? ParentId {get;set;}
 
     [NotMapped]

@@ -7,5 +7,5 @@ public class Teacher : User
 {
 public string Title { get; set; } =null!;
   
-public IList<Subject> Subjects {get;set;} = new List<Subject>();
+public virtual IList<Subject> Subjects {get;set;} = new List<Subject>();
 }

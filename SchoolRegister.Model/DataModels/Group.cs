@@ -11,6 +11,6 @@ public class Group{
    [Required]
    public string Name {get;set;}
    public virtual IList<Student> Students {get;set;}
-   public IList<SubjectGroup> SubjectGroups {get;set;} =null!;
+   public virtual IList<SubjectGroup> SubjectGroups {get;set;} =null!;
 
 }

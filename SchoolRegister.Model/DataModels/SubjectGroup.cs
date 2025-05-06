@@ -10,7 +10,7 @@ public class SubjectGroup{
    [ForeignKey("Subject")]
 
    public int SubjectId {get;set;}
-   public Group Group {get;set;} =null!;
+   public virtual Group Group {get;set;} =null!;
 
    [ForeignKey("Group")]
    public int GroupId {get;set;}
