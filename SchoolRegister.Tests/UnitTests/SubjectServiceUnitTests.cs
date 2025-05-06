@@ -65,6 +65,7 @@ public class SubjectServiceUnitTests : BaseUnitTests
             Description = null,
             TeacherId = 1,
         };
+
         var editedSubjectVm = _subjectService.AddOrUpdateSubject(editSubjectVm);
         Assert.NotNull(editedSubjectVm);
         Assert.Equal("Aplikacje webowe", editedSubjectVm.Name);

@@ -10,6 +10,7 @@ namespace SchoolRegister.Tests
     {
         public static async void SeedData(this IServiceCollection services)
         {
+
             var serviceProvider = services.BuildServiceProvider();
             var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
