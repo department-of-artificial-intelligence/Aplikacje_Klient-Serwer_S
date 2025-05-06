@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class SubjectVM
+    public class SubjectVm
     {
         public int Id {get; set;}
         public string Name {get; set;} = null!;
@@ -14,4 +14,4 @@ namespace SchoolRegister.ViewModels.VM
         public string TeacherName {get; set;} = null!;
         public int? TeacherId {get; set;} 
     }
-}
+}   

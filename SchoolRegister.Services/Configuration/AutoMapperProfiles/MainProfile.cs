@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using SchoolRegister.DAL.EF;      
+using SchoolRegister.ViewModels.VM;
+using SchoolRegister.Model.DataModels;
 
-namespace SchoolRegister.Services.Configuration.AutoMapperProfiles
+namespace SchoolRegister.Services.Configuration.sAutoMapperProfiles
 {
     public class MainProfile : Profile
     {
