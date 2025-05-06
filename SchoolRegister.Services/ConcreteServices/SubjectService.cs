@@ -21,7 +21,7 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                if (addOrUpdateVm = null)
+                if (addOrUpdateVm == null)
                     throw new ArgumentNullException($"View model parameter is null");
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
@@ -32,7 +32,7 @@ namespace SchoolRegister.Services.ConcreteServices
                 var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
                 return subjectVm;
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
                 throw;

@@ -1,3 +1,9 @@
+using System;
+using System.Linq.Expressions;
+using SchoolRegister.ViewModels.VM;
+using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
+
 namespace SchoolRegister.Services.Interfaces
 {
     public interface ISubjectService
