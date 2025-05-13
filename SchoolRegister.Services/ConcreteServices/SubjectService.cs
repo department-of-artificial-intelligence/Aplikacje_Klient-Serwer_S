@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 
 namespace SchoolRegister.Services.ConcreteServices
 {
-    public class SubjectService : BaseServices, ISubjectService
+    public class SubjectService : BaseService, ISubjectService
     {
        public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
                         :base(dbContext, mapper, logger) {}
