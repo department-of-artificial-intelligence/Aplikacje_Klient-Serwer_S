@@ -1,0 +1,19 @@
+rm -f ./.git/._config
+rm -f ./SchoolRegister.Services/ConcreteServices/._SubjectService.cs
+rm -f ./SchoolRegister.Services/ConcreteServices/._GradeService.cs
+rm -f ./._.DS_Store
+rm -f ./._commands.md
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/UnitTests/._GradeServiceTest.cs
+rm -f ./SchoolRegister.ViewModels/Interfaces/._IGroupService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/Interfaces/._IGroupService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AddOrUpdateGroupVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachStudentToGroupVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachDetachSubjectGroupVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachDetachSubjectToTeacherVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachDetachStudentToGroupVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/Interfaces/._IGroupService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Services/ConcreteServices/._GroupService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/UnitTests/._GroupServiceUnitTests.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Services/Configuration/AutoMapperProfiles/._MainProfile.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/._Startup.cs
+dotnet test --filter GroupServiceUnitTests

@@ -32,7 +32,7 @@ public class GradeServiceUnitTests : BaseUnitTests
         Assert.NotNull(grade);
         Assert.Equal(2, DbContext.Grades.Count());
     }
-    /*
+    
     [Fact]
     public void GetGradesReportForStudentByTeacher()
     {
@@ -40,7 +40,8 @@ public class GradeServiceUnitTests : BaseUnitTests
         var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
         Assert.NotNull(gradesReport);
     }
-
+    
+    
     [Fact]
     public void GetGradesReportForStudentByStudent()
     {
@@ -49,6 +50,7 @@ public class GradeServiceUnitTests : BaseUnitTests
         Assert.NotNull(gradesReport);
     }
 
+    
     [Fact]
     public void GetGradesReportForStudentByParent()
     {
@@ -56,5 +58,4 @@ public class GradeServiceUnitTests : BaseUnitTests
         var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
         Assert.NotNull(gradesReport);
     }
-    */
 }

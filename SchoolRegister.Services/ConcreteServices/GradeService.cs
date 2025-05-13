@@ -99,14 +99,46 @@ namespace SchoolRegister.Services.ConcreteServices
                     .Users.OfType<User>()
                     .FirstOrDefault(t => t.Id == getGradesVm.GetterUserId);
 
-                var t = _userManager.IsInRoleAsync(user, "Parent");
-                if (t.Result)
+                var t = _userManager.IsInRoleAsync(user, "Student");
+                bool flag = false;
+
+                if (t.Result)    
                 {
-                    
-                    //t = _userManager.IsInRoleAsync(teacher, "Teacher");
-                    //throw new InvalidOperationException("user is not a teacher");
+                    if(getGradesVm.StudentId != getGradesVm.GetterUserId)
+                    {
+                        throw new InvalidOperationException(
+                                $"student can only see his/her own grades");
+                    }
                 }
-                else { }
+                else
+                {
+                   t = _userManager.IsInRoleAsync(user, "Teacher");
+                   if(!t.Result)
+                   {
+                        t = _userManager.IsInRoleAsync(user, "Parent");
+                        if(t.Result)
+                        {
+                            foreach (var s in (user as Parent).Students)
+                            {
+                                if(s.ParentId == getGradesVm.GetterUserId)
+                                {
+                                    flag = true;
+                                }
+                            }
+
+                            if(flag == false)
+                            {
+                                throw new InvalidOperationException(
+                                    $"user with id ${getGradesVm.GetterUserId} is not parent of student with id ${getGradesVm.StudentId}");
+                            }                            
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("user is not a student, parent or teacher");
+                        }
+                   }
+                }
+
 
                 //int StudentId;
                 //int GetterUserId;
