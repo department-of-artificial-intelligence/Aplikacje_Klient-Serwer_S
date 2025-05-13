@@ -101,7 +101,8 @@ namespace SchoolRegister.DAL.Migrations
                         name: "FK_AspNetUsers_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,7 +197,6 @@ namespace SchoolRegister.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TeacherId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -218,15 +218,14 @@ namespace SchoolRegister.DAL.Migrations
                     DateOfIssue = table.Column<DateTime>(type: "datetime2", nullable: false),
                     GradeValue = table.Column<int>(type: "int", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    Grade = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Grades", x => x.GradeId);
                     table.ForeignKey(
-                        name: "FK_Grades_AspNetUsers_Grade",
-                        column: x => x.Grade,
+                        name: "FK_Grades_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -243,7 +242,8 @@ namespace SchoolRegister.DAL.Migrations
                 columns: table => new
                 {
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    GroupId = table.Column<int>(type: "int", nullable: false)
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    SubjectGroup = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,9 +312,9 @@ namespace SchoolRegister.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grades_Grade",
+                name: "IX_Grades_StudentId",
                 table: "Grades",
-                column: "Grade");
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grades_SubjectId",

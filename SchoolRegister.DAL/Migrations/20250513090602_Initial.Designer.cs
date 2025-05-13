@@ -12,7 +12,7 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250408082719_Initial")]
+    [Migration("20250513090602_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -39,9 +39,6 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
-
                     b.Property<int>("GradeValue")
                         .HasColumnType("int");
 
@@ -53,7 +50,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasKey("GradeId");
 
-                    b.HasIndex("Grade");
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectId");
 
@@ -311,10 +308,6 @@ namespace SchoolRegister.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -337,6 +330,9 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SubjectGroup")
+                        .HasColumnType("int");
+
                     b.HasKey("GroupId", "SubjectId");
 
                     b.HasIndex("SubjectId");
@@ -356,6 +352,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.HasBaseType("SchoolRegister.Model.DataModels.User");
 
                     b.Property<int?>("GroupId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("ParentId")
@@ -383,12 +380,12 @@ namespace SchoolRegister.DAL.Migrations
                 {
                     b.HasOne("Student", "Student")
                         .WithMany("Grades")
-                        .HasForeignKey("Grade")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Subject", "Subject")
-                        .WithMany("Grades")
+                        .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -461,7 +458,7 @@ namespace SchoolRegister.DAL.Migrations
             modelBuilder.Entity("SubjectGroup", b =>
                 {
                     b.HasOne("Group", "Group")
-                        .WithMany("SubjectGroup")
+                        .WithMany("SubjectGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -481,7 +478,9 @@ namespace SchoolRegister.DAL.Migrations
                 {
                     b.HasOne("Group", "Group")
                         .WithMany("Students")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Parent", "Parent")
                         .WithMany("Students")
@@ -496,13 +495,11 @@ namespace SchoolRegister.DAL.Migrations
                 {
                     b.Navigation("Students");
 
-                    b.Navigation("SubjectGroup");
+                    b.Navigation("SubjectGroups");
                 });
 
             modelBuilder.Entity("Subject", b =>
                 {
-                    b.Navigation("Grades");
-
                     b.Navigation("SubjectGroups");
                 });
 

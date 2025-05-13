@@ -48,5 +48,7 @@ public class MainProfile : Profile
                     )
             );
         // //....... other maps.........
+        CreateMap<Grade, GradeVm>();
+        CreateMap<AddGradeToStudentVm, Grade>();
     }
 }

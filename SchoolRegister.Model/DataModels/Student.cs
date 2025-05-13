@@ -10,8 +10,8 @@ public class Student : User
     public int? GroupId { get; set; }
 
     //[ForeignKey("Grade")]
-    [NotMapped]
-    public IList<Grade> Grades { get; set; } = null!;
+    //[NotMapped]
+    public virtual IList<Grade> Grades { get; set; } = null!;
 
     public virtual Parent Parent { get; set; } = null!;
 

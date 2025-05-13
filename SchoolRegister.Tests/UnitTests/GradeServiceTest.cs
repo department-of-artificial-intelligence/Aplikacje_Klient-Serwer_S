@@ -28,9 +28,9 @@ public class GradeServiceUnitTests : BaseUnitTests
             TeacherId = 1,
         };
         
-        //var grade = _gradeService.AddGradeToStudent(gradeVm);
-        //Assert.NotNull(grade);
-        //Assert.Equal(2, DbContext.Grades.Count());
+        var grade = _gradeService.AddGradeToStudent(gradeVm);
+        Assert.NotNull(grade);
+        Assert.Equal(2, DbContext.Grades.Count());
     }
     /*
     [Fact]

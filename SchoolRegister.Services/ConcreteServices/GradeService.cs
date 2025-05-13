@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
@@ -15,6 +16,8 @@ namespace SchoolRegister.Services.ConcreteServices
 {
     public class GradeService : BaseService, IGradeService
     {
+        private UserManager<User> _userManager;
+
         public GradeService(
             ApplicationDbContext dbContext,
             IMapper mapper,
@@ -23,19 +26,98 @@ namespace SchoolRegister.Services.ConcreteServices
         )
             : base(dbContext, mapper, logger)
         {
-            //...
+            _userManager = userManager;
         }
 
-        public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm) 
+        public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
-            
-            
-            return new GradeVm();
+            try
+            {
+                var teacher = DbContext
+                    .Users.OfType<Teacher>()
+                    .FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
+
+                var t = _userManager.IsInRoleAsync(teacher, "Teacher");
+                if (!t.Result)
+                {
+                    throw new InvalidOperationException("user is not a teacher");
+                }
+
+                var student = DbContext
+                    .Users.OfType<Student>()
+                    .FirstOrDefault(t => t.Id == addGradeToStudentVm.StudentId);
+
+                if (student == null)
+                {
+                    throw new InvalidOperationException(
+                        $"no student with id {addGradeToStudentVm.StudentId}"
+                    );
+                }
+
+                var subject = DbContext
+                    .Subjects.OfType<Subject>()
+                    .FirstOrDefault(t => t.Id == addGradeToStudentVm.SubjectId);
+
+                if (subject == null)
+                {
+                    throw new InvalidOperationException(
+                        $"no subject with id {addGradeToStudentVm.SubjectId}"
+                    );
+                }
+
+                if (student.Grades == null)
+                {
+                    student.Grades = new List<Grade>();
+                }
+
+                var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
+
+                student.Grades.Add(gradeEntity);
+
+                DbContext.SaveChanges();
+
+                var gradeVm = Mapper.Map<GradeVm>(gradeEntity);
+
+                return gradeVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {
-            return new GradesReportVm(); 
+            try
+            {
+                var student = DbContext
+                    .Users.OfType<Student>()
+                    .FirstOrDefault(t => t.Id == getGradesVm.StudentId);
+
+                var user = DbContext
+                    .Users.OfType<User>()
+                    .FirstOrDefault(t => t.Id == getGradesVm.GetterUserId);
+
+                var t = _userManager.IsInRoleAsync(user, "Parent");
+                if (t.Result)
+                {
+                    
+                    //t = _userManager.IsInRoleAsync(teacher, "Teacher");
+                    //throw new InvalidOperationException("user is not a teacher");
+                }
+                else { }
+
+                //int StudentId;
+                //int GetterUserId;
+
+                return new GradesReportVm();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
 }
