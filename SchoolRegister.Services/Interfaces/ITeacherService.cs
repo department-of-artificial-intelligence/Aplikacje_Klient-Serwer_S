@@ -8,7 +8,7 @@ namespace SchoolRegister.Services.Interfaces
     {
         TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate);
         IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher,bool>>? filterPredicate = null);
-        IEnumerable<GroupVm> GetTeachersGroups(TeacherGroupsVm getTeachersGroup);
+        IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroup);
 
     }
 }

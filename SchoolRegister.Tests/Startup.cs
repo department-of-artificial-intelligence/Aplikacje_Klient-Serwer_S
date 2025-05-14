@@ -36,6 +36,8 @@ public class Startup
         services.AddTransient<ITeacherService, TeacherService>();
         services.AddTransient<IGroupService, GroupService>();
         services.AddTransient<IStudentService, StudentService>();
+        services.AddTransient<ITeacherService, TeacherService>();
+
         services.SeedData();
     }
 }

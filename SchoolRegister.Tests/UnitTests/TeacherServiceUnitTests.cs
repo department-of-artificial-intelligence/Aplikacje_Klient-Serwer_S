@@ -26,7 +26,7 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public void GetTeachers()
         {
-            var teachers = _teacherService.GetTeachers(x => x.UserName.Contains("@eg.eg"));
+            var teachers = _teacherService.GetTeachers(x => x.UserName!.Contains("@eg.eg"));
             Assert.NotNull(teachers);
             Assert.NotEmpty(teachers);
             Assert.Equal(3, teachers.Count());

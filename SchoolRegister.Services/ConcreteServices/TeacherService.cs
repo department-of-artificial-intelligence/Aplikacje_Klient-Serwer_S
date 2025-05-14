@@ -33,7 +33,7 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<IEnumerable<TeacherVm>>(teachers);
         }
 
-        public IEnumerable<GroupVm> GetTeachersGroups(TeacherGroupsVm getTeachersGroup)
+        public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroup)
         {
             var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == getTeachersGroup.TeacherId);
             if (teacher == null)
