@@ -52,7 +52,40 @@ namespace SchoolRegister.Services.ConcreteServices
 
         public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
         {
-            return null;
+            try
+            {
+                if(getTeachersGroups == null)
+                    throw new ArgumentNullException($"getTeachersGroups parameter is null");
+
+                var teacher = DbContext
+                    .Users.OfType<Teacher>()
+                    .FirstOrDefault(t=>t.Id == getTeachersGroups.TeacherId);
+
+                if(teacher == null)
+                {
+                    throw new InvalidOperationException(
+                        $"No teacher with id {getTeachersGroups.TeacherId} found"
+                    );
+                }
+                var groups = DbContext.Groups.Where(
+                    g => 
+                        g.SubjectGroups.FirstOrDefault(sg => sg.Subject.TeacherId == getTeachersGroups.TeacherId) != null
+                    );
+
+                var groupsVm = new List<GroupVm>();
+
+                foreach (var g in groups)
+                {
+                    groupsVm.Add(Mapper.Map<GroupVm>(g));
+                }
+                
+                return groupsVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
 }

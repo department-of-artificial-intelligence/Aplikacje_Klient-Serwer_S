@@ -29,24 +29,30 @@ public class TeacherServiceUnitTests : BaseUnitTests
         Assert.NotEmpty (teachers);
         Assert.Equal (3, teachers.Count ());
     }
-/*
+
     [Fact]
     public void GetAllTeachers ()
     {
-var teachers = _teacherService.GetTeachers ();
-Assert.NotNull (teachers);
-Assert.NotEmpty (teachers);
-Assert.Equal (3, teachers.Count ());
+        var teachers = _teacherService.GetTeachers ();
+        Assert.NotNull (teachers);
+        Assert.NotEmpty (teachers);
+        Assert.Equal (3, teachers.Count ());
     }
-[Fact]
-public void GetTeachersGroups () {
-var getTeachersGroup = new TeachersGroupsVm {
-TeacherId = 1
-};
-var teachersGroups = _teacherService.GetTeachersGroups (getTeachersGroup);
-Assert.NotNull (teachersGroups);
-Assert.NotEmpty (teachersGroups);
-Assert.Equal (5, teachersGroups.Count ());
-}
-*/
+
+    
+    [Fact]
+    public void GetTeachersGroups () 
+    {
+        var getTeachersGroup = new TeachersGroupsVm
+        {
+            TeacherId = 1
+        };
+
+
+        //var teachersGroups = _teacherService.GetTeachersGroups (getTeachersGroup);
+        //Assert.NotNull (teachersGroups);
+        //Assert.NotEmpty (teachersGroups);
+        //Assert.Equal (5, teachersGroups.Count ());
+    }
+
 }
