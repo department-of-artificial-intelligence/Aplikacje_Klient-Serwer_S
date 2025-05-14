@@ -12,7 +12,7 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250513090602_Initial")]
+    [Migration("20250514090427_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

@@ -72,7 +72,7 @@ public class GroupServiceUnitTests : BaseUnitTests
         Assert.NotNull(addedGroup);
     }
 
-    /*
+    
     [Fact]
     public void AttachStudentToGroup()
     {
@@ -82,6 +82,8 @@ public class GroupServiceUnitTests : BaseUnitTests
             StudentId = 7
         };
 
+        
+
         var student = _groupService.AttachStudentToGroup(attachStudentToGroupVm);
         Assert.True(student.GroupName == "IO");
         var group = _groupService.GetGroup(g => g.Id == attachStudentToGroupVm.GroupId);
@@ -89,6 +91,7 @@ public class GroupServiceUnitTests : BaseUnitTests
         Assert.NotNull(group.Students.FirstOrDefault(x => x.Id == 7));
     }
 
+    
     [Fact]
     public void DetachStudentFromGroup()
     {
@@ -103,6 +106,7 @@ public class GroupServiceUnitTests : BaseUnitTests
         Assert.Null(student.GroupName);
     }
 
+    
     [Fact]
     public void AttachSubjectToGroup()
     {
@@ -117,6 +121,7 @@ public class GroupServiceUnitTests : BaseUnitTests
         Assert.NotNull(group.Subjects.FirstOrDefault(s => s.Name == "Administracja Intenetowymi Systemami Baz Danych"));
     }
 
+    
     [Fact]
     public void DetachSubjectFromGroup()
     {
@@ -125,11 +130,13 @@ public class GroupServiceUnitTests : BaseUnitTests
             GroupId = 2,
             SubjectId = 4
         };
+
         var group = _groupService.DetachSubjectFromGroup(detachSubjectGroupVm);
         Assert.NotNull(group);
         Assert.Null(group.Subjects.FirstOrDefault(s => s.Name == "Administracja Intenetowymi Systemami Baz Danych"));
     }
 
+    
     [Fact]
     public void AttachTeacherToSubject()
     {
@@ -143,6 +150,7 @@ public class GroupServiceUnitTests : BaseUnitTests
         Assert.True(subject.TeacherId == attachSubjectTeacher.TeacherId);
     }
 
+    
     [Fact]
     public void DetachTeacherToSubject()
     {
@@ -156,5 +164,5 @@ public class GroupServiceUnitTests : BaseUnitTests
         Assert.Null(subject.TeacherId);
         Assert.Null(subject.TeacherName);
     }
-    */
+    
 }

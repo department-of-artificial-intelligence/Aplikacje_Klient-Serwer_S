@@ -51,8 +51,10 @@ public class MainProfile : Profile
         CreateMap<Grade, GradeVm>();
         CreateMap<AddGradeToStudentVm, Grade>();
         CreateMap<AddOrUpdateGroupVm, Group>();
-
-        //AddOrUpdateGroupVm, Group
+        CreateMap<Subject, SubjectVm>();
+        CreateMap<Teacher, TeacherVm>();
+        
+        
         
     }
 }

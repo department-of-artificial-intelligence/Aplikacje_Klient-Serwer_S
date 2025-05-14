@@ -11,7 +11,19 @@ rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels
 rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachDetachSubjectGroupVm.cs
 rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachDetachSubjectToTeacherVm.cs
 rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._AttachDetachStudentToGroupVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._TeachersGroupsVm.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/VM/._TeacherVm.cs
 rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/Interfaces/._IGroupService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/Interfaces/._IStudentService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.ViewModels/Interfaces/._ITeacherService.cs
 rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Services/ConcreteServices/._GroupService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Services/ConcreteServices/._StudentService.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Services/ConcreteServices/._TeacherService.cs
 rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/UnitTests/._GroupServiceUnitTests.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Services/Configuration/AutoMapperProfiles/._MainProfile.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/._Startup.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Model/DataModels/._Teacher.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Model/DataModels/._Student.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/UnitTests/._StudentServiceUnitTests.cs
+rm -f /home/emil/Desktop/tmp/Aplikacje_Klient-Serwer_S/SchoolRegister.Tests/UnitTests/._TeacherServiceUnitTests.cs
 dotnet build

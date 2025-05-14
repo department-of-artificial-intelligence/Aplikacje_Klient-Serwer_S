@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 using SchoolRegister.Model.DataModels;
 
+
 public class Student : User
 {
     public virtual Group? Group { get; set; } = null!;
