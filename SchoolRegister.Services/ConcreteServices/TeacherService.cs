@@ -67,14 +67,24 @@ namespace SchoolRegister.Services.ConcreteServices
                         $"No teacher with id {getTeachersGroups.TeacherId} found"
                     );
                 }
-                var groups = DbContext.Groups.Where(
-                    g => 
-                        g.SubjectGroups.FirstOrDefault(sg => sg.Subject.TeacherId == getTeachersGroups.TeacherId) != null
-                    );
+                var groups = DbContext.Groups; 
+                var subjectGroups = new List<SubjectGroup>();
+                
+                foreach (var g in groups)
+                {
+                	foreach (var s in g.SubjectGroups)
+                	{
+                		if(teacher.Subjects.Contains(s.Subject))
+                		{
+                			subjectGroups.Add(s);
+                		}
+                	}
+                }
+               
 
                 var groupsVm = new List<GroupVm>();
-
-                foreach (var g in groups)
+		
+                foreach (var g in subjectGroups)
                 {
                     groupsVm.Add(Mapper.Map<GroupVm>(g));
                 }

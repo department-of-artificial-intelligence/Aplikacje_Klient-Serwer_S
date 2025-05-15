@@ -53,7 +53,7 @@ public class MainProfile : Profile
         CreateMap<AddOrUpdateGroupVm, Group>();
         CreateMap<Subject, SubjectVm>();
         CreateMap<Teacher, TeacherVm>();
-        
+        CreateMap<SubjectGroup, GroupVm>();
         
         
     }

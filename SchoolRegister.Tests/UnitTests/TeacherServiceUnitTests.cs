@@ -49,10 +49,10 @@ public class TeacherServiceUnitTests : BaseUnitTests
         };
 
 
-        //var teachersGroups = _teacherService.GetTeachersGroups (getTeachersGroup);
-        //Assert.NotNull (teachersGroups);
-        //Assert.NotEmpty (teachersGroups);
-        //Assert.Equal (5, teachersGroups.Count ());
+        var teachersGroups = _teacherService.GetTeachersGroups (getTeachersGroup);
+        Assert.NotNull (teachersGroups);
+        Assert.NotEmpty (teachersGroups);
+        Assert.Equal (5, teachersGroups.Count ());
     }
 
 }
