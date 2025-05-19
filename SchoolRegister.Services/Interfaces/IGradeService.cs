@@ -5,8 +5,8 @@ namespace SchoolRegister.Services.Interfaces
 {
 public interface IGradeService
     {
-        GradeVm AddGradeToStudent(AddGradeToStudent addGradeToStuednt);
-        GradesReportVm GetGradesReportForStudent(GetReportVm getGradesVm);
+        GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm);
+        GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm);
     }   
 }
 

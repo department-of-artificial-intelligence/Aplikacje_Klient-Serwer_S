@@ -10,7 +10,7 @@ public class Subject{
     public int Id {get;set;}
     [Required]
     public string Name{get;set;} =null!;
-    public  string Description{get;set;} =null!;
+    public  string? Description{get;set;}
     public virtual IList<SubjectGroup> SubjectGroups {get;set;} = new List<SubjectGroup>();
     [ForeignKey("TeacherId")]
     public virtual Teacher Teacher{get;set;} =null!;
