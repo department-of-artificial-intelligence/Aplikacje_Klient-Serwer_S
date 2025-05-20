@@ -56,7 +56,5 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
             .HasForeignKey(s => s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<Grade>()
-            .HasNoKey();
     }
 }
