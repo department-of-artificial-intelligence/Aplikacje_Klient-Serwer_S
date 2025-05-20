@@ -4,11 +4,12 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddAutoMapper(typeof(MainProfile));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString)
@@ -20,7 +21,11 @@ builder
     .AddRoleManager<RoleManager<Role>>()
     .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
+builder.Services.AddTransient (typeof (ILogger), typeof (Logger<Program>));
+//builder.Services.AddScoped
+
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
