@@ -3,8 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
-
-
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.ConcreteServices;
+using SchoolRegister.Web.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +26,12 @@ builder
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
-builder.Services.AddTransient (typeof (ILogger), typeof (Logger<Program>));
-//builder.Services.AddScoped
+//builder.Services.AddScoped<IStringLocalizer, StringLocalizer<BaseController>> ();
+builder.Services.AddScoped<ISubjectService, SubjectService> ();
+builder.Services.AddScoped<IGradeService, GradeService> ();
+builder.Services.AddScoped<IGroupService, GroupService> ();
+builder.Services.AddScoped<IStudentService, StudentService> ();
+builder.Services.AddScoped<ITeacherService, TeacherService> ();
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
