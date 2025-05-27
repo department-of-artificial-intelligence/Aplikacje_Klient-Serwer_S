@@ -38,7 +38,7 @@ namespace SchoolRegister.Tests.UnitTests;
             var subjects = _subjectService.GetSubjects().ToList();
             Assert.NotNull(subjects);
             Assert.NotEmpty(subjects);
-            Assert.Equal(dbContext.Subjects.Count(), subjects.Count());
+            Assert.Equal(DbContext.Subjects.Count(), subjects.Count());
         }
 
         [Fact]
