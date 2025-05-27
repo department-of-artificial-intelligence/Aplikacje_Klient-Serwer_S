@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using SchoolRegister.ViewModels.VM;
+using System.Linq.Expressions;
 using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.Services.Interfaces
@@ -12,7 +8,7 @@ namespace SchoolRegister.Services.Interfaces
     {
         TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate);
         IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher,bool>>? filterPredicate = null);
-        IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroup);
+        IEnumerable<GroupVm> GetTeachersGroups(TeacherGroupsVm getTeachersGroup);
 
     }
 }

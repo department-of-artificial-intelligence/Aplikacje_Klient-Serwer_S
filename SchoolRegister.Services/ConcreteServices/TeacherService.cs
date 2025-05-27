@@ -12,7 +12,7 @@ namespace SchoolRegister.Services.ConcreteServices
     public class TeacherService: BaseService, ITeacherService 
     {
         private readonly UserManager<User>? _userManager;
-
+        
         public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger<TeacherService> logger, UserManager<User> userManager)
         : base(dbContext, mapper, logger)
         {
@@ -33,7 +33,7 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<IEnumerable<TeacherVm>>(teachers);
         }
 
-        public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroup)
+        public IEnumerable<GroupVm> GetTeachersGroups(TeacherGroupsVm getTeachersGroup)
         {
             var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == getTeachersGroup.TeacherId);
             if (teacher == null)

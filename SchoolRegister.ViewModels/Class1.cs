@@ -1,4 +1,4 @@
-﻿namespace SchoolRegister.ViewModel;
+﻿namespace SchoolRegister.ViewModels;
 
 public class Class1
 {

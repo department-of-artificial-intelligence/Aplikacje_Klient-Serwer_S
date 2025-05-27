@@ -6,7 +6,6 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using System.Linq;
-using SchoolRegister.Services.ConcreteServices;
 
 namespace SchoolRegister.Services.ConcreteServices
 {

@@ -30,7 +30,7 @@ Assert.Equal (3, teachers.Count ());
 }
 [Fact]
 public void GetTeachersGroups () {
-var getTeachersGroup = new TeachersGroupsVm {
+var getTeachersGroup = new TeacherGroupsVm {
 TeacherId = 1
 };
 var teachersGroups = _teacherService.GetTeachersGroups (getTeachersGroup);
