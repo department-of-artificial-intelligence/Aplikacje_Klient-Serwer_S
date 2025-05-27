@@ -12,5 +12,6 @@ public class SubjectGroup
 
     public virtual Group Group { get; set; } = null!;
 
+    [ForeignKey("Group")]
     public int GroupId { get; set; }
 }

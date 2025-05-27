@@ -305,6 +305,10 @@ namespace SchoolRegister.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -325,9 +329,6 @@ namespace SchoolRegister.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectGroup")
                         .HasColumnType("int");
 
                     b.HasKey("GroupId", "SubjectId");

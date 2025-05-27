@@ -12,7 +12,7 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250514090427_Initial")]
+    [Migration("20250527091538_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -308,6 +308,10 @@ namespace SchoolRegister.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -328,9 +332,6 @@ namespace SchoolRegister.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectGroup")
                         .HasColumnType("int");
 
                     b.HasKey("GroupId", "SubjectId");

@@ -11,6 +11,6 @@ public class Group
 
     public virtual IList<Student> Students { get; set; } = null!;
 
-    [ForeignKey("SubjectGroup")]
+    //[ForeignKey("SubjectGroup")]
     public virtual IList<SubjectGroup> SubjectGroups { get; set; } = null!;
 }
