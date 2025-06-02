@@ -47,8 +47,8 @@ namespace SchoolRegister.Services.ConcreteServices
                 .FirstOrDefault(t => t.Id == vm.TeacherId);
 
             var groups = teacher?.Subjects?
-                .SelectMany(s => s.SubjectGroups.Select(sg => sg.Group))
-                .Distinct() ?? Enumerable.Empty<Group>();
+                .SelectMany(s => s.SubjectGroups.Select(sg => sg.Group));
+                
 
             return Mapper.Map<IEnumerable<GroupVm>>(groups);
         }
