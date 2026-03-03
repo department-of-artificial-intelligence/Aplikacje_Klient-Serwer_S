@@ -8,8 +8,8 @@ public class Grade
 
     public GradeScale GradeValue { get; set; } = null!;
 
-    public Subject subject { get; set; } = null!;
-
+    public Subject subject { get; set; } = null!;//null tylko do stringa
+    //
     public int SubjectId { get; set; } = 0;
 
     public int StudentId { get; set; } = 0;
