@@ -1,0 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using System;
+namespace SchoolRegister.Model.DataModels;
+public class Role
+{
+    public int Id { get; set; }
+    public string RoleName { get; set; }
+}
