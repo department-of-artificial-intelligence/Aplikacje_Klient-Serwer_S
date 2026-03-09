@@ -19,4 +19,11 @@ public class Student : User
     public IDictionary<string, double> AverageGradePerSubject { get; } = null!;
     public IDictionary<string, List<GradeScale>> GradePerSubject { get; } = null!;
 
+    public Student()
+    {
+        Grades = new List<Grade>();
+        AverageGradePerSubject = new Dictionary<string, double>();
+        GradesPerSubject = new Dictionary<string, List<GradeScale>>();
+    }
+
 }
