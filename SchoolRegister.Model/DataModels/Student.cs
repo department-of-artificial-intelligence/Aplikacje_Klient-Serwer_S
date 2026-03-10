@@ -12,9 +12,13 @@ namespace SchoolRegister.Model.DataModels
         public int? GroupId { get; set; }
 
         public IList<Grade> Grades { get; set; }
-        
-        public Parent Parent { get; set; }
 
+        public Parent Parent { get; set; }
+        public int? ParentId { get; set; }
+
+        public double AverageGrade { get; set; }
+        public IDictionary<string, double> AverageGradePerSubject { get; set; } = new Dictionary<string, double>();
+
+        public IDictionary<string, List<GradeScale>> GradesPerSubject { get; set; } = new Dictionary<string, List<GradeScale>>();
     }
 }
-    
