@@ -11,4 +11,5 @@ public class SubjectGroup
     public Group Group { get; set; }
     public int GroupId { get; set; }
 
+    public SubjectGroup() { }
 }

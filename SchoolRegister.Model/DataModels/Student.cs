@@ -20,5 +20,7 @@ namespace SchoolRegister.Model.DataModels
         public IDictionary<string, double> AverageGradePerSubject { get; set; } = new Dictionary<string, double>();
 
         public IDictionary<string, List<GradeScale>> GradesPerSubject { get; set; } = new Dictionary<string, List<GradeScale>>();
+
+        public Student() { }
     }
 }

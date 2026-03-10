@@ -15,4 +15,6 @@ public class Subject
     public int? TeacherId { get; set; }
 
     public IList<Grade> Grades { get; set; }
+
+    public Subject() { }
 }
