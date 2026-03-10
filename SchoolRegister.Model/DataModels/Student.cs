@@ -1,11 +1,11 @@
 namespace SchoolRegister.Model.DataModels;
 public class Student: User
 {
-    public Group Group {get; set;} = null!;
-    public int? GroupId {get; set;} = null!;
-    public IList<Grade> Grades { get; set; } = null!;
-    public Parent Parent {get; set;} = null!;
-    public int? ParentId {get; set;} = null!;
+    public Group? Group {get; set;}
+    public int? GroupId {get; set;}
+    public IList<Grade> Grades { get; set; } = new List<Grade>();
+    public Parent? Parent {get; set;}
+    public int? ParentId {get; set;}
 
     public double AverageGrade => Grades.Any() ? Grades.Average(g => (double)g.GradeValue) : 0.0;
 
@@ -20,6 +20,6 @@ public class Student: User
         .GroupBy(g => g.Subject.Name)
         .ToDictionary(
             g => g.Key,
-            g => g.Select(g => g.GradeValue).ToList()
+            g => g.Select(grade => grade.GradeValue).ToList()
         );
 }
