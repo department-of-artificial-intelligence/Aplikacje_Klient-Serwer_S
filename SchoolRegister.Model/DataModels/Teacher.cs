@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Identity;
-using System;
+using System.Collections.Generic;
 
-namespace SchoolRegister.Model.DataModels;
-
-public class Teacher : IdentityUser<int>
+public class Teacher : User
 {
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-    public DateTime RegistrationDate { get; set; } = DateTime.Now;
+    public string Title { get; set; }
+    public IList<Subject> Subjects { get; set; }
+
+    public Teacher()
+    {
+        Subjects = new List<Subject>();
+    }
 }
