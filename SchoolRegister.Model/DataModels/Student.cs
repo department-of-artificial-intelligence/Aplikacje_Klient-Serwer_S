@@ -17,14 +17,14 @@ public class Student : User
         get
         {
             if (Grades == null || !Grades.Any()) return 0.0;
-            return Grades.Average(g => (int)g.GradeValue);
+            return Grades.Average(g => (double)g.GradeValue);
         }
     }
     public IDictionary<string, double> AverageGradePerSubject
     {
         get
         {
-            return Grades.GroupBy(g => g.Subject.Name).ToDictionary(group => group.Key, group => group.Average(g => (int)g.GradeValue));
+            return Grades.GroupBy(g => g.Subject.Name).ToDictionary(group => group.Key, group => group.Average(g => (double)g.GradeValue));
         }
     }
 
