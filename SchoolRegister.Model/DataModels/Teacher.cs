@@ -10,6 +10,6 @@ public class Teacher : User
     public Teacher() : base()
     {
         Subject = new List<Subject>();
-        Title = string.
+        Title = string.Empty;
     }
 }

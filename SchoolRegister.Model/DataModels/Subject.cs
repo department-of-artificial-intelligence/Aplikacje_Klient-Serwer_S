@@ -13,4 +13,10 @@ public class Subject
     public int? TeacherId {get; set;} = null!;
     public IList<Grade> Grades {get; set;} = null!;
 
+    public Subject()
+    {
+        SubjectGroups = new List<SubjectGroup>();
+        Grades = new List<Grade>();
+    }
+
 }
