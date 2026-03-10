@@ -1,16 +1,17 @@
-using Microsoft.AspNetCore.Identity;
-using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SchoolRegister.Model.DataModels;
+
 public class SubjectGroup
 {
-    public Subject Subject {get; set; }
+    [Required]
     public int SubjectId { get; set; }
+    [ForeignKey("SubjectId")]
+    public virtual Subject? Subject { get; set; }
 
-    public Group Group { get; set; }
-
-    public int GroupId {get; set;}
-    public SubjectGroup()
-    {
-        
-    }
+    [Required]
+    public int GroupId { get; set; }
+    [ForeignKey("GroupId")]
+    public virtual Group? Group { get; set; }
 }

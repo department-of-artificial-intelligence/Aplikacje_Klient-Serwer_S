@@ -1,14 +1,11 @@
-using Microsoft.AspNetCore.Identity;
-using System;
 namespace SchoolRegister.Model.DataModels;
-public class Parent
+
+public class Parent : User
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Student> Children { get; set; }
+    public IList<Student> Students { get; set; }
 
     public Parent()
     {
-        Children = new List<Student>();
+        Students = new List<Student>();
     }
 }

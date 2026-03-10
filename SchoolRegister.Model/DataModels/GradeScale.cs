@@ -1,10 +1,9 @@
-using Microsoft.AspNetCore.Identity;
-using System;
 namespace SchoolRegister.Model.DataModels;
-public class GradeScale
+
+public enum GradeScale
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public double MinValue { get; set; }
-    public double MaxValue { get; set; }
+    NDST = 2,
+    DST = 3,
+    DB = 4,
+    BDB = 5
 }

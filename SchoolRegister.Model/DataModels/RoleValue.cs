@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.Identity;
-using System;
 namespace SchoolRegister.Model.DataModels;
-public class RoleValue
+
+public enum RoleValue
 {
-    public int Id { get; set; }
-    public string Value { get; set; }
-    public Role Role { get; set; }
+    User = 0,
+    Student = 1,
+    Parent = 2,
+    Teacher = 3,
+    Admin = 4
 }

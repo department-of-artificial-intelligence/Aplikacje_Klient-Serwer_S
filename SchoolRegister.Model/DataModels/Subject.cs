@@ -1,23 +1,26 @@
-using Microsoft.AspNetCore.Identity;
-using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace SchoolRegister.Model.DataModels;
 
 public class Subject
 {
+    [Key]
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public List<SubjectGroup> SubjectGroups { get; set; }
-    public int? TeacherId { get; set; }
-    public Teacher Teacher { get; set; }
-    public List<Grade> Grades { get; set; }
+    [Required]
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
-    public Subject(int id, string name, string description, int? teacherId = null)
+    public int? TeacherId { get; set; }
+    [ForeignKey("TeacherId")]
+    public virtual Teacher? Teacher { get; set; }
+
+    public virtual IList<SubjectGroup> SubjectGroups { get; set; }
+    public virtual IList<Grade> Grades { get; set; }
+
+    public Subject()
     {
-        Id = id;
-        Name = name;
-        Description = description;
         SubjectGroups = new List<SubjectGroup>();
-        Teacher = null;
+        Grades = new List<Grade>();
     }
 }
