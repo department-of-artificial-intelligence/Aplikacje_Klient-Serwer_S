@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-
-public class Student: User
+using System.ComponentModel.DataAnnotations.Schema;
+public class Student : User
 {
-    public int? GroupId { get; set;}
+    public int? GroupId { get; set; }
     public Group Group { get; set; }
     public int? ParentId { get; set; }
     public Parent Parent { get; set; }
