@@ -9,7 +9,7 @@ public class Teacher : User
 
     public Teacher() : base()
     {
-        Subject = new List<Subject>();
+        Subjects = new List<Subject>();
         Title = string.Empty;
     }
 }

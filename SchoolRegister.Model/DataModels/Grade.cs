@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
-namespace SchoolRegister.Model.DataModels;
-
+namespace SchoolRegister.Model.DataModels
+{
 public class Grade
 {
     public DateTime DateOfIssue { get; set; }
@@ -11,3 +11,6 @@ public class Grade
     public Student Student { get; set; }
     public int StudentId { get; set; }
 }
+
+}
+
