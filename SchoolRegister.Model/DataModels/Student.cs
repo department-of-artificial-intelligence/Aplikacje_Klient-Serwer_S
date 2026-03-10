@@ -1,25 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace SchoolRegister.Model.DataModels;
-
-public class Student
+namespace SchoolRegister.Model.DataModels
 {
-    public Group Group { get; set; }
-    public int GroupId { get; set; }
-    public List<Grade> Grades { get; set; }
-    public Parent Parent { get; set; }
-    public int ParentId { get; set; }
-    public double AverageGrade { get; set; }
-    public Dictionary<string, double> AverageGradePerSubject { get; set; }
-    public Dictionary<string, List<GradeScale>> GradesPerSubject { get; set; }
-
-    public Student()
+    public class Student : User
     {
-        Grades = new List<Grade>();
-        AverageGradePerSubject = new Dictionary<string, double>();
-        GradesPerSubject = new Dictionary<string, List<GradeScale>>();
+        public int? GroupId { get; set; }
+        public Group Group { get; set; } = null!;
+
+        public int? ParentId { get; set; }
+        public Parent Parent { get; set; } = null!;
+
+        public IList<Grade> Grades { get; set; } = new List<Grade>();
+
+        // Średnia ocen
+        public double AverageGrade()
+        {
+            return Grades.Any() ? Grades.Average(g => (double)g.GradeValue) : 0;
+        }
+
+        // Średnia ocena per przedmiot
+        public IDictionary<string, double> AverageGradePerSubject()
+        {
+            return Grades
+                .GroupBy(g => g.Subject.Name)
+                .ToDictionary(g => g.Key, g => g.Average(x => (double)x.GradeValue));
+        }
+
+        // Wszystkie oceny per przedmiot
+        public IDictionary<string, List<GradeScale>> GradesPerSubject()
+        {
+            return Grades
+                .GroupBy(g => g.Subject.Name)
+                .ToDictionary(g => g.Key, g => g.Select(x => x.GradeValue).ToList());
+        }
+
+        public Student()
+        {
+            Grades = new List<Grade>();
+        }
     }
 }

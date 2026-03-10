@@ -1,24 +1,38 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace SchoolRegister.Model.DataModels
+namespace SchoolRegister.Model.DataModels;
+
+public class Subject
 {
-    public class Subject
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public List<SubjectGroup> SubjectGroups { get; set; }
-        public Teacher Teacher { get; set; }
-        public int TeacherId { get; set; }
-        public List<Grade> Grades { get; set; }
-
-        public Subject()
+        public Subject(int id, string description) 
         {
-            SubjectGroups = new List<SubjectGroup>();
-            Grades = new List<Grade>();
+            this.Id = id;
+    this.Description = description;
+   
         }
+            public int Id { get; set; }
+    public string Name { get; set; } = null!;
+    public string Description { get; set; } = null!;
+
+    public int? TeacherId { get; set; }
+    public Teacher? Teacher { get; set; }
+
+    public IList<SubjectGroup> SubjectGroups { get; set; }
+    public IList<Grade> Grades { get; set; }
+
+    public Subject()
+    {
+        SubjectGroups = new List<SubjectGroup>();
+        Grades = new List<Grade>();
+    }
+}namespace SchoolRegister.Model.DataModels
+{
+    public enum RoleValue
+    {
+        User = 0,
+        Student = 1,
+        Parent = 2,
+        Teacher = 3,
+        Admin = 4
     }
 }

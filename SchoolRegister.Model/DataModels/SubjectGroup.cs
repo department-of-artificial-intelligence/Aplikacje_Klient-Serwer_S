@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+namespace SchoolRegister.Model.DataModels;
 
-namespace SchoolRegister.Model.DataModels
+public class SubjectGroup
 {
-    public class SubjectGroup
+    public int SubjectId { get; set; }
+    public Subject Subject { get; set; } = null!;
+
+    public int GroupId { get; set; }
+    public Group Group { get; set; } = null!;
+
+    public SubjectGroup()
     {
-        public Subject subject { get; set; }
-        public int SubjectID { get; set; }
-        public Group group { get; set; }
-        public int GroupID { get; set; }
-
-        public SubjectGroup()
-        {
-
-        };
-
     }
 }

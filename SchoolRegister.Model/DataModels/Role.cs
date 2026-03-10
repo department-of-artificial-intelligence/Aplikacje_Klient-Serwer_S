@@ -1,12 +1,23 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace SchoolRegister.Model.DataModels
+namespace SchoolRegister.Model.DataModels;
+
+public class Parent : User
 {
-    public class Role
+    public IList<Student> Students { get; set; }
+
+    public Parent()
     {
-        public RoleValue roleValue { get; set; }
+        Students = new List<Student>();
+    }
+}
+
+public class Role
+{
+    public RoleValue RoleValue { get; set; }
+
+    public Role(string name, RoleValue roleValue)
+    {
+        RoleValue = roleValue;
     }
 }
