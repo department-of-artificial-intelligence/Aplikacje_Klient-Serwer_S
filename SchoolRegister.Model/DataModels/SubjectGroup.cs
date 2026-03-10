@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System;
 public class SubjectGroup
 {
     public int SubjectId { get; set; }
@@ -6,7 +9,5 @@ public class SubjectGroup
     public int GroupId { get; set; }
     public Group Group { get; set; }
 
-    public SubjectGroup() 
-    { 
-    }
+    public SubjectGroup() { }
 }

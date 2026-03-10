@@ -1,5 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
 using System;
-
 public class Grade
 {
     public DateTime DateOfIssue { get; set; }
@@ -11,7 +12,5 @@ public class Grade
     public int StudentId { get; set; }
     public Student Student { get; set; }
 
-    public Grade() 
-    { 
-    }
+    public Grade() { }
 }

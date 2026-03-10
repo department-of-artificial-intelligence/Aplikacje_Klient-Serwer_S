@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
 using System;
 
 public class User : IdentityUser<int>
