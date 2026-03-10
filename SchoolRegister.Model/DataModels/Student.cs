@@ -1,78 +1,56 @@
 ﻿using SchoolRegister.Model.DataModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-public class Student
+public class Student : User
 {
-    public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
     public Group Group { get; set; }
+    public int GroupId { get; set; }
+    public List<Grade> Grades { get; set; }
     public Parent Parent { get; set; }
-    public List<Grade> Grades { get; set; } = new List<Grade>();
+    public int ParentId { get; set; }
+    public double AverageGrade { get; private set; }
+    public Dictionary<string, double> AverageGradePerSubject { get; private set; }
+    public Dictionary<string, List<GradeScale>> GradesPerSubject { get; private set; }
 
-    // Calculate AverageGrade
-    public double AverageGrade
+    public Student()
     {
-        get
-        {
-            if (Grades.Count == 0)
-                return 0;
-
-            double sum = 0;
-            foreach (var grade in Grades)
-            {
-                sum += grade.GradeValue;
-            }
-
-            return sum / Grades.Count;
-        }
+        Grades = new List<Grade>();
+        AverageGradePerSubject = new Dictionary<string, double>();
+        GradesPerSubject = new Dictionary<string, List<GradeScale>>();
     }
 
-    // Calculate AverageGradePerSubject
-    public Dictionary<string, double> AverageGradePerSubject
+    public double GetAverageGrade()
     {
-        get
-        {
-            var averagePerSubject = new Dictionary<string, double>();
-            var subjectGrades = new Dictionary<string, List<int>>();
-
-            foreach (var grade in Grades)
-            {
-                if (!subjectGrades.ContainsKey(grade.Subject.Name))
-                    subjectGrades[grade.Subject.Name] = new List<int>();
-
-                subjectGrades[grade.Subject.Name].Add(grade.GradeValue);
-            }
-
-            foreach (var subject in subjectGrades)
-            {
-                double sum = 0;
-                foreach (var grade in subject.Value)
-                {
-                    sum += grade;
-                }
-                averagePerSubject[subject.Key] = sum / subject.Value.Count;
-            }
-
-            return averagePerSubject;
-        }
+        if (Grades.Count == 0)
+            return 0;
+        AverageGrade = (double)Grades.Count / Grades.Count; // Przykład, wartość logiczna powinna zostać tutaj obliczona na podstawie danych
+        return AverageGrade;
     }
 
-    // Calculate GradesPerSubject
-    public Dictionary<string, List<int>> GradesPerSubject
+    
+    public Dictionary<string, double> GetAverageGradePerSubject()
     {
-        get
+        foreach (var grade in Grades.Average(x=>x.GradeValue))
         {
-            var gradesPerSubject = new Dictionary<string, List<int>>();
-            foreach (var grade in Grades)
-            {
-                if (!gradesPerSubject.ContainsKey(grade.Subject.Name))
-                    gradesPerSubject[grade.Subject.Name] = new List<int>();
-
-                gradesPerSubject[grade.Subject.Name].Add(grade.GradeValue);
-            }
-            return gradesPerSubject;
+            AverageGradePerSubject[grade.Key] = grade.Value.Average();
         }
+        return AverageGradePerSubject;
     }
+    
+
+    /*
+    public Dictionary<string, double> GetAverageGradePerSubject()
+    {
+  
+        foreach (var subjectGroup in GradesPerSubject)
+        }
+            var averageGrade = subjectGroup.Value.Average(x => x.GradeValue);
+            AverageGradePerSubject[subjectGroup.Key] = averageGrade;
+        }
+
+        return AverageGradePerSubject;
+    }
+    */
 }

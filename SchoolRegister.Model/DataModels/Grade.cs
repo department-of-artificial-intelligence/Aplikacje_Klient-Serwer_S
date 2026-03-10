@@ -8,4 +8,9 @@ public class Grade
     public GradeScale GradeScale { get; set; }
     public Subject Subject { get; set; }
     public Student Student { get; set; }
+    public Grade()
+    {
+        DateOfIssue = DateTime.Now;
+    }
+
 }

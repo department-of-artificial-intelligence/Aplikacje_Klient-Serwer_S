@@ -10,4 +10,10 @@ public class Subject
     public List<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
     public List<Teacher> Teachers { get; set; } = new List<Teacher>();
     public List<Grade> Grades { get; set; } = new List<Grade>();
+
+    public Subject()
+    {
+        SubjectGroups = new List<SubjectGroup>();
+        Grades = new List<Grade>();
+    }
 }

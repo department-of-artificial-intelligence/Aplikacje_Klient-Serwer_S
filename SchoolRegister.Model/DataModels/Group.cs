@@ -8,4 +8,9 @@ public class Group
     public string Name { get; set; }
     public List<Student> Students { get; set; } = new List<Student>();
     public List<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
+    public Group()
+    {
+        Students = new List<Student>();
+        SubjectGroups = new List<SubjectGroup>();
+    }
 }
