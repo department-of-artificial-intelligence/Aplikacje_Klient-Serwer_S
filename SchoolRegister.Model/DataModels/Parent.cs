@@ -12,5 +12,6 @@ public class Parent : User
 
     public Parent()
     {
+        //
     }
 }
