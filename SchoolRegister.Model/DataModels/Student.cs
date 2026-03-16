@@ -1,44 +1,48 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+namespace SchoolRegister.Model.DataModels;
 
-namespace SchoolRegister.Model.DataModels
+public class Student : User
 {
-    public class Student : User
+    public int? GroupId { get; set; }
+    public Group Group { get; set; } = null!;
+
+    public int? ParentId { get; set; }
+    public Parent Parent { get; set; } = null!;
+
+    public IList<Grade> Grades { get; set; }
+
+    public double AverageGrade
     {
-        public int? GroupId { get; set; }
-        public Group Group { get; set; } = null!;
-
-        public int? ParentId { get; set; }
-        public Parent Parent { get; set; } = null!;
-
-        public IList<Grade> Grades { get; set; } = new List<Grade>();
-
-        // Średnia ocen
-        public double AverageGrade()
+        get
         {
-            return Grades.Any() ? Grades.Average(g => (double)g.GradeValue) : 0;
-        }
+            if (Grades == null)
+            {
+                return 0;
+            }
 
-        // Średnia ocena per przedmiot
-        public IDictionary<string, double> AverageGradePerSubject()
-        {
-            return Grades
-                .GroupBy(g => g.Subject.Name)
-                .ToDictionary(g => g.Key, g => g.Average(x => (double)x.GradeValue));
-        }
-
-        // Wszystkie oceny per przedmiot
-        public IDictionary<string, List<GradeScale>> GradesPerSubject()
-        {
-            return Grades
-                .GroupBy(g => g.Subject.Name)
-                .ToDictionary(g => g.Key, g => g.Select(x => x.GradeValue).ToList());
-        }
-
-        public Student()
-        {
-            Grades = new List<Grade>();
+            double avg = Grades.Average(x => (int)x.GradeValue);
+            return avg;
         }
     }
+    public IDictionary<string, double> AverageGradePerSubject
+    {
+        get
+        {
+            IDictionary<string, double> avgps = Grades.GroupBy(x => x.Subject.Name).ToDictionary(x => x.Key, x => x.Average(x => (int)x.GradeValue));
+            return avgps;
+        }
+    }
+    public IDictionary<string, List<GradeScale>> GradesPerSubject
+    {
+        get
+        {
+            IDictionary<string, List<GradeScale>> gps = Grades.GroupBy(x => x.Subject.Name).ToDictionary(x => x.Key, x => x.Select(x => x.GradeValue).ToList());
+            return gps;
+        }
+    }
+
+    public Student()
+    {
+        Grades = new List<Grade>();
+    }
 }
+

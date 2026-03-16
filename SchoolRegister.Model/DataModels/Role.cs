@@ -1,22 +1,16 @@
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace SchoolRegister.Model.DataModels;
 
-public class Parent : User
-{
-    public IList<Student> Students { get; set; }
-
-    public Parent()
-    {
-        Students = new List<Student>();
-    }
-}
-
-public class Role
+public class Role : IdentityRole<int>
 {
     public RoleValue RoleValue { get; set; }
 
-    public Role(string name, RoleValue roleValue)
+    public Role()
+    {
+    }
+
+    public Role(string name, RoleValue roleValue) : base(name)
     {
         RoleValue = roleValue;
     }
