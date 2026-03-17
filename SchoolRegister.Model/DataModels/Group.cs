@@ -9,7 +9,7 @@ public class Group
     [Required]
     public string Name { get; set; } = string.Empty;
     public virtual IList<Student> Students { get; set; }
-    public IList<SubjectGroup> SubjectGroups { get; set; }
+    public virtual IList<SubjectGroup> SubjectGroups { get; set; }
 
     public Group()
     {
