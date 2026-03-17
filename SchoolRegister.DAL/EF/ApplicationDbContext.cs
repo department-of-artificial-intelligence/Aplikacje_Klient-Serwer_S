@@ -33,6 +33,21 @@ namespace SchoolRegister.DAL.EF
             .HasValue<Student>((int)RoleValue.Student)
             .HasValue<Parent>((int)RoleValue.Parent)
             .HasValue<Teacher>((int)RoleValue.Teacher);
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasKey(sg => new { sg.GroupId, sg.SubjectId }); //klucz zlozony z identyfikatoeow (GroupId,SubjectId)
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(g => g.Group) //jeden rekord w tabeli SubjectGroup nalezy do jednej tabeli
+                .WithMany(sg => sg.SubjectGroups)// jedna grupa moze miec wiele wpisow w tabeli SubjecGroup
+                .HasForeignKey(g => g.GroupId); //GroupId klucz obcy
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(s => s.Subject)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(s => s.SubjectId)//SubjectId klucz obcy
+                .OnDelete(DeleteBehavior.Restrict);// nie pozwoli usunac przedmiotu jezeli jest przypisany do grupy przedmiotow
+            
         }
     
     }
