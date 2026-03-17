@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace SchoolRegister.Model.DataModels;
 
 public class Group
 {
+    [Key]
     public int Id { get; set; }
-
-    public string Name { get; set; } = string.Empty;
-
-    public IList<Student> Students { get; set; } = new List<Student>();
-
+    [Required]
+    public string Name { get; set; } = "Jan";
+    public virtual IList<Student> Students { get; set; }
     public IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
-
     public Group()
     {
     }
