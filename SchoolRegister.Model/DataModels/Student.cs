@@ -6,11 +6,11 @@ namespace SchoolRegister.Model.DataModels;
 
 public class Student : User
 {
-    public Group Group { get; set; } = null!;
+    public virtual Group? Group { get; set; }
     [ForeignKey("Group")]
     public int? GroupId { get; set; }
-    public IList<Grade> Grades { get; set; } = new List<Grade>();
-    public Parent Parent { get; set; } = null!;
+    public virtual IList<Grade> Grades { get; set; } = default!;
+    public virtual Parent? Parent { get; set; }
     [ForeignKey("Parent")]
     public int? ParentId { get; set; }
     [NotMapped]
@@ -19,7 +19,7 @@ public class Student : User
         get
         {
             if(Grades == null || !Grades.Any()) return 0.0d;
-            return Grades.Average(g => (double)g.GradeValue);
+            return Grades.Average(g => (int)g.GradeValue);
         }
     }
     [NotMapped]
@@ -30,7 +30,7 @@ public class Student : User
             return Grades
             .GroupBy(g => g.Subject.Name)
             .ToDictionary(gr => gr.Key, gr => gr
-            .Average(g => (double)g.GradeValue));
+            .Average(g => (int)g.GradeValue));
         } 
     }
     [NotMapped]
