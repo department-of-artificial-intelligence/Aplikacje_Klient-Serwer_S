@@ -1,6 +1,9 @@
 using System.Collections.Generic;
-
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace SchoolRegister.Model.DataModels
+
 {
     public class Group
     {

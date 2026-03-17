@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 namespace SchoolRegister.Model.DataModels;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 public class Grade
 {
     public DateTime DateOfIssue {get; set; }
