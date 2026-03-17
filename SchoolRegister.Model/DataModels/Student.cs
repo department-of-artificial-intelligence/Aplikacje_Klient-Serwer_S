@@ -1,47 +1,33 @@
+using System.ComponentModel.DataAnnotations.Schema;
 namespace SchoolRegister.Model.DataModels;
 
 public class Student : User
 {
+    public virtual Group? Group { get; set; }
+    [ForeignKey("Group")]
     public int? GroupId { get; set; }
-    public Group Group { get; set; } = null!;
 
+    public virtual IList<Grade> Grades { get; set; } = default!;
+
+    public virtual Parent? Parent { get; set; }
+
+    [ForeignKey("Parent")]
     public int? ParentId { get; set; }
-    public Parent Parent { get; set; } = null!;
 
-    public IList<Grade> Grades { get; set; }
+    [NotMapped]
+    public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d :
+        Math.Round(Grades.Average(g => (int)g.GradeValue), 1);
 
-    public double AverageGrade
-    {
-        get
-        {
-            if (Grades == null)
-            {
-                return 0;
-            }
+    [NotMapped]
+    public IDictionary<string, double> AverageGradePerSubject => Grades == null ? new Dictionary<string, double>() :
+        Grades.GroupBy(g => g.Subject.Name)
+        .Select(g => new { SubjectName = g.Key, AvgGrade = Math.Round(g.Average(avg => (int)avg.GradeValue), 1) })
+        .ToDictionary(avg => avg.SubjectName, avg => avg.AvgGrade);
 
-            double avg = Grades.Average(x => (int)x.GradeValue);
-            return avg;
-        }
-    }
-    public IDictionary<string, double> AverageGradePerSubject
-    {
-        get
-        {
-            IDictionary<string, double> avgps = Grades.GroupBy(x => x.Subject.Name).ToDictionary(x => x.Key, x => x.Average(x => (int)x.GradeValue));
-            return avgps;
-        }
-    }
-    public IDictionary<string, List<GradeScale>> GradesPerSubject
-    {
-        get
-        {
-            IDictionary<string, List<GradeScale>> gps = Grades.GroupBy(x => x.Subject.Name).ToDictionary(x => x.Key, x => x.Select(x => x.GradeValue).ToList());
-            return gps;
-        }
-    }
-
-    public Student()
-    {
-        Grades = new List<Grade>();
-    }
+    [NotMapped]
+    public IDictionary<string, List<GradeScale>> GradesPerSubject => Grades == null ? new Dictionary<string,
+    List<GradeScale>>() : Grades
+        .GroupBy(g => g.Subject.Name)
+        .Select(g => new { SubjectName = g.Key, GradeList = g.Select(x => x.GradeValue).ToList() })
+        .ToDictionary(x => x.SubjectName, x => x.GradeList);
 }

@@ -1,14 +1,18 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.Model.DataModels;
 
 public class Subject
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = null!;
-    public string Description { get; set; } = null!;
+    [Key]
+    public virtual int Id { get; set; }
+    [Required]
+    public virtual string Name { get; set; } = null!;
 
-    public int? TeacherId { get; set; }
+    public virtual string Description { get; set; } = null!;
+
+    public virtual int? TeacherId { get; set; }
     public Teacher? Teacher { get; set; }
 
     public IList<SubjectGroup> SubjectGroups { get; set; }
