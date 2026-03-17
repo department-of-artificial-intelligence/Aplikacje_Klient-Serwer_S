@@ -35,4 +35,5 @@ namespace SchoolRegister.DAL.EF
             .HasValue<Teacher>((int)RoleValue.Teacher);
         }
     }
+
 }
