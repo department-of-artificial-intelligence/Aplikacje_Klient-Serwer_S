@@ -9,11 +9,11 @@ public class Grade
     public DateTime DateOfIssue { get; set; }
     [Required]
     public GradeScale GradeValue { get; set; }
-    public Subject Subject { get; set; } = null!;
+    public virtual Subject Subject { get; set; } = null!;
     public int SubjectId { get; set; }
     [ForeignKey("SubjectId")]
     public int StudentId { get; set; }
     [ForeignKey("StudentId")]
-    public Student Student { get; set; } = null!;
+    public virtual Student Student { get; set; } = null!;
     public Grade() {}
 }

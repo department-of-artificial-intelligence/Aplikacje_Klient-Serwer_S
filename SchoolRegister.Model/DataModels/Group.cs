@@ -8,7 +8,7 @@ public class Group
     public int Id { get; set; }
     [Required]
     public string Name { get; set; } = null!;
-    public IList<Student> Students { get; set; } = new List<Student>();
-    public IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
+    public virtual IList<Student> Students { get; set; } = default!;
+    public virtual IList<SubjectGroup> SubjectGroups { get; set; } = default!;
     public Group() { }
 }
