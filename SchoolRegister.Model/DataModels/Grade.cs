@@ -1,5 +1,6 @@
 ﻿using SchoolRegister.Model.DataModels;
 using System;
+using System.Linq;
 
 public class Grade
 {
@@ -13,4 +14,7 @@ public class Grade
         DateOfIssue = DateTime.Now;
     }
 
+    public int Id { get; set; }
+    public int StudentId { get; set; }
+    public int SubjectId { get; set; }
 }

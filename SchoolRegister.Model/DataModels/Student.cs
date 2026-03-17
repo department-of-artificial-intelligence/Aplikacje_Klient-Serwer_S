@@ -1,6 +1,7 @@
 ﻿using SchoolRegister.Model.DataModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 public class Student : User
@@ -25,32 +26,18 @@ public class Student : User
     {
         if (Grades.Count == 0)
             return 0;
-        AverageGrade = (double)Grades.Count / Grades.Count; // Przykład, wartość logiczna powinna zostać tutaj obliczona na podstawie danych
+
+        AverageGrade = Grades.Average(g => g.GradeValue);
         return AverageGrade;
     }
 
-    
     public Dictionary<string, double> GetAverageGradePerSubject()
     {
-        foreach (var grade in Grades.Average(x=>x.GradeValue))
-        {
-            AverageGradePerSubject[grade.Key] = grade.Value.Average();
-        }
-        return AverageGradePerSubject;
+        return Grades
+            .GroupBy(g => g.Subject)
+            .ToDictionary(
+                g => g.Key.Name,
+                g => g.Average(x => x.GradeValue)
+            );
     }
-    
-
-    /*
-    public Dictionary<string, double> GetAverageGradePerSubject()
-    {
-  
-        foreach (var subjectGroup in GradesPerSubject)
-        }
-            var averageGrade = subjectGroup.Value.Average(x => x.GradeValue);
-            AverageGradePerSubject[subjectGroup.Key] = averageGrade;
-        }
-
-        return AverageGradePerSubject;
-    }
-    */
 }
