@@ -10,7 +10,7 @@ public class Group
     public int Id { get; set; }
     [Required]
     public string Name { get; set; } = null!;
-    public virtual IList<Student> Students = new List<Student>();
+    public virtual IList<Student> Students { get; set; } = null!;
     public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
     public Group()
     {

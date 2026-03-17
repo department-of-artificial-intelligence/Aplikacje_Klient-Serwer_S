@@ -15,7 +15,7 @@ public class Subject
 
     public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
 
-    public Teacher Teacher { get; set; } = null!;
+    public virtual Teacher Teacher { get; set; } = null!;
 
     public int? TeacherId { get; set; }
 

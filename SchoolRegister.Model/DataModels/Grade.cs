@@ -10,7 +10,7 @@ public class Grade
     [Key]
     public DateTime DateOfIssue { get; set; } = DateTime.Now;
     [Required]
-    public virtual GradeScale GradeValue { get; set; }
+    public GradeScale GradeValue { get; set; }
     public virtual Subject Subject { get; set; } = null!;
     public int SubjectId { get; set; }
     [ForeignKey("SubjectId")]
