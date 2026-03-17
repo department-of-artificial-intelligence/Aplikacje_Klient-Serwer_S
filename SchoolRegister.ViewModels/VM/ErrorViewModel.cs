@@ -1,4 +1,4 @@
-namespace SchoolRegister.Web.Models;
+namespace SchoolRegister.ViewModels.VMErrorViewModel;
 
 public class ErrorViewModel
 {

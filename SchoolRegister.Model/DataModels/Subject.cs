@@ -1,16 +1,13 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.Model.DataModels;
 
 public class Subject
 {
-        public Subject(int id, string description) 
-        {
-            this.Id = id;
-    this.Description = description;
-   
-        }
-            public int Id { get; set; }
+    [Key]
+    public int Id { get; set; }
+    [Required]
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
 
@@ -24,15 +21,5 @@ public class Subject
     {
         SubjectGroups = new List<SubjectGroup>();
         Grades = new List<Grade>();
-    }
-}namespace SchoolRegister.Model.DataModels
-{
-    public enum RoleValue
-    {
-        User = 0,
-        Student = 1,
-        Parent = 2,
-        Teacher = 3,
-        Admin = 4
     }
 }
