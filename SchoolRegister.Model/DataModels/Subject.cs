@@ -10,10 +10,10 @@ public class Subject
     [Required]
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
-    public IList<SubjectGroup>? SubjectGroups { get; set; }
-    public Teacher Teacher { get; set; }
+    public required IList<SubjectGroup> SubjectGroups { get; set; }
+    public required Teacher Teacher { get; set; }
     public int? TeacherId { get; set; }
-    public IList<Grade>? Grades { get; set; }
+    public required IList<Grade> Grades { get; set; }
 
-    public Subject() { } 
+   
 }
