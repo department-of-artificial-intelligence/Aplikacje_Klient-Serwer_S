@@ -20,7 +20,4 @@ public class Grade
     public virtual Student Student { get; set; }
     [ForeignKey("Student")]
     public int? StudentId { get; set; }
-    public Grade()
-    {
-    }
 }

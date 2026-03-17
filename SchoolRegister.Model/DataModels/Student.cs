@@ -32,7 +32,4 @@ public class Student : User
         .GroupBy(g => g.Subject.Name)
         .Select(g => new { SubjectName = g.Key, GradeList = g.Select(x => x.GradeValue).ToList() })
         .ToDictionary(x => x.SubjectName, x => x.GradeList);
-    public Student()
-    {
-    }
 }

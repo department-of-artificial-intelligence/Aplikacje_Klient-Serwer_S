@@ -16,7 +16,4 @@ public class Group
     public string Name { get; set; } = "Jan";
     public virtual IList<Student> Students { get; set; }
     public IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
-    public Group()
-    {
-    }
 }
