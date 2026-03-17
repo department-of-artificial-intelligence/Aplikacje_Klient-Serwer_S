@@ -2,12 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-public class Parent : User
+namespace DataModels
 {
-    public IList<Student> Students { get; set; }
-
-    public Parent()
+    public class Parent : User
     {
-        Students = new List<Student>();
+        public virtual IList<Student> Students { get; set; }
+
+        public Parent()
+        {
+            Students = new List<Student>();
+        }
     }
 }

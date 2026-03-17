@@ -5,7 +5,7 @@
 <Nullable>enable</Nullable> 
 </PropertyGroup> 
 <ItemGroup> 
-  <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" /> 
+  <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
 </ItemGroup> 
 <ItemGroup>
   <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />

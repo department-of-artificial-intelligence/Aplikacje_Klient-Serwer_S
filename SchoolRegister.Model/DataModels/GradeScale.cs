@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-public enum GradeScale
+namespace DataModels
 {
-    NDST = 2,
-    DST = 3,
-    DB = 4,
-    BDB = 5
+    public enum GradeScale
+    {
+        NDST = 2,
+        DST = 3,
+        DB = 4,
+        BDB = 5
+    }
 }
