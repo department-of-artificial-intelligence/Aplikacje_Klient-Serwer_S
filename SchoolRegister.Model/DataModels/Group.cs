@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.ComponentModel.DataAnnotations;
 namespace SchoolRegister.Model.DataModels;
 
 public class Group
 {
+    [Key]
 public int Id {get; set;}
-
+[Required]
 public string Name {get; set;}
-public IList<Student> Students {get; set;}
-public IList<SubjectGroup> SubjcetGroups {get; set;}
+public virtual IList<Student> Students {get; set;}
+public IList<SubjectGroup> SubjectGroups {get; set;}
 public Group()
     {
         
