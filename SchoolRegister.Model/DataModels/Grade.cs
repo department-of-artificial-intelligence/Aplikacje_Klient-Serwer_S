@@ -1,23 +1,15 @@
-using Microsoft.AspNetCore.Identity;
 using System;
+
 namespace SchoolRegister.Model.DataModels;
 
 public class Grade
 {
     public DateTime DateOfIssue { get; set; } = DateTime.Now;
-
-    public GradeScale GradeValue { get; set; } = null!;
-
-    public Subject subject { get; set; } = null!;//null tylko do stringa
-    //
-    public int SubjectId { get; set; } = 0;
-
-    public int StudentId { get; set; } = 0;
-
-    public Student student { get; set; } = null!;
-
-    public Grade()
-    {
-
-    }
+    public GradeScale GradeValue { get; set; }
+    
+    public int SubjectId { get; set; }
+    public virtual Subject Subject { get; set; } = null!;
+    
+    public int StudentId { get; set; }
+    public virtual Student Student { get; set; } = null!;
 }

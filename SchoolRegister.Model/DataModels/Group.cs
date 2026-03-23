@@ -1,19 +1,10 @@
-using Microsoft.AspNetCore.Identity;
-using System;
 namespace SchoolRegister.Model.DataModels;
 
 public class Group
 {
-    public int Id { get; set; } = 0;
-
+    public int Id { get; set; }
     public string Name { get; set; } = null!;
-
-    public IList<Student> students { get; set; } = null!;
-
-    public IList<SubjectGroup> subjectGroups { get; set; } = null!;
-
-    public Group()
-    {
-
-    }
+    
+    public virtual IList<Student> Students { get; set; } = new List<Student>();
+    public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
 }
