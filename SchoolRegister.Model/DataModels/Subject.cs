@@ -14,11 +14,11 @@ public class Subject
 
     public string Description { get; set; } = string.Empty;
 
-    public IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
+    public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
 
-    public Teacher Teacher { get; set; } = null!;
+    public virtual Teacher? Teacher { get; set; }
 
     public int? TeacherId { get; set; }
 
-    public IList<Grade> Grades { get; set; } = new List<Grade>();
+    public virtual IList<Grade> Grades { get; set; } = new List<Grade>();
 }
