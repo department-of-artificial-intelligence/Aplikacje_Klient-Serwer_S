@@ -1,43 +1,28 @@
 ﻿using SchoolRegister.Model.DataModels;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 public class Student : User
 {
-    public Group Group { get; set; }
-    public int GroupId { get; set; }
-    public List<Grade> Grades { get; set; }
-    public Parent Parent { get; set; }
-    public int ParentId { get; set; }
-    public double AverageGrade { get; private set; }
-    public Dictionary<string, double> AverageGradePerSubject { get; private set; }
-    public Dictionary<string, List<GradeScale>> GradesPerSubject { get; private set; }
+    public virtual Group? Group { get; set; }
+    public int? GroupId { get; set; }
 
-    public Student()
-    {
-        Grades = new List<Grade>();
-        AverageGradePerSubject = new Dictionary<string, double>();
-        GradesPerSubject = new Dictionary<string, List<GradeScale>>();
-    }
+    public virtual Parent? Parent { get; set; }
+    public int? ParentId { get; set; }
 
-    public double GetAverageGrade()
-    {
-        if (Grades.Count == 0)
-            return 0;
+    public virtual ICollection<Grade> Grades { get; set; } = new List<Grade>();
 
-        AverageGrade = Grades.Average(g => g.GradeValue);
-        return AverageGrade;
-    }
+    public double AverageGrade => Grades == null || Grades.Count == 0
+        ? 0
+        : Grades.Average(g => g.GradeValue);
 
-    public Dictionary<string, double> GetAverageGradePerSubject()
-    {
-        return Grades
-            .GroupBy(g => g.Subject)
+    public Dictionary<string, double> AverageGradePerSubject =>
+        Grades == null
+        ? new Dictionary<string, double>()
+        : Grades
+            .GroupBy(g => g.Subject.Name)
             .ToDictionary(
-                g => g.Key.Name,
+                g => g.Key,
                 g => g.Average(x => x.GradeValue)
             );
-    }
 }

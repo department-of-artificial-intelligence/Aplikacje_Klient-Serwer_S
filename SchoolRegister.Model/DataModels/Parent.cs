@@ -1,15 +1,7 @@
-﻿using System;
+﻿using SchoolRegister.Model.DataModels;
 using System.Collections.Generic;
 
-public class Parent
+public class Parent : User
 {
-    public int Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-
-    public List<Student> Students { get; set; }
-    public Parent()
-    {
-        Students = new List<Student>();
-    }
+    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 }
