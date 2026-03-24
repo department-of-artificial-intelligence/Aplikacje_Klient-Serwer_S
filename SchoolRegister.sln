@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Services", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.ViewModels", "SchoolRegister.ViewModels\SchoolRegister.ViewModels.csproj", "{05E2EDB6-0E71-42D9-81B4-7C4B7E1178A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Tests", "SchoolRegister.Tests\SchoolRegister.Tests.csproj", "{BC4D35D4-40D7-4800-85CE-9D7B37C9464C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{05E2EDB6-0E71-42D9-81B4-7C4B7E1178A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05E2EDB6-0E71-42D9-81B4-7C4B7E1178A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05E2EDB6-0E71-42D9-81B4-7C4B7E1178A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4D35D4-40D7-4800-85CE-9D7B37C9464C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4D35D4-40D7-4800-85CE-9D7B37C9464C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4D35D4-40D7-4800-85CE-9D7B37C9464C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4D35D4-40D7-4800-85CE-9D7B37C9464C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
