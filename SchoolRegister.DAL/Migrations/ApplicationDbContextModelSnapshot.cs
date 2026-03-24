@@ -134,11 +134,11 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Grade", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("StudentID")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("SubjectID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
@@ -146,15 +146,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<int>("GradeValue")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentID");
+                    b.HasKey("StudentID", "SubjectID", "DateOfIssue");
 
                     b.HasIndex("SubjectID");
 
