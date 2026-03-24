@@ -31,17 +31,8 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
         .HasValue<Parent>((int)RoleValue.Parent)
         .HasValue<Teacher>((int)RoleValue.Teacher);
 
-        modelBuilder.Entity<SubjectGroup>()
-.HasKey(sg => new { sg.GroupId, sg.SubjectId });
-        modelBuilder.Entity<SubjectGroup>()
-        .HasOne(g => g.Group)
-        .WithMany(sg => sg.SubjectGroups)
-        .HasForeignKey(g => g.GroupId);
-        modelBuilder.Entity<SubjectGroup>()
-        .HasOne(s => s.Subject)
-        .WithMany(sg => sg.SubjectGroups)
-        .HasForeignKey(s => s.SubjectId)
-        .OnDelete(DeleteBehavior.Restrict);
+
+        
         modelBuilder.Entity<SubjectGroup>()
         .HasKey(sg => new { sg.GroupId, sg.SubjectId });
 
@@ -67,6 +58,8 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
         .WithMany(p => p.Students)
         .HasForeignKey(s => s.ParentId)
         .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Grade>().HasKey(sg => new { sg.StudentId, sg.SubjectId, sg.DateOfIssue});
 
         modelBuilder.Entity<Grade>()
         .HasOne(g => g.Student)

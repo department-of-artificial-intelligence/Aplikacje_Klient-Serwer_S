@@ -12,7 +12,7 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260317143728_Initial")]
+    [Migration("20260324135308_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -137,21 +137,19 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Grade", b =>
                 {
-                    b.Property<DateTime>("DateOfIssue")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GradeValue")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("DateOfIssue");
+                    b.Property<DateTime>("DateOfIssue")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("StudentId");
+                    b.Property<int>("GradeValue")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId", "SubjectId", "DateOfIssue");
 
                     b.HasIndex("SubjectId");
 
