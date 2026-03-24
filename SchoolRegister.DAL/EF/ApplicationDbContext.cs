@@ -40,5 +40,42 @@ modelBuilder.Entity<SubjectGroup>()
 .WithMany(sg => sg.SubjectGroups)
 .HasForeignKey(s => s.SubjectId)
 .OnDelete(DeleteBehavior.Restrict);
+//Rodzic -> Uczeń 
+modelBuilder.Entity<Student>()
+.HasOne(s => s.Parent)
+.WithMany(p => p.Students)
+.HasForeignKey(s => s.ParentId)
+.OnDelete(DeleteBehavior.Restrict); 
+//Grupa -> Uczeń
+modelBuilder.Entity<Student>()
+.HasOne(s => s.Group)
+.WithMany(g => g.Students)
+.HasForeignKey(s => s.GroupId)
+.OnDelete(DeleteBehavior.Restrict);
+
+// Nauczyciel -> Przedmiot
+modelBuilder.Entity<Subject>()
+.HasOne(s => s.Teacher)
+.WithMany(t => t.Subjects)
+.HasForeignKey(s => s.TeacherId)
+.OnDelete(DeleteBehavior.Restrict);
+
+//Uczeń -> Ocena 
+modelBuilder.Entity<Grade>()
+.HasOne(g => g.Student)
+.WithMany(s => s.Grades)
+.HasForeignKey(g => g.StudentId)
+.OnDelete(DeleteBehavior.Cascade); // Usunięcie ucznia usuwa jego oceny
+
+//Przedmiot -> Ocena
+modelBuilder.Entity<Grade>()
+.HasOne(g => g.Subject)
+.WithMany(s => s.Grades)
+.HasForeignKey(g => g.SubjectId)
+.OnDelete(DeleteBehavior.Cascade);
+
+//Klucz główny złożony dla tabeli Grade
+modelBuilder.Entity<Grade>()
+.HasKey(g => new { g.StudentId, g.SubjectId, g.DateOfIssue });
 }
 }
