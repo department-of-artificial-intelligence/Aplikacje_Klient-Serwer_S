@@ -57,6 +57,9 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
         .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Grade>()
+        .HasKey(sg => new { sg.StudentID, sg.SubjectID, sg.DateOfIssue });
+
+        modelBuilder.Entity<Grade>()
         .HasOne(g => g.Student)
         .WithMany(s => s.Grades)
         .HasForeignKey(g => g.StudentID)
@@ -67,6 +70,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
         .WithMany(s => s.Grades)
         .HasForeignKey(g => g.SubjectID)
         .OnDelete(DeleteBehavior.Cascade);
+        
     }
 
 }

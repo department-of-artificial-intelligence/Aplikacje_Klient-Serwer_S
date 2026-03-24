@@ -4,7 +4,6 @@ namespace SchoolRegister.Model.DataModels;
 
 public class Grade
 {
-    public int Id { get; set; }
     public DateTime DateOfIssue { get; set; } = DateTime.Now;
     public GradeScale GradeValue { get; set; }
     public virtual Subject Subject { get; set; } = null!;
