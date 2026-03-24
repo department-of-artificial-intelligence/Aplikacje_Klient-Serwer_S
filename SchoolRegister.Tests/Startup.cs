@@ -6,7 +6,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
-using
+
 using SchoolRegister.Services.Interfaces;
 namespace SchoolRegister.Tests;
 
