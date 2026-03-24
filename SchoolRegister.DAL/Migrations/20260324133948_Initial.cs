@@ -216,13 +216,13 @@ namespace SchoolRegister.DAL.Migrations
                 columns: table => new
                 {
                     DateOfIssue = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GradeValue = table.Column<int>(type: "int", nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    GradeValue = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grades", x => x.DateOfIssue);
+                    table.PrimaryKey("PK_Grades", x => new { x.StudentId, x.SubjectId, x.DateOfIssue });
                     table.ForeignKey(
                         name: "FK_Grades_AspNetUsers_StudentId",
                         column: x => x.StudentId,
@@ -309,11 +309,6 @@ namespace SchoolRegister.DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Grades_StudentId",
-                table: "Grades",
-                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grades_SubjectId",

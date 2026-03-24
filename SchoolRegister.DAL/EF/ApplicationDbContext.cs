@@ -60,6 +60,8 @@ namespace SchoolRegister.DAL.EF
             .HasForeignKey(s => s.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Grade>().HasKey(sg => new { sg.StudentId, sg.SubjectId, sg.DateOfIssue });
+
             modelBuilder.Entity<Grade>()
             .HasOne(g => g.Student)
             .WithMany(s => s.Grades)
