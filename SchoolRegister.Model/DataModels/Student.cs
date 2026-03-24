@@ -10,6 +10,7 @@ public class Student : User
     public int? GroupId { get; set; }
     public virtual IList<Grade> Grades { get; set; } = default!;
     public virtual Parent? Parent { get; set; }
+    
     [ForeignKey("Parent")]
     public int? ParentId { get; set; }
 

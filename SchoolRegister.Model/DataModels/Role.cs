@@ -6,9 +6,9 @@ public class Role : IdentityRole<int>
 {
     public RoleValue RoleValue {get; set;}
 
-    public Role(string name, RoleValue rolevalue) 
+    public Role(string name, RoleValue roleValue) 
         : base(name)
     {
-        RoleValue = rolevalue;
+        RoleValue = roleValue;
     }
 }
