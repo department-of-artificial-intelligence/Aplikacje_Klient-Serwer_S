@@ -30,6 +30,7 @@ namespace SchoolRegister.DAL.EF
                 .HasValue<Student>((int)RoleValue.Student)
                 .HasValue<Parent>((int)RoleValue.Parent)
                 .HasValue<Teacher>((int)RoleValue.Teacher);
+            //SUBJECTGROUPS===
             modelBuilder.Entity<SubjectGroup>()
                 .HasKey(sg => new { sg.GroupId, sg.SubjectId });
             modelBuilder.Entity<SubjectGroup>()
@@ -41,6 +42,31 @@ namespace SchoolRegister.DAL.EF
                 .WithMany(sg => sg.SubjectGroups)
                 .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
+            //SUBJECTS===
+            modelBuilder.Entity<Subject>()
+                .HasOne(s => s.Teacher)
+                .WithMany(t => t.Subjects)
+                .HasForeignKey(s => s.TeacherId)
+                .OnDelete(DeleteBehavior.SetNull);
+            //GRADES===
+            modelBuilder.Entity<Grade>()
+                .HasKey(g => new { g.StudentId, g.SubjectId });
+            modelBuilder.Entity<Grade>()
+                .HasOne(g => g.Student)
+                .WithMany(s => s.Grades)
+                .HasForeignKey(g => g.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Grade>()
+                .HasOne(g => g.Subject)
+                .WithMany(s => s.Grades)
+                .HasForeignKey(g => g.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+            //GROUPS===
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.Students)
+                .WithOne(s => s.Group)
+                .HasForeignKey(s => s.GroupId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
