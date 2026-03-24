@@ -1,5 +1,6 @@
 ﻿using SchoolRegister.Model.DataModels;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 public class Student : User
@@ -25,4 +26,14 @@ public class Student : User
                 g => g.Key,
                 g => g.Average(x => x.GradeValue)
             );
+
+    [Key]
+    public int TeacherId { get; set; }
+
+    [Required, MaxLength(50)]
+    public string FirstName { get; set; }
+
+    [Required, MaxLength(50)]
+    public string LastName { get; set; }
+    public ICollection<Subject> Subjects { get; set; }
 }

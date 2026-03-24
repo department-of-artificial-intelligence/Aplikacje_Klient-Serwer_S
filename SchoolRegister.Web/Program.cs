@@ -1,6 +1,6 @@
-using SchoolRegister.DAL.EF;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +14,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<Role>()
+    .AddRoleManager<RoleManager<Role>>()
+    .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
