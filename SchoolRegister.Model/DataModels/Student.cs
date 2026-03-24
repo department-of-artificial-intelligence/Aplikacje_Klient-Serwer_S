@@ -7,11 +7,11 @@ public class Student : User
 {
     public int? GroupId { get; set; }
     public virtual Group? Group { get; set; }
-    [ForeignKey("Group")]
+    
     public int? ParentId { get; set; }
     public virtual Parent? Parent { get; set; }
-    [ForeignKey("Parent")]
-    public virtual IList<Grade> Grades { get; set; } = default!;
+    
+    public virtual IList<Grade> Grades { get; set; } = new List<Grade>();
     [NotMapped]
     public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d : Math.Round(Grades.Average(g => (int)g.GradeValue), 1);
     [NotMapped]
@@ -24,5 +24,5 @@ public class Student : User
     .Select(g => new { SubjectName = g.Key, GradeList = g.Select(x => x.GradeValue).ToList() })
     .ToDictionary(x => x.SubjectName, x => x.GradeList);
 
-    public Student() { }
+
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-//using SchoolRegister.DAL.EF;
+using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
