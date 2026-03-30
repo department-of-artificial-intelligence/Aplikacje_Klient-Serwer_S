@@ -8,9 +8,7 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Subject
     {
-        modelBuilder.Entity<Group>()
-            .Property(global=>g.Name)
-            .IsRequired();
+    
         [Key]
         public int Id{get;set;}
         [Required]
