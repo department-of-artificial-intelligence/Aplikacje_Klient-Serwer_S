@@ -29,6 +29,11 @@ builder.Services.AddAutoMapper(typeof(MainProfile));
 
 builder.Services.AddTransient<ISubjectService, SubjectService>();
 
+builder.Services.AddTransient<ITeacherService, TeacherService>();
+builder.Services.AddTransient<IGradeService, GradeService>();
+builder.Services.AddTransient<IGroupService, GroupService>();
+builder.Services.AddTransient<IStudentService, StudentService>();
+
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 
 var app = builder.Build();

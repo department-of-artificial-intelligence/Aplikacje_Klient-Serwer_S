@@ -1,0 +1,26 @@
+﻿namespace SchoolRegister.ViewModels.VM
+{
+    public class AddOrUpdateGroupVm
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; } = null!;
+    }
+
+    public class AttachDetachStudentToGroupVm
+    {
+        public int GroupId { get; set; }
+        public int StudentId { get; set; }
+    }
+
+    public class AttachDetachSubjectGroupVm
+    {
+        public int GroupId { get; set; }
+        public int SubjectId { get; set; }
+    }
+
+    public class AttachDetachSubjectToTeacherVm
+    {
+        public int SubjectId { get; set; }
+        public int TeacherId { get; set; }
+    }
+}

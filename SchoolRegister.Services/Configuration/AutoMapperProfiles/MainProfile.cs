@@ -2,7 +2,6 @@
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 using System.Linq;
-//using System.Text.RegularExpressions;
 
 namespace SchoolRegister.Services.Configuration.AutoMapperProfiles
 {
@@ -10,6 +9,10 @@ namespace SchoolRegister.Services.Configuration.AutoMapperProfiles
     {
         public MainProfile()
         {
+            CreateMap<Teacher, TeacherVm>();
+            CreateMap<AddOrUpdateGroupVm, Group>();
+            CreateMap<Grade, GradeVm>();
+            CreateMap<AddGradeToStudentVm, Grade>();
             CreateMap<Subject, SubjectVm>()
                 .ForMember(dest_obj => dest_obj.TeacherName, opt_obj => opt_obj.MapFrom(source_obj =>
                     source_obj.Teacher == null ? null : $"{source_obj.Teacher.FirstName} {source_obj.Teacher.LastName}"))
