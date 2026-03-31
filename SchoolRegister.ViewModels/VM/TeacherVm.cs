@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 
 namespace SchoolRegister.ViewModels.VM;
 
-public class StudentVm
+public class TeacherVm
 {
     public int Id { get; set; }
     
@@ -10,7 +11,7 @@ public class StudentVm
     
     public string LastName { get; set; }
     
-    public string Email { get; set; }
-
-    public string FullName => $"{FirstName} {LastName}";
+    public string Title { get; set; }
+    
+    public string FullName => $"{Title} {FirstName} {LastName}".Trim();
 }
