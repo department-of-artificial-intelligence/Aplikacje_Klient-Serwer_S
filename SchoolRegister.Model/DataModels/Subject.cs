@@ -12,10 +12,10 @@ public class Subject
     public string Description { get; set; } = null!;
 
     public int? TeacherId { get; set; }
-    public Teacher? Teacher { get; set; }
+    public virtual Teacher? Teacher { get; set; }
 
-    public IList<SubjectGroup> SubjectGroups { get; set; }
-    public IList<Grade> Grades { get; set; }
+    public virtual IList<SubjectGroup> SubjectGroups { get; set; }
+    public virtual IList<Grade> Grades { get; set; }
 
     public Subject()
     {
