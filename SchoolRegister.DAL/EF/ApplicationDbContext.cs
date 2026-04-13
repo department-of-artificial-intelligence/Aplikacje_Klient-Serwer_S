@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
 using System.ComponentModel.DataAnnotations.Schema;
+namespace SchoolRegister.DAL.EF;
 public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 {
     // table properties
