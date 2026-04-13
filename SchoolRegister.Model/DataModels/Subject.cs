@@ -12,8 +12,8 @@ namespace DataModels
         public virtual Teacher Teacher { get; set; }
         [ForeignKey("Teacher")]
         public int? TeacherId { get; set; }
-        public IList<SubjectGroup> SubjectGroups { get; set; }
-        public IList<Grade> Grades { get; set; }
+        public virtual IList<SubjectGroup> SubjectGroups { get; set; }
+        public virtual IList<Grade> Grades { get; set; }
 
         public Subject() { }
     }
