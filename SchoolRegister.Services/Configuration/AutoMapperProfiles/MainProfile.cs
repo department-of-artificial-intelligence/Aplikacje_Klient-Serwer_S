@@ -2,14 +2,13 @@ using AutoMapper;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 namespace SchoolRegister.Services.Configuration.AutoMapperProfiles;
-
 public class MainProfile : Profile
 {
     public MainProfile()
     {
         //AutoMapper maps
         CreateMap<Subject, SubjectVm>() // map from Subject(src) to SubjectVm(dst)
-                                        // custom mapping: FirstName and LastName concat string to TeacherName
+        // custom mapping: FirstName and LastName concat string to TeacherName
         .ForMember(dest => dest.TeacherName, x => x.MapFrom(src => src.Teacher == null ?
         null :
         $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
@@ -25,6 +24,24 @@ public class MainProfile : Profile
         .ForMember(dest => dest.ParentName,
         x => x.MapFrom(src => src.Parent == null ? null : $"{src.Parent.FirstName} {src.Parent.LastName}"));
         //....... other maps.........
-        
+        CreateMap<Teacher, TeacherVm>();
+        CreateMap<Group, GroupVm>();
+
+        CreateMap<AddGradeToStudentVm, Grade>();
+        CreateMap<Grade, GradeVm>();
+        CreateMap<Grade, GradeVm>();
+        CreateMap<GetGradesReportVm, GradesReportVm>();
+
+        CreateMap<Group, GroupVm>();
+        CreateMap<AddOrUpdateGroupVm, Group>();
+        CreateMap<Student, StudentVm>();
+        CreateMap<Subject, SubjectVm>();
+
+        CreateMap<Student, StudentVm>();
+
+        CreateMap<AttachDetachSubjectGroupVm, SubjectGroup>()
+        .ForMember(dest => dest.SubjectId, opt => opt.MapFrom(src => src.SubjectId))
+        .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src => src.GroupId));
+
     }
 }

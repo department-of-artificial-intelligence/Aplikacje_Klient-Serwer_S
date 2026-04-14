@@ -1,11 +1,8 @@
-using System;
-
-namespace SchoolRegister.ViewModels.VM;
-
-public class AddOrUpdateGroupVm
+namespace SchoolRegister.ViewModels.VM
 {
-    
-    public int? Id { get; set; } 
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public class AddOrUpdateGroupVm
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }

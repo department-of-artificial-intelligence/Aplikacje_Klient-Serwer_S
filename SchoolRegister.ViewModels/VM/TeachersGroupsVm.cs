@@ -1,10 +1,7 @@
-using System;
-
-namespace SchoolRegister.ViewModels.VM;
-
-public class TeachersGroupsVm
+namespace SchoolRegister.ViewModels.VM
 {
-    // Identyfikator nauczyciela, dla którego szukamy grup
-    public int TeacherId { get; set; }
-
+    public class TeachersGroupsVm
+    {
+        public int TeacherId { get; set; }
+    }
 }

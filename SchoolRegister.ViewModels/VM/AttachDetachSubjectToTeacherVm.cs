@@ -1,9 +1,8 @@
-using System;
-
-namespace SchoolRegister.ViewModels.VM;
-
-public class AttachDetachSubjectToTeacherVm
+namespace SchoolRegister.ViewModels.VM
 {
-    public int SubjectId { get; set; }
-    public int TeacherId { get; set; }
+    public class AttachDetachSubjectToTeacherVm
+    {
+        public int SubjectId { get; set; }
+        public int TeacherId { get; set; }
+    }
 }

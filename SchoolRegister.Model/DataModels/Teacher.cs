@@ -1,10 +1,15 @@
 using Microsoft.AspNetCore.Identity;
-
+using System;
+using System.Security.Cryptography.X509Certificates;
 namespace SchoolRegister.Model.DataModels;
 
 public class Teacher : User
 {
-    public virtual IList<Subject> Subjects { get; set; } = new List<Subject>();
-    public string Title { get; set; } = null!;
-
+    public string Title { get; set; }
+    public virtual IList<Subject> Subjects { get; set; }
+    public Teacher() : base()
+    {
+        Subjects = new List<Subject>();
+        Title = string.Empty;
+    }
 }

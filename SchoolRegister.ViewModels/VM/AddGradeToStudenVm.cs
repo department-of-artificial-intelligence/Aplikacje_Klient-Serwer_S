@@ -1,13 +1,14 @@
-using System;
+using SchoolRegister.Model.DataModels;
 
-namespace SchoolRegister.ViewModels.VM;
-
-public class AddGradeToStudentVm
+namespace SchoolRegister.ViewModels.VM
 {
-    public int StudentId { get; set; }
-    public int SubjectId { get; set; }
-    public int TeacherId { get; set; }
-    public double GradeValue { get; set; }
-    public int Weight { get; set; } = 1;
-    public string Description { get; set; }
+    public class AddGradeToStudentVm
+    {
+        public int StudentId { get; set; }
+        public int SubjectId { get; set; }
+        public double Value { get; set; }
+
+         public GradeScale GradeValue { get; set; }  
+        public int TeacherId { get; set; }         
+    }
 }
