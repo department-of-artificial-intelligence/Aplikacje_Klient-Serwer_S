@@ -23,10 +23,10 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             var grade = new Grade
             {
-                //StudentId = add_grade_to_student_vm.StudentId,
-                //SubjectId = add_grade_to_student_vm.SubjectId,
-                //GradeValue = add_grade_to_student_vm.GradeValue,
-                //DateOfIssue = DateTime.Now
+                StudentId = add_grade_to_student_vm.StudentId,
+                SubjectId = add_grade_to_student_vm.SubjectId,
+                GradeValue = add_grade_to_student_vm.GradeValue,
+                DateOfIssue = DateTime.Now
             };
 
             DbContext.Grades.Add(grade);
