@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
-
+using System.Linq.Expressions;
 namespace SchoolRegister.Services.Interfaces
 {
     public interface IStudentService
