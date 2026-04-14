@@ -36,4 +36,5 @@ public class Student : User
     [Required, MaxLength(50)]
     public string LastName { get; set; }
     public ICollection<Subject> Subjects { get; set; }
+    
 }

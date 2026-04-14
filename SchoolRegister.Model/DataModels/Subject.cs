@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Subject
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
     public string Description { get; set; }
 
     public virtual ICollection<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
@@ -19,7 +19,7 @@ public class Subject
     public string Name { get; set; }
 
     [ForeignKey("Teacher")]
-    public int TeacherId { get; set; }
+    public int? TeacherId { get; set; }
 
     public Teacher Teacher { get; set; }
 }

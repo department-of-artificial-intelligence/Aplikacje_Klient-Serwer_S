@@ -48,6 +48,7 @@ namespace SchoolRegister.DAL.EF
                 .WithMany(s => s.SubjectGroups)
                 .HasForeignKey(sg => sg.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
+        
         }
     }
 }
