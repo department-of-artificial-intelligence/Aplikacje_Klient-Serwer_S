@@ -1,6 +1,13 @@
+using System.Linq.Expressions;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
+using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Interfaces;
+using SchoolRegister.ViewModels.VM;
 
+namespace SchoolRegister.Services.ConcreteServices;
 public class SubjectService : BaseService, ISubjectService
 {
     public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
