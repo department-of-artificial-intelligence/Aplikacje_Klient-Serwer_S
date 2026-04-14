@@ -4,6 +4,7 @@ namespace SchoolRegister.Model.DataModels;
 
 public class Role : IdentityRole<int>
 {
+    public Role() : base() { }
     public RoleValue RoleValue { get; set; }
     public Role(string name, RoleValue roleValue)
     {
