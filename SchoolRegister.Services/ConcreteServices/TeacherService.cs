@@ -77,10 +77,9 @@ public class TeacherService : BaseService, ITeacherService
                 throw new ArgumentNullException("VM parameter is null");
 
             var groups = DbContext.SubjectGroups
-                .Where(sg => sg.Subject.TeacherId == getTeachersGroups.TeacherId)
-                .Select(sg => sg.Group)
-                .Distinct()
-                .ToList();
+    .Where(sg => sg.Subject.TeacherId == getTeachersGroups.TeacherId)
+    .Select(sg => sg.Group)
+    .ToList();
 
             return Mapper.Map<IEnumerable<GroupVm>>(groups);
     }

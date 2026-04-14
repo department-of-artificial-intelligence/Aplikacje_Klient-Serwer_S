@@ -24,6 +24,9 @@ public class MainProfile : Profile
         .ForMember(dest => dest.GroupName, x => x.MapFrom(src => src.Group == null ? null : src.Group.Name))
         .ForMember(dest => dest.ParentName,
         x => x.MapFrom(src => src.Parent == null ? null : $"{src.Parent.FirstName} {src.Parent.LastName}"));
+        CreateMap<Grade, GradeVm>();
+        CreateMap<AddOrUpdateGroupVm, Group>();
+        CreateMap<Teacher, TeacherVm>();
         //....... other maps.........
     }
 }
