@@ -17,4 +17,6 @@ public class AddGradeToStudentVm
 
     [Required]
     public GradeScale GradeValue { get; set; }
+    [Required]
+    public int TeacherId { get; set; }
 }

@@ -16,63 +16,72 @@ public class TeacherService : BaseService, ITeacherService
 {
     private readonly UserManager<User> _userManager;
 
-    public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager)
+    public TeacherService(
+        ApplicationDbContext dbContext,
+        IMapper mapper,
+        ILogger logger,
+        UserManager<User> userManager)
         : base(dbContext, mapper, logger)
     {
         _userManager = userManager;
     }
 
-    public TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterExpression)
+    public TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate)
     {
         try
         {
-            if (filterExpression == null)
-                throw new ArgumentNullException("FilterExpression is null");
-            var teacherEntity = DbContext.Users.OfType<Teacher>().FirstOrDefault(filterExpression);
+            if (filterPredicate == null)
+                throw new ArgumentNullException(nameof(filterPredicate));
+
+            var teacherEntity = DbContext.Users
+                .OfType<Teacher>()
+                .FirstOrDefault(filterPredicate);
+
             return Mapper.Map<TeacherVm>(teacherEntity);
         }
-        catch (Exception ex) { Logger.LogError(ex, ex.Message); throw; }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
+        }
     }
 
-    public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpression = null)
+    public IEnumerable<GroupVm> GetTeacherGroups(TeachersGroupsVm getTeachersGroups)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
     {
         try
         {
-            var teachers = DbContext.Users.OfType<Teacher>().AsQueryable();
-            if (filterExpression != null)
-                teachers = teachers.Where(filterExpression);
+            var teachers = DbContext.Users
+                .OfType<Teacher>()
+                .AsQueryable();
+
+            if (filterPredicate != null)
+                teachers = teachers.Where(filterPredicate);
+
             return Mapper.Map<IEnumerable<TeacherVm>>(teachers);
         }
-        catch (Exception ex) { Logger.LogError(ex, ex.Message); throw; }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
+        }
     }
 
-    public TeacherVm AddOrUpdateTeacher(AddOrUpdateTeacherVm addOrUpdateTeacherVm)
+    public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
     {
-        try
-        {
-            if (addOrUpdateTeacherVm == null)
-                throw new ArgumentNullException("View model parameter is null");
-            var teacherEntity = Mapper.Map<Teacher>(addOrUpdateTeacherVm);
-            if (!addOrUpdateTeacherVm.Id.HasValue || addOrUpdateTeacherVm.Id == 0)
-                DbContext.Users.Add(teacherEntity);
-            else
-                DbContext.Users.Update(teacherEntity);
-            DbContext.SaveChanges();
-            return Mapper.Map<TeacherVm>(teacherEntity);
-        }
-        catch (Exception ex) { Logger.LogError(ex, ex.Message); throw; }
-    }
+        if (getTeachersGroups == null)
+                throw new ArgumentNullException("VM parameter is null");
 
-    public TeacherGroupsVm GetTeacherGroups(Expression<Func<TeacherGroupsVm, bool>> filterExpression)
-    {
-        try
-        {
-            if (filterExpression == null)
-                throw new ArgumentNullException("FilterExpression is null");
-            var teacherGroupsVms = Mapper.Map<IEnumerable<TeacherGroupsVm>>(
-                DbContext.Users.OfType<Teacher>().AsQueryable());
-            return teacherGroupsVms.AsQueryable().FirstOrDefault(filterExpression);
-        }
-        catch (Exception ex) { Logger.LogError(ex, ex.Message); throw; }
+            var groups = DbContext.SubjectGroups
+                .Where(sg => sg.Subject.TeacherId == getTeachersGroups.TeacherId)
+                .Select(sg => sg.Group)
+                .Distinct()
+                .ToList();
+
+            return Mapper.Map<IEnumerable<GroupVm>>(groups);
     }
 }
