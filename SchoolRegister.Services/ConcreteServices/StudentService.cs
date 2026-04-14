@@ -3,50 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.Services.ConcreteServices;
-    public class StudentService : BaseService, IStudentService
+
+public class StudentService : BaseService, IStudentService
+{
+    public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
+        : base(dbContext, mapper, logger) { }
+
+    public StudentVm GetStudent(Expression<Func<Student, bool>> filterPredicate)
     {
-        public StudentService(
-            ApplicationDbContext dbContext,
-            IMapper mapper,
-            ILogger logger)
-            : base(dbContext, mapper, logger)
+        var student = DbContext.Users.OfType<Student>()
+            .FirstOrDefault(filterPredicate);
+        if (student == null)
         {
+            Logger.LogWarning("Student not found");
+            return null!;
         }
-
-        public StudentVm GetStudent(Expression<Func<Student, bool>> filterPredicate)
-        {
-            var student = _dbContext.Students
-                .AsQueryable()
-                .FirstOrDefault(filterPredicate);
-
-            if (student == null)
-            {
-                _logger.LogWarning("Student not found");
-                return null;
-            }
-
-            return _mapper.Map(student);
-        }
-
-        public IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterPredicate = null)
-        {
-            var query = _dbContext.Students.AsQueryable();
-
-            if (filterPredicate != null)
-            {
-                query = query.Where(filterPredicate);
-            }
-
-            return query
-                .Select(s => _mapper.Map(s))
-                .ToList();
-        }
+        return Mapper.Map<StudentVm>(student);
     }
+
+    public IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>>? filterPredicate = null)
+    {
+        var students = filterPredicate == null
+            ? DbContext.Users.OfType<Student>().ToList()
+            : DbContext.Users.OfType<Student>().Where(filterPredicate).ToList();
+        return Mapper.Map<IEnumerable<StudentVm>>(students);
+    }
+}

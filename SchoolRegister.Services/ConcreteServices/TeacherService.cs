@@ -46,7 +46,6 @@ public class TeacherService : BaseService, ITeacherService
         var groups = DbContext.Subjects
             .Where(s => s.TeacherId == teacher.Id)
             .SelectMany(s => s.SubjectGroups.Select(sg => sg.Group))
-            .Distinct()
             .ToList();
 
         return Mapper.Map<IEnumerable<GroupVm>>(groups);

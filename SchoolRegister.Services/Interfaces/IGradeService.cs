@@ -1,20 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces;
 
-public interface IGroupService
+public interface IGradeService
 {
-    GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm addOrUpdateGroupVm);
-    StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attachStudentToGroupVm);
-    GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectGroup);
-    SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm);
-    StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detachStudentToGroupVm);
-    GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubject);
-    SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm);
-    GroupVm GetGroup(Expression<Func<Group, bool>> filterPredicate);
-    IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>>? filterPredicate = null);
+    GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm);
+    GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm);
 }
