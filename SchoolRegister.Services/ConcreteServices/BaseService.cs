@@ -1,3 +1,7 @@
+using SchoolRegister.ViewModels.VM;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
+using SchoolRegister.DAL.EF;
 namespace SchoolRegister.Services.ConcreteServices
 {
     public abstract class BaseService
