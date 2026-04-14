@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-
+using SchoolRegister.Model.DataModels;
 namespace SchoolRegister.Tests.UnitTests;
 
 public class GroupServiceUnitTests : BaseUnitTests

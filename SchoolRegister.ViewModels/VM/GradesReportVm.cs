@@ -7,6 +7,9 @@ namespace SchoolRegister.ViewModels.VM
 {
     public class GradesReportVm
     {
+    public int StudentId { get; set; }
+    public StudentVm Student { get; set; }
+    public IEnumerable<GradeVm> Grades { get; set; }
 
     }
 }

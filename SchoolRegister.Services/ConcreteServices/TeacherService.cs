@@ -27,18 +27,18 @@ namespace SchoolRegister.Services.ConcreteServices
             if (filter_predicate == null)
                 throw new ArgumentNullException("Filter predicate is null");
 
-            var teacher_entity = DbContext.Users.OfType<Teacher>().FirstOrDefault(filter_predicate);
-            return Mapper.Map<TeacherVm>(teacher_entity);
-        }
+            var teacher_entity = DbContext.Users
+                .OfType<Teacher>()
+                .FirstOrDefault(filter_predicate);
 
-        public IEnumerable<GroupVm> GetTeacherGroups(TeachersGroupsVm getTeacherGroups)
-        {
-            throw new NotImplementedException();
+            return Mapper.Map<TeacherVm>(teacher_entity);
         }
 
         public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filter_predicate = null)
         {
-            var teacher_entities = DbContext.Users.OfType<Teacher>().AsQueryable();
+            var teacher_entities = DbContext.Users
+                .OfType<Teacher>()
+                .AsQueryable();
 
             if (filter_predicate != null)
                 teacher_entities = teacher_entities.Where(filter_predicate);
@@ -46,15 +46,31 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<IEnumerable<TeacherVm>>(teacher_entities);
         }
 
+        public IEnumerable<GroupVm> GetTeacherGroups(TeachersGroupsVm getTeacherGroups)
+        {
+            if (getTeacherGroups == null)
+                throw new ArgumentNullException("VM parameter is null");
+
+            var groups = DbContext.SubjectGroups
+                .Where(sg => sg.Subject.TeacherId == getTeacherGroups.TeacherId)
+                .Select(sg => sg.Group)
+                .Distinct()
+                .ToList();
+
+            return Mapper.Map<IEnumerable<GroupVm>>(groups);
+        }
+
         public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm get_teachers_groups)
         {
             if (get_teachers_groups == null)
                 throw new ArgumentNullException("VM parameter is null");
 
-            var groups = DbContext.SubjectGroups
+            var subjectGroups = DbContext.SubjectGroups
                 .Where(sg => sg.Subject.TeacherId == get_teachers_groups.TeacherId)
+                .ToList();
+
+            var groups = subjectGroups
                 .Select(sg => sg.Group)
-                .Distinct()
                 .ToList();
 
             return Mapper.Map<IEnumerable<GroupVm>>(groups);
