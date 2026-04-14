@@ -1,0 +1,58 @@
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SchoolRegister.Model.DataModels;
+using SchoolRegister.ViewModels.VM;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using SchoolRegister.Services.ConcreteServices;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using SchoolRegister.DAL.EF;
+
+namespace SchoolRegister.Services.ConcreteServices
+{
+    public class TeacherService : BaseService, ITeacherService
+    {
+        private readonly UserManager<User> _userManager;
+
+        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager)
+        : base(dbContext, mapper, logger)
+        {
+            _userManager = userManager;
+        }
+
+        public TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate)
+        {
+            var teacherEntity = DbContext.Users.OfType<Teacher>().FirstOrDefault(filterPredicate);
+            return Mapper.Map<TeacherVm>(teacherEntity);
+        }
+
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
+        {
+            var teachersQuery = DbContext.Users.OfType<Teacher>().AsQueryable();
+            if (filterPredicate != null)
+            {
+                teachersQuery = teachersQuery.Where(filterPredicate);
+            }
+            return Mapper.Map<IEnumerable<TeacherVm>>(teachersQuery.ToList());
+        }
+
+        public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
+        {
+            var groups = DbContext.Subjects
+            .Where(s => s.TeacherId == getTeachersGroups.TeacherId)
+            .SelectMany(s => s.SubjectGroups)
+            .Select(sg => sg.Group)
+            .Distinct()
+            .ToList();
+
+            return Mapper.Map<IEnumerable<GroupVm>>(groups);
+        }
+    }
+}
