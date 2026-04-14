@@ -34,7 +34,7 @@ namespace SchoolRegister.Services.ConcreteServices
 
             return new GradeVm();
         }
-
+//thtt
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm get_grades_vm)
         {
             return new GradesReportVm();
