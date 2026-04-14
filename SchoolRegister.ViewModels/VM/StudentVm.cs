@@ -19,3 +19,4 @@ public class StudentVm
     public IDictionary<string, double> AverageGradePerSubject { get; set; }
     public IDictionary<string, List<GradeScale>> GradesPerSubject { get; set; }
 }
+//6
