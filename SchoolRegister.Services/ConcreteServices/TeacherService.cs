@@ -43,16 +43,22 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<IEnumerable<TeacherVm>>(teachersQuery.ToList());
         }
 
-        public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
-        {
-            var groups = DbContext.Subjects
-            .Where(s => s.TeacherId == getTeachersGroups.TeacherId)
-            .SelectMany(s => s.SubjectGroups)
-            .Select(sg => sg.Group)
-            .Distinct()
-            .ToList();
+public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
+{
+    // Pobieramy wszystko do pamięci RAM (ToList) i dopiero tam filtrujemy
+    var allSubjectGroups = DbContext.SubjectGroups
+        .Include(sg => sg.Subject)
+        .Include(sg => sg.Group)
+        .ToList(); // Tu uciekamy z EF do zwykłego C#
 
-            return Mapper.Map<IEnumerable<GroupVm>>(groups);
-        }
+    var teacherGroups = allSubjectGroups
+        .Where(sg => sg.Subject != null && sg.Subject.TeacherId == getTeachersGroups.TeacherId)
+        .Select(sg => sg.Group)
+        .Where(g => g != null)
+        .Distinct()
+        .ToList();
+
+    return Mapper.Map<IEnumerable<GroupVm>>(teacherGroups);
+}
     }
 }

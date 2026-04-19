@@ -30,7 +30,8 @@ public class MainProfile : Profile
             .ForMember(dest => dest.SubjectName, opt => opt.MapFrom(src => src.Subject.Name))
             .ForMember(dest => dest.StudentFirstName, opt => opt.MapFrom(src => src.Student.FirstName))
             .ForMember(dest => dest.StudentLastName, opt => opt.MapFrom(src => src.Student.LastName));
-
+        CreateMap<AddOrUpdateGroupVm, Group>();
+        CreateMap<GetGradesReportVm, Student>();
 
     }
 }

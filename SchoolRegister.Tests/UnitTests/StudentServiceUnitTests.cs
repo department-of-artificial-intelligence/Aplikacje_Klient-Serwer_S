@@ -1,4 +1,5 @@
 using SchoolRegister.DAL.EF;
+using SchoolRegister.Services.Interfaces;
 namespace SchoolRegister.Tests.UnitTests;
 
 public class StudentServiceUnitTests : BaseUnitTests
