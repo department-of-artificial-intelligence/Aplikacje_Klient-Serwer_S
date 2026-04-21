@@ -13,7 +13,7 @@ namespace SchoolRegister.Services.ConcreteServices
     {
         private readonly UserManager<User> _userManager;
 
-        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger<GradeService> logger, UserManager<User> userManager) 
+        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger<GradeService> logger, UserManager<User> userManager)
             : base(dbContext, mapper, logger)
         {
             _userManager = userManager;
@@ -28,17 +28,29 @@ namespace SchoolRegister.Services.ConcreteServices
                 StudentId = addGradeToStudentVm.StudentId,
                 GradeValue = addGradeToStudentVm.GradeValue
             };
-            
+
             DbContext.Grades.Add(grade);
             DbContext.SaveChanges();
-            
+
             return Mapper.Map<GradeVm>(grade);
         }
 
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {
-            // TO DO
-            throw new NotImplementedException("Zaimplementuj logikę sprawdzania ról i generowania raportu.");
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == getGradesVm.StudentId);
+            if (student == null) return null;
+
+            var report = new GradesReportVm
+            {
+                StudentFirstName = student.FirstName,
+                StudentLastName = student.LastName,
+                GroupName = student.Group?.Name,
+                ParentName = student.Parent != null ? $"{student.Parent.FirstName} {student.Parent.LastName}" : null,
+                StudentAverageGradePerSubject = student.AverageGradePerSubject,
+                StudentGradesPerSubject = student.GradesPerSubject
+            };
+
+            return report;
         }
     }
 }

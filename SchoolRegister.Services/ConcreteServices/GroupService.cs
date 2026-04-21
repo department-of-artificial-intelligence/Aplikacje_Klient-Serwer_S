@@ -16,7 +16,7 @@ namespace SchoolRegister.Services.ConcreteServices
     {
         private readonly UserManager<User> _userManager;
 
-        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger<GroupService> logger, UserManager<User> userManager) 
+        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger<GroupService> logger, UserManager<User> userManager)
             : base(dbContext, mapper, logger)
         {
             _userManager = userManager;
@@ -27,7 +27,7 @@ namespace SchoolRegister.Services.ConcreteServices
             var group = Mapper.Map<Group>(addOrUpdateGroupVm);
             if (!addOrUpdateGroupVm.Id.HasValue || addOrUpdateGroupVm.Id == 0) DbContext.Groups.Add(group);
             else DbContext.Groups.Update(group);
-            
+
             DbContext.SaveChanges();
             return Mapper.Map<GroupVm>(group);
         }
@@ -45,12 +45,71 @@ namespace SchoolRegister.Services.ConcreteServices
             return Mapper.Map<IEnumerable<GroupVm>>(query.ToList());
         }
 
-        // TODO
-        public StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attachStudentToGroupVm) => throw new NotImplementedException();
-        public GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectGroupVm) => throw new NotImplementedException();
-        public SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm) => throw new NotImplementedException();
-        public StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detachStudentToGroupVm) => throw new NotImplementedException();
-        public GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectGroupVm) => throw new NotImplementedException();
-        public SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm) => throw new NotImplementedException();
+        public StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attachStudentToGroupVm)
+        {
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == attachStudentToGroupVm.StudentId);
+            if (student != null)
+            {
+                student.GroupId = attachStudentToGroupVm.GroupId;
+                DbContext.SaveChanges();
+            }
+            return Mapper.Map<StudentVm>(student);
+        }
+
+        public StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detachStudentToGroupVm)
+        {
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == detachStudentToGroupVm.StudentId);
+            if (student != null)
+            {
+                student.GroupId = null;
+                DbContext.SaveChanges();
+            }
+            return Mapper.Map<StudentVm>(student);
+        }
+
+        public GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectGroupVm)
+        {
+            var subjectGroup = new SubjectGroup
+            {
+                GroupId = attachSubjectGroupVm.GroupId,
+                SubjectId = attachSubjectGroupVm.SubjectId
+            };
+            DbContext.SubjectGroups.Add(subjectGroup);
+            DbContext.SaveChanges();
+            return GetGroup(g => g.Id == attachSubjectGroupVm.GroupId);
+        }
+
+        public GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectGroupVm)
+        {
+            var subjectGroup = DbContext.SubjectGroups.FirstOrDefault(sg => sg.GroupId == detachSubjectGroupVm.GroupId && sg.SubjectId == detachSubjectGroupVm.SubjectId);
+            if (subjectGroup != null)
+            {
+                DbContext.SubjectGroups.Remove(subjectGroup);
+                DbContext.SaveChanges();
+            }
+            return GetGroup(g => g.Id == detachSubjectGroupVm.GroupId);
+        }
+
+        public SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm)
+        {
+            var subject = DbContext.Subjects.FirstOrDefault(s => s.Id == attachDetachSubjectToTeacherVm.SubjectId);
+            if (subject != null)
+            {
+                subject.TeacherId = attachDetachSubjectToTeacherVm.TeacherId;
+                DbContext.SaveChanges();
+            }
+            return Mapper.Map<SubjectVm>(subject);
+        }
+
+        public SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm)
+        {
+            var subject = DbContext.Subjects.FirstOrDefault(s => s.Id == attachDetachSubjectToTeacherVm.SubjectId);
+            if (subject != null)
+            {
+                subject.TeacherId = null;
+                DbContext.SaveChanges();
+            }
+            return Mapper.Map<SubjectVm>(subject);
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace SchoolRegister.Services.ConcreteServices
             var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == getTeachersGroups.TeacherId);
             if (teacher == null) return new List<GroupVm>();
 
-            var groups = teacher.Subjects.SelectMany(s => s.SubjectGroups).Select(sg => sg.Group).Distinct();
+            var groups = teacher.Subjects.SelectMany(s => s.SubjectGroups).Select(sg => sg.Group);
             return Mapper.Map<IEnumerable<GroupVm>>(groups);
         }
     }
