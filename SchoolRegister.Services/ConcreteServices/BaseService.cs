@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
-
 namespace SchoolRegister.Services.ConcreteServices
 {
     public abstract class BaseService
@@ -9,10 +13,9 @@ namespace SchoolRegister.Services.ConcreteServices
         protected readonly ApplicationDbContext DbContext = null!;
         protected readonly ILogger Logger = null!;
         protected readonly IMapper Mapper = null!;
-
-        public BaseService(ApplicationDbContext db_context, IMapper mapper, ILogger logger)
+        public BaseService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
         {
-            DbContext = db_context;
+            DbContext = dbContext;
             Logger = logger;
             Mapper = mapper;
         }

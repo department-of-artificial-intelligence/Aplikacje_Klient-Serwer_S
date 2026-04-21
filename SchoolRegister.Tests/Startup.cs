@@ -7,6 +7,8 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
 using SchoolRegister.Services.Interfaces;
+using SchoolRegister.ViewModels.VM;
+
 namespace SchoolRegister.Tests;
 
 public class Startup

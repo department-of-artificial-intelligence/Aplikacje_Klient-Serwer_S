@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.ViewModels.VM
 {
     public class GradesReportVm
     {
-        public required string StudentName { get; set; }
-        public IEnumerable<GradeVm> Grades { get; set; } = new List<GradeVm>();
+    public int StudentId { get; set; }
+    public StudentVm Student { get; set; }
+    public IEnumerable<GradeVm> Grades { get; set; }
+
     }
 }

@@ -197,7 +197,7 @@ namespace SchoolRegister.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TeacherId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -216,22 +216,22 @@ namespace SchoolRegister.DAL.Migrations
                 columns: table => new
                 {
                     DateOfIssue = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SubjectID = table.Column<int>(type: "int", nullable: false),
-                    StudentID = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     GradeValue = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grades", x => new { x.StudentID, x.SubjectID, x.DateOfIssue });
+                    table.PrimaryKey("PK_Grades", x => new { x.StudentId, x.SubjectId, x.DateOfIssue });
                     table.ForeignKey(
-                        name: "FK_Grades_AspNetUsers_StudentID",
-                        column: x => x.StudentID,
+                        name: "FK_Grades_AspNetUsers_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Grades_Subjects_SubjectID",
-                        column: x => x.SubjectID,
+                        name: "FK_Grades_Subjects_SubjectId",
+                        column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -311,9 +311,9 @@ namespace SchoolRegister.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grades_SubjectID",
+                name: "IX_Grades_SubjectId",
                 table: "Grades",
-                column: "SubjectID");
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubjectGroups_SubjectId",

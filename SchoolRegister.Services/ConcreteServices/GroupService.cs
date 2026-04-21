@@ -1,139 +1,124 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System.Linq.Expressions;
-using System.Linq;
 
 namespace SchoolRegister.Services.ConcreteServices
 {
     public class GroupService : BaseService, IGroupService
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _user_manager;
 
-        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger<GroupService> logger, UserManager<User> userManager)
-            : base(dbContext, mapper, logger)
+        public GroupService(ApplicationDbContext db_context, IMapper mapper, ILogger logger, UserManager<User> user_manager)
+            : base(db_context, mapper, logger)
         {
-            _userManager = userManager;
+            _user_manager = user_manager;
         }
 
-        public GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm addOrUpdateGroupVm)
+        public GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm add_or_update_group_vm)
         {
-            var groupEntity = Mapper.Map<Group>(addOrUpdateGroupVm);
-            if (groupEntity.Id == 0)
-                DbContext.Groups.Add(groupEntity);
+            var group_entity = Mapper.Map<Group>(add_or_update_group_vm);
+            if (!add_or_update_group_vm.Id.HasValue || add_or_update_group_vm.Id == 0)
+                DbContext.Groups.Add(group_entity);
             else
-                DbContext.Groups.Update(groupEntity);
+                DbContext.Groups.Update(group_entity);
 
             DbContext.SaveChanges();
-            return Mapper.Map<GroupVm>(groupEntity);
+            return Mapper.Map<GroupVm>(group_entity);
         }
 
-        public StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attachStudentToGroupVm)
+        public StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attach_student_to_group_vm)
         {
-            var student = DbContext.Users.OfType<Student>()
-                .FirstOrDefault(x => x.Id == attachStudentToGroupVm.StudentId);
-
-            if (student == null)
-                throw new InvalidOperationException("Student not found.");
-
-            student.GroupId = attachStudentToGroupVm.GroupId;
-            DbContext.SaveChanges();
-            return Mapper.Map<StudentVm>(student);
-        }
-
-        public GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectToGroupVm)
-        {
-            var subjectGroup = new SubjectGroup
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == attach_student_to_group_vm.StudentId);
+            if (student != null)
             {
-                SubjectId = attachSubjectToGroupVm.SubjectId,
-                GroupId = attachSubjectToGroupVm.GroupId
-            };
-            DbContext.SubjectGroups.Add(subjectGroup);
-            DbContext.SaveChanges();
-
-            var group = DbContext.Groups.FirstOrDefault(x => x.Id == attachSubjectToGroupVm.GroupId);
-            if (group == null)
-                throw new InvalidOperationException("Group not found.");
-
-            return Mapper.Map<GroupVm>(group);
-        }
-
-        public SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attachSubjectToTeacherVm)
-        {
-            var subject = DbContext.Subjects.FirstOrDefault(x => x.Id == attachSubjectToTeacherVm.SubjectId);
-
-            if (subject == null)
-                throw new InvalidOperationException("Subject not found.");
-
-            subject.TeacherId = attachSubjectToTeacherVm.TeacherId;
-            DbContext.SaveChanges();
-            return Mapper.Map<SubjectVm>(subject);
-        }
-
-        public StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detachStudentToGroupVm)
-        {
-            var student = DbContext.Users.OfType<Student>()
-                .FirstOrDefault(x => x.Id == detachStudentToGroupVm.StudentId);
-
-            if (student == null)
-                throw new InvalidOperationException("Student not found.");
-
-            student.GroupId = null;
-            DbContext.SaveChanges();
+                student.GroupId = attach_student_to_group_vm.GroupId;
+                DbContext.SaveChanges();
+            }
             return Mapper.Map<StudentVm>(student);
         }
 
-        public GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectFromGroupVm)
+        public GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attach_subject_group_vm)
         {
-            var subjectGroup = DbContext.SubjectGroups
-                .FirstOrDefault(x => x.SubjectId == detachSubjectFromGroupVm.SubjectId && x.GroupId == detachSubjectFromGroupVm.GroupId);
-
-            if (subjectGroup == null)
-                throw new InvalidOperationException("SubjectGroup not found.");
-
-            DbContext.SubjectGroups.Remove(subjectGroup);
+            var subject_group = new SubjectGroup { GroupId = attach_subject_group_vm.GroupId, SubjectId = attach_subject_group_vm.SubjectId };
+            DbContext.SubjectGroups.Add(subject_group);
             DbContext.SaveChanges();
-
-            var group = DbContext.Groups.FirstOrDefault(x => x.Id == detachSubjectFromGroupVm.GroupId);
-            if (group == null)
-                throw new InvalidOperationException("Group not found.");
-
-            return Mapper.Map<GroupVm>(group);
+            return GetGroup(g => g.Id == attach_subject_group_vm.GroupId);
         }
 
-        public SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm detachSubjectToTeacherVm)
+        public SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attach_subject_to_teacher_vm)
         {
-            var subject = DbContext.Subjects.FirstOrDefault(x => x.Id == detachSubjectToTeacherVm.SubjectId);
-
-            if (subject == null)
-                throw new InvalidOperationException("Subject not found.");
-
-            subject.TeacherId = null;
-            DbContext.SaveChanges();
+            var subject = DbContext.Subjects.FirstOrDefault(s => s.Id == attach_subject_to_teacher_vm.SubjectId);
+            if (subject != null)
+            {
+                subject.TeacherId = attach_subject_to_teacher_vm.TeacherId;
+                DbContext.SaveChanges();
+            }
             return Mapper.Map<SubjectVm>(subject);
         }
 
-        public GroupVm GetGroup(Expression<Func<Group, bool>> filterPredicate)
+        public StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detach_student_to_group_vm)
         {
-            var group = DbContext.Groups.FirstOrDefault(filterPredicate);
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == detach_student_to_group_vm.StudentId);
+            if (student != null)
+            {
+                student.GroupId = null;
+                DbContext.SaveChanges();
+            }
+            return Mapper.Map<StudentVm>(student);
+        }
 
-            if (group == null)
-                throw new InvalidOperationException("Group not found.");
+        public GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detach_subject_group_vm)
+        {
+            var subject_group = DbContext.SubjectGroups.FirstOrDefault(sg => sg.GroupId == detach_subject_group_vm.GroupId && sg.SubjectId == detach_subject_group_vm.SubjectId);
+            if (subject_group != null)
+            {
+                DbContext.SubjectGroups.Remove(subject_group);
+                DbContext.SaveChanges();
+            }
+            return GetGroup(g => g.Id == detach_subject_group_vm.GroupId);
+        }
 
+        public SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm detach_subject_to_teacher_vm)
+        {
+            var subject = DbContext.Subjects.FirstOrDefault(s => s.Id == detach_subject_to_teacher_vm.SubjectId);
+            if (subject != null)
+            {
+                subject.TeacherId = null;
+                DbContext.SaveChanges();
+            }
+            return Mapper.Map<SubjectVm>(subject);
+        }
+
+        public GroupVm GetGroup(Expression<Func<Group, bool>> filter_predicate)
+        {
+            var group = DbContext.Groups.Include(g => g.Students).Include(g => g.SubjectGroups).ThenInclude(sg => sg.Subject).FirstOrDefault(filter_predicate);
             return Mapper.Map<GroupVm>(group);
         }
 
-        public IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>>? filterPredicate = null)
+        public GroupVm GetGroup(Expression<Func<System.Text.RegularExpressions.Group, bool>> filterPredicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filter_predicate = null)
         {
             var groups = DbContext.Groups.AsQueryable();
-            if (filterPredicate != null)
-                groups = groups.Where(filterPredicate);
-
+            if (filter_predicate != null) groups = groups.Where(filter_predicate);
             return Mapper.Map<IEnumerable<GroupVm>>(groups);
+        }
+
+        public IEnumerable<GroupVm> GetGroups(Expression<Func<System.Text.RegularExpressions.Group, bool>> filterPredicate = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace SchoolRegister.Tests.UnitTests;
 public class SubjectServiceUnitTests : BaseUnitTests
 {
     private readonly ISubjectService _subjectService = null!;
-    public SubjectServiceUnitTests(ISubjectService subjectService, ApplicationDbContext dbContext)
+    public SubjectServiceUnitTests(ISubjectService subjectService, ApplicationDbContext dbContext) 
     : base(dbContext)
     {
         _subjectService = subjectService;

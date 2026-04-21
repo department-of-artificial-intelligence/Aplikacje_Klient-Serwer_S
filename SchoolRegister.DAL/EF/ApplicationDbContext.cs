@@ -1,26 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
-namespace SchoolRegister.DAL.EF;
-public class ApplicationDbContext : IdentityDbContext<User, Role, int>
+
+namespace SchoolRegister.DAL.EF
 {
-    public virtual DbSet<Grade> Grades { get; set; }
-    public virtual DbSet<Group> Groups { get; set; }
-    public virtual DbSet<Subject> Subjects { get; set; }
-    public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : base(options) { }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
-        base.OnConfiguring(optionsBuilder);
-        //configuration commands
-        optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
-    }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        // Fluent API commands
-        modelBuilder.Entity<User>()
+        // table properties
+        public virtual DbSet<Grade> Grades { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            //configuration commands
+            optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            // Fluent API commands
+            modelBuilder.Entity<User>()
             .ToTable("AspNetUsers")
             .HasDiscriminator<int>("UserType")
             .HasValue<User>((int)RoleValue.User)
@@ -28,47 +34,51 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
             .HasValue<Parent>((int)RoleValue.Parent)
             .HasValue<Teacher>((int)RoleValue.Teacher);
 
-        modelBuilder.Entity<SubjectGroup>()
-            .HasKey(sg => new {sg.GroupId, sg.SubjectId});
+            modelBuilder.Entity<SubjectGroup>()
+                .HasKey(sg => new { sg.GroupId, sg.SubjectId });
 
-        modelBuilder.Entity<SubjectGroup>()
+            modelBuilder.Entity<SubjectGroup>()
             .HasOne(g => g.Group)
-            .WithMany(g => g.SubjectGroups)
+            .WithMany(sg => sg.SubjectGroups)
             .HasForeignKey(g => g.GroupId);
-        
-        modelBuilder.Entity<SubjectGroup>()
+
+            modelBuilder.Entity<SubjectGroup>()
             .HasOne(s => s.Subject)
             .WithMany(sg => sg.SubjectGroups)
-            .HasForeignKey(g => g.SubjectId)
+            .HasForeignKey(s => s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<Subject>()
+            modelBuilder.Entity<Subject>()
             .HasOne(s => s.Teacher)
             .WithMany(t => t.Subjects)
             .HasForeignKey(s => s.TeacherId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<Student>()
+            modelBuilder.Entity<Student>()
             .HasOne(s => s.Parent)
             .WithMany(p => p.Students)
             .HasForeignKey(s => s.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<Grade>()
-            .HasKey(g => new { g.StudentId, g.SubjectId, g.DateOfIssue });
+            modelBuilder.Entity<Grade>().HasKey(sg => new { sg.StudentId, sg.SubjectId, sg.DateOfIssue });
 
-        modelBuilder.Entity<Grade>()
+            modelBuilder.Entity<Grade>()
             .HasOne(g => g.Student)
             .WithMany(s => s.Grades)
             .HasForeignKey(g => g.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
-    
-        modelBuilder.Entity<Grade>()
+
+            modelBuilder.Entity<Grade>()
             .HasOne(g => g.Subject)
             .WithMany(s => s.Grades)
             .HasForeignKey(g => g.SubjectId)
-            .OnDelete(DeleteBehavior.Restrict);
-    
-        
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+
+
+
+        }
     }
+
 }

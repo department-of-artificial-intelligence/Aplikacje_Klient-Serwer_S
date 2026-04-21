@@ -240,7 +240,7 @@ namespace SchoolRegister.Tests
             {
                 Id = 4,
                 Name = "Administracja Intenetowymi Systemami Baz Danych",
-                Description = "Administracja Intenetowymi Systemami Baz Danych jest kontynuacją przedmiotu Bazy danych na studiach stacjonarnych Igo stopnia spec. PAI",
+                Description = "Administracja Intenetowymi Systemami Baz Danych jest kontynuacją przedmiotu Bazy danych na studiach stacjonarnych I - go stopnia spec.PAI",
                 TeacherId = 2,
             };
             await dbContext.AddAsync(subject4);
