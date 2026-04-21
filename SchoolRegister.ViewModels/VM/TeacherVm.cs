@@ -5,7 +5,9 @@ public class TeacherVm
     public int Id { get; set; }
 
     [Required]
-    public string Name { get; set; } = null!;
+    public string LastName { get; set; } = null!;
+    [Required]
+    public string FirstName { get; set; } = null!;
 
     public string? Title { get; set; }
 
