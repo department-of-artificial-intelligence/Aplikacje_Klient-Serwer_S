@@ -1,12 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
+using SchoolRegister.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddAutoMapper(typeof(MainProfile));
 
 
 builder.Services.AddAutoMapper(typeof(MainProfile)); //dodane
@@ -18,6 +22,34 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 .AddRoleManager<RoleManager<Role>>()
 .AddUserManager<UserManager<User>>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
+builder.Services.AddScoped<IStringLocalizer, StringLocalizer<BaseController>>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+var supportedCultures = new[] { "en", "pl-PL" };
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+});
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews()
+.AddRazorRuntimeCompilation()
+.AddViewLocalization()
+.AddDataAnnotationsLocalization();
+builder.Services.AddRazorPages()
+.AddRazorRuntimeCompilation()
+.AddViewLocalization()
+.AddDataAnnotationsLocalization();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
@@ -36,6 +68,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
+var localizationOption = new RequestLocalizationOptions()
+.SetDefaultCulture(supportedCultures[0])
+.AddSupportedCultures(supportedCultures)
+.AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOption);
 app.UseAuthorization();
 app.MapControllerRoute(
 name: "default",
