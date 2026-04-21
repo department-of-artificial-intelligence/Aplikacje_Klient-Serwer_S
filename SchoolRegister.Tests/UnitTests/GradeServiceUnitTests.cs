@@ -1,3 +1,10 @@
+using SchoolRegister.Services;
+using SchoolRegister.DAL;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Model.DataModels;
+
+
+
 namespace SchoolRegister.Tests.UnitTests;
 
 public class GradeServiceUnitTests : BaseUnitTests
@@ -54,4 +61,35 @@ public class GradeServiceUnitTests : BaseUnitTests
         var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
         Assert.NotNull(gradesReport);
     }
+
+    private class AddGradeToStudentVm
+    {
+        public AddGradeToStudentVm()
+        {
+        }
+
+        public int StudentId { get; set; }
+        public int SubjectId { get; set; }
+        public object GradeValue { get; set; }
+        public int TeacherId { get; set; }
+    }
+
+    private class GetGradesReportVm
+    {
+        public GetGradesReportVm()
+        {
+        }
+
+        public int StudentId { get; set; }
+        public int GetterUserId { get; set; }
+    }
+}
+
+internal interface IGradeService
+{
+    object? AddGradeToStudent(AddGradeToStudentVm gradeVm);
+    object AddGradeToStudent(AddGradeToStudentVm gradeVm);
+    object AddGradeToStudent(AddGradeToStudentVm gradeVm);
+    object? GetGradesReportForStudent(GetGradesReportVm getGradesReportForStudent);
+    object GetGradesReportForStudent(GetGradesReportVm getGradesReportForStudent);
 }

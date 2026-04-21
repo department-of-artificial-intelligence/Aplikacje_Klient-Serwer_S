@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
+using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.Services.ConcreteServices
 {

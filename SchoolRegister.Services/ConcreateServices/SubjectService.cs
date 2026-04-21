@@ -9,13 +9,15 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using SchoolRegister.ViewModels;
+
 namespace SchoolRegister.Services.ConcreteServices
 {
     public class SubjectService : BaseService, ISubjectService
     {
         public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
         : base(dbContext, mapper, logger) { }
-        public SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm)
+        public SubjectVm AddOrUpdateSubject(AddorUpdateSubjectVm addOrUpdateVm)
         {
             try
             {
@@ -36,6 +38,12 @@ namespace SchoolRegister.Services.ConcreteServices
                 throw;
             }
         }
+
+        public SubjectVm AddorUpdateSubject(AddorUpdateSubjectVm addOrUpdateVm)
+        {
+            throw new NotImplementedException();
+        }
+
         public SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression)
         {
             try

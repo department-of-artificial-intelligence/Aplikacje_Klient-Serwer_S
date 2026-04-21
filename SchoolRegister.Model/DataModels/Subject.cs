@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.Model.DataModels;
 
