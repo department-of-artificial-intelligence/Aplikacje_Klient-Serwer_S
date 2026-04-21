@@ -1,6 +1,6 @@
 namespace SchoolRegister.ViewModels.VM;
 
-public class TeacherGroupsVm
+public class TeachersGroupsVm
 {
     public int TeacherId { get; set; }
 }
