@@ -110,5 +110,28 @@ namespace SchoolRegister.Services.ConcreteServices
             if (filter_predicate != null) groups = groups.Where(filter_predicate);
             return Mapper.Map<IEnumerable<GroupVm>>(groups);
         }
+        public void AddStudentToGroup(int studentId, int groupId)
+        {
+            var student = DbContext.Users.OfType<SchoolRegister.Model.DataModels.Student>()
+                .FirstOrDefault(s => s.Id == studentId);
+
+            if (student != null)
+            {
+                student.GroupId = groupId;
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void RemoveStudentFromGroup(int studentId, int groupId)
+        {
+            var student = DbContext.Users.OfType<SchoolRegister.Model.DataModels.Student>()
+                .FirstOrDefault(s => s.Id == studentId && s.GroupId == groupId);
+
+            if (student != null)
+            {
+                student.GroupId = null;
+                DbContext.SaveChanges();
+            }
+        }
     }
 }
