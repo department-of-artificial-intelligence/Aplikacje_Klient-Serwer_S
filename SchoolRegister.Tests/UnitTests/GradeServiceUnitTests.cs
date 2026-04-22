@@ -2,18 +2,20 @@ using SchoolRegister.Services;
 using SchoolRegister.DAL;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Model.DataModels;
-
-
+using SchoolRegister.ViewModels.VM;
+using SchoolRegister.DAL.EF;
 
 namespace SchoolRegister.Tests.UnitTests;
 
 public class GradeServiceUnitTests : BaseUnitTests
 {
     private readonly IGradeService _gradeService = null!;
+    
     public GradeServiceUnitTests(ApplicationDbContext dbContext, IGradeService gradeService) : base(dbContext)
     {
         _gradeService = gradeService;
     }
+    
     [Fact]
     public void AddGradeToStudent()
     {
@@ -28,6 +30,7 @@ public class GradeServiceUnitTests : BaseUnitTests
         Assert.NotNull(grade);
         Assert.Equal(2, DbContext.Grades.Count());
     }
+    
     [Fact]
     public void GetGradesReportForStudentByTeacher()
     {
@@ -39,6 +42,7 @@ public class GradeServiceUnitTests : BaseUnitTests
         var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
         Assert.NotNull(gradesReport);
     }
+    
     [Fact]
     public void GetGradesReportForStudentByStudent()
     {
@@ -50,6 +54,7 @@ public class GradeServiceUnitTests : BaseUnitTests
         var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
         Assert.NotNull(gradesReport);
     }
+    
     [Fact]
     public void GetGradesReportForStudentByParent()
     {
@@ -61,35 +66,34 @@ public class GradeServiceUnitTests : BaseUnitTests
         var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
         Assert.NotNull(gradesReport);
     }
-
-    private class AddGradeToStudentVm
-    {
-        public AddGradeToStudentVm()
-        {
-        }
-
-        public int StudentId { get; set; }
-        public int SubjectId { get; set; }
-        public object GradeValue { get; set; }
-        public int TeacherId { get; set; }
-    }
-
-    private class GetGradesReportVm
-    {
-        public GetGradesReportVm()
-        {
-        }
-
-        public int StudentId { get; set; }
-        public int GetterUserId { get; set; }
-    }
 }
 
-internal interface IGradeService
+// --- NAPRAWIONE LOKALNE KLASY I INTERFEJSY ---
+
+public class AddGradeToStudentVm
+{
+    public AddGradeToStudentVm()
+    {
+    }
+
+    public int StudentId { get; set; }
+    public int SubjectId { get; set; }
+    public object GradeValue { get; set; }
+    public int TeacherId { get; set; }
+}
+
+public class GetGradesReportVm
+{
+    public GetGradesReportVm()
+    {
+    }
+
+    public int StudentId { get; set; }
+    public int GetterUserId { get; set; }
+}
+
+public interface IGradeService
 {
     object? AddGradeToStudent(AddGradeToStudentVm gradeVm);
-    object AddGradeToStudent(AddGradeToStudentVm gradeVm);
-    object AddGradeToStudent(AddGradeToStudentVm gradeVm);
     object? GetGradesReportForStudent(GetGradesReportVm getGradesReportForStudent);
-    object GetGradesReportForStudent(GetGradesReportVm getGradesReportForStudent);
 }

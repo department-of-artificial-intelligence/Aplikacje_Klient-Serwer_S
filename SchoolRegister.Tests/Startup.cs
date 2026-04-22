@@ -7,10 +7,12 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
 using SchoolRegister.Services.Interfaces;
-namespace SchoolRegister.Tests;
+using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services;
 using SchoolRegister.DAL;
 using SchoolRegister.Services.Interfaces;
+namespace SchoolRegister.Tests;
+
 
 public class Startup
 {
