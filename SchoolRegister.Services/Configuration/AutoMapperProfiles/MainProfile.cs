@@ -30,5 +30,11 @@ public class MainProfile : Profile
         CreateMap<Grade, GradeVm>()
         .ForMember(dest => dest.GradeValue, x => x.MapFrom(src => (double)src.GradeValue))
         .ForMember(dest => dest.SubjectName, x => x.MapFrom(src => src.Subject != null ? src.Subject.Name : string.Empty ));
+
+        CreateMap<AddGradeToStudentVm, Grade>();
+        CreateMap<Student, GradesReportVm>()
+        .ForMember(dest => dest.StudentName, x => x
+            .MapFrom(src => $"{src.FirstName} {src.LastName}"))
+        .ForMember(dest => dest.GroupName, x => x.MapFrom(src => src.Group == null ? null : src.Group.Name));
     }
 }

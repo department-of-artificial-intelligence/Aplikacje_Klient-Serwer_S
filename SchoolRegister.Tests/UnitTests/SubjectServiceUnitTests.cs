@@ -1,8 +1,6 @@
-using System.Linq;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using Xunit;
 namespace SchoolRegister.Tests.UnitTests;
 
 public class SubjectServiceUnitTests : BaseUnitTests

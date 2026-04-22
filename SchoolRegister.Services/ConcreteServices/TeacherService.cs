@@ -49,17 +49,25 @@ public class TeacherService : BaseService, ITeacherService
 
     public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
     {
-        var teacherEntity = DbContext.Users.OfType<Teacher>()
-            .FirstOrDefault(t => t.Id == getTeachersGroups.TeacherId);
+        try
+        {
+            var teacherEntity = DbContext.Users.OfType<Teacher>()
+                .FirstOrDefault(t => t.Id == getTeachersGroups.TeacherId);
 
-        if (teacherEntity == null)
-            return Enumerable.Empty<GroupVm>();
+            if (teacherEntity == null)
+                return Enumerable.Empty<GroupVm>();
 
-        var groupEntities = teacherEntity.Subjects
-            .SelectMany(s => s.SubjectGroups)
-            .Select(g => g.Group);
+            var groupEntities = teacherEntity.Subjects
+                .SelectMany(s => s.SubjectGroups)
+                .Select(g => g.Group);
 
-        var groupVms = Mapper.Map<IEnumerable<GroupVm>>(groupEntities);
-        return groupVms;
+            var groupVms = Mapper.Map<IEnumerable<GroupVm>>(groupEntities);
+            return groupVms;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, ex.Message);
+            throw;
+        }
     }
 }
