@@ -36,5 +36,8 @@ public class MainProfile : Profile
         .ForMember(dest => dest.StudentName, x => x
             .MapFrom(src => $"{src.FirstName} {src.LastName}"))
         .ForMember(dest => dest.GroupName, x => x.MapFrom(src => src.Group == null ? null : src.Group.Name));
+
+        CreateMap<AddOrUpdateGroupVm, Group>();
+
     }
 }
