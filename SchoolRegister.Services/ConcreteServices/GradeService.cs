@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -14,22 +13,32 @@ namespace SchoolRegister.Services.ConcreteServices
 {
     public class GradeService : BaseService, IGradeService
     {
-        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger)
+        private readonly UserManager<User> _userManager;
+
+        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) 
+            : base(dbContext, mapper, logger)
         {
             _userManager = userManager;
         }
-        private readonly UserManager<User> _userManager;
 
         public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
             try
             {
                 if (addGradeToStudentVm == null)
+                    throw new ArgumentNullException($"View model parameter is null");
+
+                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
+                if (teacher == null)
+                    throw new InvalidOperationException($"Teacher does not exist");
+
+                var gradeEntity = new Grade
                 {
-                    throw new ArgumentNullException($"addGradeToStudentVm is null");
-                }
-                var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
-                gradeEntity.DateOfIssue = DateTime.Now;
+                    DateOfIssue = DateTime.Now,
+                    GradeValue = addGradeToStudentVm.GradeValue,
+                    StudentId = addGradeToStudentVm.StudentId,
+                    SubjectId = addGradeToStudentVm.SubjectId
+                };
 
                 DbContext.Grades.Add(gradeEntity);
                 DbContext.SaveChanges();
@@ -40,31 +49,50 @@ namespace SchoolRegister.Services.ConcreteServices
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }
         }
+
         public GradesReportVm GetGradesReportForStudent(GetGradeReportVm getGradesVm)
         {
             try
             {
                 if (getGradesVm == null)
+                    throw new ArgumentNullException($"View model parameter is null");
+
+                var getter = DbContext.Users.FirstOrDefault(u => u.Id == getGradesVm.GetterUserId);
+                if (getter == null)
+                    throw new InvalidOperationException($"Getter user does not exist");
+
+                var isTeacher = _userManager.IsInRoleAsync(getter, "Teacher").Result;
+                var isParent = _userManager.IsInRoleAsync(getter, "Parent").Result;
+                var isStudent = _userManager.IsInRoleAsync(getter, "Student").Result;
+
+                bool canView = isTeacher || 
+                               (isStudent && getter.Id == getGradesVm.StudentId) || 
+                               (isParent && DbContext.Users.OfType<Student>().Any(s => s.Id == getGradesVm.StudentId && s.ParentId == getter.Id));
+
+                if (!canView)
+                    throw new UnauthorizedAccessException($"No permission to view grades");
+
+                var studentEntity = DbContext.Users.OfType<Student>()
+                    .Include(s => s.Grades)
+                    .Include(s => s.Group)
+                    .FirstOrDefault(s => s.Id == getGradesVm.StudentId);
+
+                var reportVm = new GradesReportVm
                 {
-                    throw new ArgumentNullException($"getGradesVm is null");
-                }
+                    Student = Mapper.Map<StudentVm>(studentEntity),
+                    Grades = Mapper.Map<System.Collections.Generic.IEnumerable<GradeVm>>(studentEntity?.Grades)
+                };
 
-                var studentEntity = Mapper.Map<Student>(getGradesVm);
-
-                var reportVm = Mapper.Map<GradesReportVm>(studentEntity);
                 return reportVm;
-
             }
-
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
-                throw ex;
+                throw;
             }
         }
-
     }
 }

@@ -5,12 +5,16 @@ namespace SchoolRegister.ViewModels.VM
 {
     public class AddGradeToStudentVm
     {
-        public DateTime DateOfIssue { get; set; } = DateTime.Now;
-        public GradeScale GradeValue { get; set; }
-        public int SubjectId { get; set; }
-        public virtual Subject Subject { get; set; } = null!;
-
+        [Required]
         public int StudentId { get; set; }
-        public virtual Student Student { get; set; } = null!;
+        
+        [Required]
+        public int SubjectId { get; set; }
+        
+        [Required]
+        public GradeScale GradeValue { get; set; }
+        
+        [Required]
+        public int TeacherId { get; set; }
     }
 }

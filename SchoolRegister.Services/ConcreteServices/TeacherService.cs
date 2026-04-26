@@ -67,14 +67,13 @@ namespace SchoolRegister.Services.ConcreteServices
             try
             {
                 if (getTeachersGroups == null)
-                    throw new ArgumentNullException($"getTeachersGroups is null");
+                    throw new ArgumentNullException($"View model parameter is null");
 
                 var groups = DbContext.SubjectGroups
                     .Include(sg => sg.Group)
                     .Include(sg => sg.Subject)
                     .Where(sg => sg.Subject.TeacherId == getTeachersGroups.TeacherId)
                     .Select(sg => sg.Group)
-                    .Distinct()
                     .ToList();
 
                 var groupVms = Mapper.Map<IEnumerable<GroupVm>>(groups);
