@@ -1,22 +1,16 @@
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SchoolRegister.Model.DataModels;
-using SchoolRegister.ViewModels.VM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using SchoolRegister.Services.ConcreteServices;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Text.RegularExpressions;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.Interfaces; 
+using SchoolRegister.ViewModels.VM;
 
-namespace SchoolRegister.Services.ConcreteServices
-{
+namespace SchoolRegister.Services.ConcreteServices{
     public class SubjectService : BaseService, ISubjectService
     {
         public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
@@ -27,7 +21,7 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                if (addOrUpdateVm == null)
+                if(addOrUpdateVm == null)
                     throw new ArgumentNullException($"View model parameter is null");
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)

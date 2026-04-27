@@ -7,6 +7,9 @@ public class MainProfile : Profile
 public MainProfile()
 {
 //AutoMapper maps
+CreateMap<AddOrUpdateGroupVm, Group>();
+CreateMap<Grade, GradeVm>();
+CreateMap<Teacher, TeacherVm>();
 CreateMap<Subject, SubjectVm>() // map from Subject(src) to SubjectVm(dst)
 // custom mapping: FirstName and LastName concat string to TeacherName
 .ForMember(dest => dest.TeacherName, x => x.MapFrom(src => src.Teacher == null ?

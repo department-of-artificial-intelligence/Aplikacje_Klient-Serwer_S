@@ -1,8 +1,10 @@
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
-using System.Linq.Expressions;
-namespace SchoolRegister.ViewModels.VM
+
+namespace SchoolRegister.Services.Interfaces
 {
     public interface ISubjectService
     {
