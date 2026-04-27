@@ -9,20 +9,18 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using SchoolRegister.ViewModels;
-
 namespace SchoolRegister.Services.ConcreteServices
 {
     public class SubjectService : BaseService, ISubjectService
     {
         public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-        : base(dbContext, mapper, logger) { }
-        public SubjectVm AddOrUpdateSubject(AddorUpdateSubjectVm addOrUpdateVm)
+         : base(dbContext, mapper, logger) { }
+        public SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm)
         {
             try
             {
                 if (addOrUpdateVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
+                    throw new ArgumentNullException($"addOrUpdateVm is null");
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
                     DbContext.Subjects.Add(subjectEntity);
@@ -39,17 +37,17 @@ namespace SchoolRegister.Services.ConcreteServices
             }
         }
 
-        public SubjectVm AddorUpdateSubject(AddorUpdateSubjectVm addOrUpdateVm)
-        {
-            throw new NotImplementedException();
-        }
+        // public SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm)
+        // {
+        //     throw new NotImplementedException();
+        // }
 
         public SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression)
         {
             try
             {
                 if (filterExpression == null)
-                    throw new ArgumentNullException($" FilterExpression is null");
+                    throw new ArgumentNullException($"FilterExpression is null");
                 var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
                 var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
                 return subjectVm;

@@ -3,7 +3,6 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
-using SchoolRegister.ViewModels.VM;
 namespace SchoolRegister.Tests.UnitTests;
 
 public class SubjectServiceUnitTests : BaseUnitTests
@@ -40,7 +39,7 @@ public class SubjectServiceUnitTests : BaseUnitTests
     [Fact]
     public void AddNewSubject()
     {
-        var newSubjectVm = new AddorUpdateSubjectVm()
+        var newSubjectVm = new AddOrUpdateSubjectVm()
         {
             Name = "Zaawansowane programowanie internetowe",
             Description = "W ramach przedmiotu studenci tworzą rozwiazania w bibliotekach SPA",
@@ -53,14 +52,14 @@ public class SubjectServiceUnitTests : BaseUnitTests
     [Fact]
     public void EditSubject()
     {
-        var editSubjectVm = new AddorUpdateSubjectVm()
+        var editSubjectVm = new AddOrUpdateSubjectVm()
         {
             Id = 1,
             Name = "Aplikacje webowe",
             Description = null,
             TeacherId = 1
         };
-        var editedSubjectVm = _subjectService.AddOrUpdateSubject(editSubjectVm);
+        var editedSubjectVm = _subjectService.AddOrUpdateSubjectVm(editSubjectVm);
         Assert.NotNull(editedSubjectVm);
         Assert.Equal("Aplikacje webowe", editedSubjectVm.Name);
         Assert.Null(editedSubjectVm.Description);

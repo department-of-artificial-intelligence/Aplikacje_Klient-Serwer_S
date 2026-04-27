@@ -1,6 +1,5 @@
-using SchoolRegister.Services.Interfaces;
 using SchoolRegister.DAL.EF;
-using SchoolRegister.ViewModels.VM;
+using SchoolRegister.Services.Interfaces;
 
 namespace SchoolRegister.Tests.UnitTests;
 
