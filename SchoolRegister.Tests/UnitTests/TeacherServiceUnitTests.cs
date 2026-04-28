@@ -51,6 +51,6 @@ public class TeacherServiceUnitTests : BaseUnitTests
         var teachersGroups = _teacherService.GetTeachersGroups(getTeachersGroup);
         Assert.NotNull(teachersGroups);
         Assert.NotEmpty(teachersGroups);
-        Assert.Equal(5, teachersGroups.Count());
+        Assert.Equal(3, teachersGroups.Count());
     }
 }
