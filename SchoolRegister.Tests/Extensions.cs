@@ -241,14 +241,13 @@ namespace SchoolRegister.Tests
                 Id = 4,
                 Name = "Administracja Intenetowymi Systemami Baz Danych",
                 Description = "Administracja Intenetowymi Systemami Baz Danych jest kontynuacją przedmiotu Bazy danych na studiach stacjonarnych I - go stopnia spec.PAI",
-                TeacherId = 2,
+                TeacherId = 2
             };
             await dbContext.AddAsync(subject4);
             var subject5 = new Subject()
             {
                 Id = 5,
                 Name = "Programowanie interaktywnej grafiki dla stron WWW",
-                Description = "Grafika 3D i 2D",
                 TeacherId = 12
             };
             await dbContext.AddAsync(subject5);

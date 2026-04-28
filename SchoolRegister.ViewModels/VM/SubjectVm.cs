@@ -6,7 +6,7 @@ namespace SchoolRegister.ViewModels.VM
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
         public IList<GroupVm> Groups { get; set; } = null!;
         public string TeacherName { get; set; } = null!;
         public int? TeacherId { get; set; }
