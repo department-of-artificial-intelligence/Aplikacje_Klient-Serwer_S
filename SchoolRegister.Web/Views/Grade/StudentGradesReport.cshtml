@@ -1,0 +1,53 @@
+@model SchoolRegister.ViewModels.VM.GradesReportVm
+
+<div class="container mt-4">
+    <h2>Raport ocen: <span class="text-primary">@Model.StudentFirstName @Model.StudentLastName</span></h2>
+    <h5 class="text-muted">Grupa: @(Model.GroupName ?? "Brak grupy") | Rodzic: @(Model.ParentName ?? "Brak")</h5>
+    <hr />
+
+    @if (Model.StudentGradesPerSubject != null && Model.StudentGradesPerSubject.Any())
+    {
+        <table class="table table-bordered mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Przedmiot</th>
+                    <th>Oceny</th>
+                    <th>Średnia z przedmiotu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var subject in Model.StudentGradesPerSubject)
+                {
+                    <tr>
+                        <td><strong>@subject.Key</strong></td>
+                        <td>
+                            @foreach (var grade in subject.Value)
+                            {
+                                <span class="badge bg-info text-dark me-1" style="font-size: 1.1em;">@((int)grade)</span>
+                            }
+                        </td>
+                        <td>
+                            @if (Model.StudentAverageGradePerSubject.ContainsKey(subject.Key))
+                            {
+                                <strong>@Model.StudentAverageGradePerSubject[subject.Key]</strong>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">Uczeń nie ma jeszcze żadnych ocen w systemie.</div>
+    }
+
+    <div class="mt-4">
+        <a href="javascript:history.back()" class="btn btn-secondary">Powrót</a>
+        
+        @if (User.IsInRole("Teacher"))
+        {
+            <a asp-action="AddGradeToStudent" asp-route-studentId="@Context.Request.Query["studentId"]" class="btn btn-primary float-end">Dodaj nową ocenę</a>
+        }
+    </div>
+</div>

@@ -1,0 +1,43 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
+
+<div class="container mt-4">
+    <h2>Zarządzanie Grupami</h2>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="AddOrEditGroup" class="btn btn-primary mb-3">Dodaj nową grupę</a>
+    }
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nazwa Grupy</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Szczegóły</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="AddOrEditGroup" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edytuj</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="3">Brak grup w bazie.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

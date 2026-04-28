@@ -27,6 +27,20 @@ namespace SchoolRegister.Services.Configuration.AutoMapperProfiles
             CreateMap<Teacher, TeacherVm>();
             CreateMap<Grade, GradeVm>()
                 .ForMember(dest => dest.SubjectName, x => x.MapFrom(src => src.Subject.Name));
+
+            CreateMap<RegisterNewUserVm, User>()
+                .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+                .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
+            CreateMap<RegisterNewUserVm, Parent>()
+                .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+                .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
+            CreateMap<RegisterNewUserVm, Student>()
+                .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+                .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
+            CreateMap<RegisterNewUserVm, Teacher>()
+                .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+                .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now))
+                .ForMember(dest => dest.Title, y => y.MapFrom(src => src.TeacherTitles));
         }
     }
 }

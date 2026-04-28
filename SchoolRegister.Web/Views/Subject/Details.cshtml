@@ -1,0 +1,28 @@
+@model SchoolRegister.ViewModels.VM.SubjectVm
+
+<div class="container mt-4">
+    <h2>Szczegóły przedmiotu</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Nazwa</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Opis</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+
+        <dt class="col-sm-3">Nauczyciel</dt>
+        <dd class="col-sm-9">@Model.TeacherName</dd>
+    </dl>
+    
+    <h4>Grupy zapisane na ten przedmiot:</h4>
+    <ul>
+        @foreach(var group in Model.Groups)
+        {
+            <li>@group.Name</li>
+        }
+    </ul>
+
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Powrót do listy</a>
+    </div>
+</div>

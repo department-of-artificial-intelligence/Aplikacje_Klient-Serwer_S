@@ -1,0 +1,29 @@
+@model SchoolRegister.ViewModels.VM.GroupVm
+
+<div class="container mt-4">
+    <h2>Szczegóły grupy: <span class="text-primary">@Model.Name</span></h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Przypisani uczniowie:</h4>
+            @if (Model.Students != null && Model.Students.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var student in Model.Students)
+                    {
+                        <li class="list-group-item">@student.FirstName @student.LastName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="alert alert-warning">Brak przypisanych uczniów do tej grupy.</div>
+            }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-secondary">Powrót do listy</a>
+    </div>
+</div>
