@@ -42,7 +42,7 @@ namespace SchoolRegister.Services.ConcreteServices
         //     throw new NotImplementedException();
         // }
 
-        public SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression)
+        public SubjectVm GetSubject(Expression<Func<Subject, bool>>? filterExpression)
         {
             try
             {

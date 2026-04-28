@@ -14,5 +14,5 @@ public interface IGroupService
     GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectVm);
     SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm);
     GroupVm GetGroup(Expression<Func<Group, bool>> filterPredicate);
-    IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>>? filterPredicate = null);
+    public IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>>? filterPredicate = null);
 }

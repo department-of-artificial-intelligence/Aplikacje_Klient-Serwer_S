@@ -12,6 +12,8 @@ public class Grade
     public int SubjectId { get; set; }
     public virtual Subject Subject { get; set; } = null!;
 
+    public int Id { get; set; }
+
     [ForeignKey("Student")]
     public int StudentId { get; set; }
     public virtual Student Student { get; set; } = null!;

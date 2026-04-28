@@ -20,7 +20,7 @@ public class MainProfile : Profile
                 src.SubjectGroups.Select(sg => sg.Group)
             ));
 
-        CreateMap<AddorUpdateSubjectVm, Subject>();
+        CreateMap<AddOrUpdateSubjectVm, Subject>();
 
         CreateMap<Group, GroupVm>()
             .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.Students))
@@ -28,7 +28,7 @@ public class MainProfile : Profile
                 src.SubjectGroups.Select(sg => sg.Subject)
             ));
 
-        CreateMap<SubjectVm, AddorUpdateSubjectVm>();
+        CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
 
         CreateMap<Student, StudentVm>()
             .ForMember(dest => dest.GroupName, opt => opt.MapFrom(src =>
@@ -39,5 +39,11 @@ public class MainProfile : Profile
                     ? null
                     : $"{src.Parent.FirstName} {src.Parent.LastName}"
             ));
+
+        CreateMap<Teacher, TeacherVm>();
+
+        CreateMap<Grade, GradeVm>();
+
+        CreateMap<AddOrUpdateGroupVm, Group>();
     }
 }

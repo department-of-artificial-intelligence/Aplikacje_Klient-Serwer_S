@@ -42,7 +42,7 @@ namespace SchoolRegister.Services.ConcreteServices
             }
         }
 
-        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>>? filterPredicate = null)
         {
             try
             {

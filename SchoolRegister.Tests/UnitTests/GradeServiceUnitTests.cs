@@ -29,7 +29,7 @@ public class GradeServiceUnitTests : BaseUnitTests
     [Fact]
     public void GetGradesReportForStudentByTeacher()
     {
-        var getGradesReportForStudent = new GetGradeReportVm()
+        var getGradesReportForStudent = new GetGradesReportVm()
         {
             StudentId = 5,
             GetterUserId = 1
