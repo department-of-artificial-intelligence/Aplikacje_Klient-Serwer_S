@@ -1,4 +1,6 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolRegister.DAL.EF;
@@ -7,14 +9,10 @@ using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Web.Controllers;
-
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
+// Add services to the container
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddAutoMapper(typeof(MainProfile));
-
-
-builder.Services.AddAutoMapper(typeof(MainProfile)); //dodane
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -46,13 +44,6 @@ builder.Services.AddRazorPages()
 .AddRazorRuntimeCompilation()
 .AddViewLocalization()
 .AddDataAnnotationsLocalization();
-builder.Services.AddScoped<ISubjectService, SubjectService>();
-builder.Services.AddScoped<IGradeService, GradeService>();
-builder.Services.AddScoped<IGroupService, GroupService>();
-builder.Services.AddScoped<IStudentService, StudentService>();
-builder.Services.AddScoped<ITeacherService, TeacherService>();
-builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
-builder.Services.AddControllersWithViews();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -69,12 +60,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
+app.UseAuthorization();
 var localizationOption = new RequestLocalizationOptions()
 .SetDefaultCulture(supportedCultures[0])
 .AddSupportedCultures(supportedCultures)
 .AddSupportedUICultures(supportedCultures);
 app.UseRequestLocalization(localizationOption);
-app.UseAuthorization();
 app.MapControllerRoute(
 name: "default",
 pattern: "{controller=Home}/{action=Index}/{id?}");
