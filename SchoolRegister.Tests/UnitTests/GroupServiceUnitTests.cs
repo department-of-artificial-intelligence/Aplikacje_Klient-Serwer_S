@@ -1,3 +1,7 @@
+using SchoolRegister.DAL.EF;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.ViewModels.VM;
+
 namespace SchoolRegister.Tests.UnitTests;
 
 public class GroupServiceUnitTests : BaseUnitTests
