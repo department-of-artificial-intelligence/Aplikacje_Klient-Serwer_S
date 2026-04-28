@@ -11,5 +11,6 @@ namespace SchoolRegister.Services.Interfaces
         SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm add_or_update_vm);
         SubjectVm GetSubject(Expression<Func<Subject, bool>> filter_expression);
         IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filter_expression = null);
+        bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression);
     }
 }
