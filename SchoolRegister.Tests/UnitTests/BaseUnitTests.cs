@@ -8,10 +8,10 @@ namespace SchoolRegister.Tests.UnitTests
 {
     public abstract class BaseUnitTests
     {
-        protected readonly ApplicationDbContext Dbcontext =null!;
+        protected readonly ApplicationDbContext DbContext =null!;
         public BaseUnitTests (ApplicationDbContext dbContext)
         {
-            Dbcontext=dbContext;
+            DbContext=dbContext;
         }
     }
 }

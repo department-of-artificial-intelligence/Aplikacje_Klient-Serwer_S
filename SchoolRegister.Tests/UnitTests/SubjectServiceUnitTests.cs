@@ -8,6 +8,7 @@ using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Tests.UnitTests;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
+namespace SchoolRegister.Tests.UnitTests{
 public class SubjectServiceUnitTests : BaseUnitTests
 {
     private readonly ISubjectService _subjectService = null!;
@@ -67,4 +68,5 @@ public class SubjectServiceUnitTests : BaseUnitTests
         Assert.Equal("Aplikacje webowe", editedSubjectVm.Name);
         Assert.Null(editedSubjectVm.Description);
     }
+}
 }

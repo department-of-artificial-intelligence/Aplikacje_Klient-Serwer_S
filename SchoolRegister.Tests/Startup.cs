@@ -13,11 +13,12 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddLogging();
         services.AddAutoMapper(typeof(MainProfile));
-        services.AddEntityFrameworkInMemoryDatabase()
-        .AddDbContext<ApplicationDbContext>(options =>
+       services.AddDbContext<ApplicationDbContext>(options =>
         options.UseInMemoryDatabase("InMemoryDb")
         );
+        
         services.AddIdentity<User, Role>(options =>
         {
             options.SignIn.RequireConfirmedAccount = false;
@@ -34,6 +35,6 @@ public class Startup
         services.AddTransient<IGroupService, GroupService>();
         services.AddTransient<IStudentService, StudentService>();
         services.AddTransient<ITeacherService, TeacherService>();
-        services.SeedData();
+        services.SeedData().Wait();
     }
 }

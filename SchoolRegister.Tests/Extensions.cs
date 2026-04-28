@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
+using System.Threading.Tasks;
 namespace SchoolRegister.Tests
 {
 public static class Extensions
 {
 // Create sample data
-public static async void SeedData(this IServiceCollection services)
+public static async Task SeedData(this IServiceCollection services)
 {
 var serviceProvider = services.BuildServiceProvider();
 var dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
@@ -248,6 +249,7 @@ var subject5 = new Subject()
 {
 Id = 5,
 Name = "Programowanie interaktywnej grafiki dla stron WWW",
+Description = "Brak opisu",
 TeacherId = 12
 };
 await dbContext.AddAsync(subject5);

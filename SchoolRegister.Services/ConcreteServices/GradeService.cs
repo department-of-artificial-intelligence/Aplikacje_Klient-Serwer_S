@@ -9,29 +9,35 @@ using SchoolRegister.Services.Interfaces;
 
 namespace SchoolRegister.Services.ConcreteServices
 {
-    public class GradeService:BaseService,IGradeService
+    public class GradeService : BaseService, IGradeService
     {
         private readonly UserManager<User> _userManager;
+        
         public GradeService(
             ApplicationDbContext dbContext,
             IMapper mapper,
             ILogger logger,
-            UserManager<User> userManager):base (dbContext,mapper,logger)
+            UserManager<User> userManager) : base (dbContext, mapper, logger)
         {
-            _userManager=userManager;
+            _userManager = userManager;
         }
+        
         public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
             var grade = new Grade
             {
                 StudentId = addGradeToStudentVm.StudentId,
-                Value=addGradeToStudentVm.GradeValue,
-                SubjectId=addGradeToStudentVm.SubjectId
+              
+                GradeValue = addGradeToStudentVm.GradeValue,
+                SubjectId = addGradeToStudentVm.SubjectId
             };
+            
             DbContext.Set<Grade>().Add(grade);
             DbContext.SaveChanges();
+            
             return Mapper.Map<GradeVm>(grade);
         }
+        
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {
             var grades = DbContext.Set<Grade>()
@@ -41,9 +47,10 @@ namespace SchoolRegister.Services.ConcreteServices
             return new GradesReportVm
             {
                 StudentId = getGradesVm.StudentId,
-                AverageGrade = grades.Any() ? grades.Average(g => g.Value) : 0,
+            
+                AverageGrade = grades.Any() ? grades.Average(g => (int)g.GradeValue) : 0,
                 Grades = Mapper.Map<System.Collections.Generic.List<GradeVm>>(grades)
             };
+        }
     }
-}
 }

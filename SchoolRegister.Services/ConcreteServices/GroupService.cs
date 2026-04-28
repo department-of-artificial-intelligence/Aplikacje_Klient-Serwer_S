@@ -28,16 +28,16 @@ namespace SchoolRegister.Services.ConcreteServices
 
         public GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm addOrUpdateGroupVm)
         {
-            var group = DbContext.Set<SubjectGroup>().Find(addOrUpdateGroupVm.Id);
+            var group = DbContext.Set<SchoolRegister.Model.DataModels.Group>().Find(addOrUpdateGroupVm.Id);
             if (group == null)
             {
-                group = Mapper.Map<SubjectGroup>(addOrUpdateGroupVm);
-                DbContext.Set<SubjectGroup>().Add(group);
+                group = Mapper.Map<SchoolRegister.Model.DataModels.Group>(addOrUpdateGroupVm);
+                DbContext.Set<SchoolRegister.Model.DataModels.Group>().Add(group);
             }
             else
             {
                 Mapper.Map(addOrUpdateGroupVm, group);
-                DbContext.Set<SubjectGroup>().Update(group);
+                DbContext.Set<SchoolRegister.Model.DataModels.Group>().Update(group);
             }
             DbContext.SaveChanges();
             return Mapper.Map<GroupVm>(group);
@@ -46,27 +46,32 @@ namespace SchoolRegister.Services.ConcreteServices
         public StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attachStudentToGroupVm)
         {
             var student = DbContext.Set<Student>().Find(attachStudentToGroupVm.StudentId);
-            var group = DbContext.Set<SubjectGroup>().Find(attachStudentToGroupVm.GroupId);
-            
-
-            if(student != null && group != null)
+            if(student != null)
             {
-
-                group.Students.Add(student); 
+                student.GroupId = attachStudentToGroupVm.GroupId; 
                 DbContext.SaveChanges();
             }
-            
             return Mapper.Map<StudentVm>(student);
         }
 
         public GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectGroupVm)
         {
-            var group = DbContext.Set<SubjectGroup>().Find(attachSubjectGroupVm.GroupId);
-            if(group != null)
+            var exists = DbContext.Set<SubjectGroup>().Any(sg => 
+                sg.SubjectId == attachSubjectGroupVm.SubjectId && 
+                sg.GroupId == attachSubjectGroupVm.GroupId);
+
+            if (!exists)
             {
-                group.SubjectId = attachSubjectGroupVm.SubjectId;
+                var subjectGroup = new SubjectGroup 
+                {
+                    SubjectId = attachSubjectGroupVm.SubjectId,
+                    GroupId = attachSubjectGroupVm.GroupId
+                };
+                DbContext.Set<SubjectGroup>().Add(subjectGroup);
                 DbContext.SaveChanges();
             }
+
+            var group = DbContext.Set<SchoolRegister.Model.DataModels.Group>().Find(attachSubjectGroupVm.GroupId);
             return Mapper.Map<GroupVm>(group);
         }
 
@@ -84,11 +89,9 @@ namespace SchoolRegister.Services.ConcreteServices
         public StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detachStudentToGroupVm)
         {
             var student = DbContext.Set<Student>().Find(detachStudentToGroupVm.StudentId);
-            var group = DbContext.Set<SubjectGroup>().Find(detachStudentToGroupVm.GroupId);
-            
-            if(student != null && group != null)
+            if(student != null)
             {
-                group.Students.Remove(student); 
+                student.GroupId = null; 
                 DbContext.SaveChanges();
             }
             return Mapper.Map<StudentVm>(student);
@@ -96,13 +99,17 @@ namespace SchoolRegister.Services.ConcreteServices
 
         public GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectVm)
         {
-            var group = DbContext.Set<SubjectGroup>().Find(detachSubjectVm.GroupId);
-            if (group != null)
+            var subjectGroup = DbContext.Set<SubjectGroup>().FirstOrDefault(sg => 
+                sg.SubjectId == detachSubjectVm.SubjectId && 
+                sg.GroupId == detachSubjectVm.GroupId);
+            
+            if (subjectGroup != null)
             {
-             
-                group.SubjectId = 0; 
+                DbContext.Set<SubjectGroup>().Remove(subjectGroup); 
                 DbContext.SaveChanges();
             }
+
+            var group = DbContext.Set<SchoolRegister.Model.DataModels.Group>().Find(detachSubjectVm.GroupId);
             return Mapper.Map<GroupVm>(group);
         }
 
@@ -111,25 +118,24 @@ namespace SchoolRegister.Services.ConcreteServices
             var subject = DbContext.Set<Subject>().Find(attachDetachSubjectToTeacherVm.SubjectId);
             if (subject != null)
             {
-             
                 subject.TeacherId = null; 
                 DbContext.SaveChanges();
             }
             return Mapper.Map<SubjectVm>(subject);
         }
 
-        public GroupVm GetGroup(Expression<Func<SubjectGroup, bool>> filterPredicate)
+       
+        public GroupVm GetGroup(Expression<Func<SchoolRegister.Model.DataModels.Group, bool>> filterPredicate)
         {
-            var group = DbContext.Set<SubjectGroup>().FirstOrDefault(filterPredicate);
+            var group = DbContext.Set<SchoolRegister.Model.DataModels.Group>().FirstOrDefault(filterPredicate);
             return Mapper.Map<GroupVm>(group);
         }
 
-        public IEnumerable<GroupVm> GetGroups(Expression<Func<SubjectGroup, bool>> filterPredicate = null)
+        public IEnumerable<GroupVm> GetGroups(Expression<Func<SchoolRegister.Model.DataModels.Group, bool>> filterPredicate = null)
         {
-            var query = DbContext.Set<SubjectGroup>().AsQueryable();
+            var query = DbContext.Set<SchoolRegister.Model.DataModels.Group>().AsQueryable();
             if (filterPredicate != null) query = query.Where(filterPredicate);
             return Mapper.Map<IEnumerable<GroupVm>>(query.ToList());
         }
-    }
     }
 }
