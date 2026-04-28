@@ -1,66 +1,49 @@
-using Microsoft.AspNetCore.Identity;
 using System;
-
 using System.Collections.Generic;
 using System.Linq;
-namespace SchoolRegister.Model.DataModels;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SchoolRegister.Model.DataModels
 {
     public class Student : User
     {
-        public Group Group { get; set; }
+        [ForeignKey("Group")]
         public int? GroupId { get; set; }
-        public IList<Grade> Grades { get; set; }
-        public Parent Parent { get; set; }
+        public virtual Group Group { get; set; }
+
+        [ForeignKey("Parent")]
         public int? ParentId { get; set; }
+        public virtual Parent Parent { get; set; }
 
-        public double AverageGrade
-        {
-            get
-            {
-                if (Grades == null || !Grades.Any())
-                    return 0.0;
+        public virtual IList<Grade> Grades { get; set; } = new List<Grade>();
 
-                return Grades.Average(g => (int)g.GradeValue);
-            }
-        }
+        [NotMapped]
+        public double AverageGrade =>
+            Grades != null && Grades.Any() ? Math.Round(Grades.Average(grade_item => (int)grade_item.GradeValue), 1) : 0.0;
 
-        public IDictionary<string, double> AverageGradePerSubject
-        {
-            get
-            {
-                if (Grades == null || !Grades.Any())
-                    return new Dictionary<string, double>();
+        [NotMapped]
+        public IDictionary<string, double> AverageGradePerSubject =>
+            Grades != null ? Grades
+                .GroupBy(grade_item => grade_item.Subject.Name)
+                .Select(group_item => new {
+                    subject_name = group_item.Key,
+                    avg_grade = Math.Round(group_item.Average(avg_item => (int)avg_item.GradeValue), 1)
+                })
+                .ToDictionary(dict_item => dict_item.subject_name, dict_item => dict_item.avg_grade)
+            : new Dictionary<string, double>();
 
-                return Grades
-                    .Where(g => g.Subject != null)
-                    .GroupBy(g => g.Subject.Name)
-                    .ToDictionary(
-                        group => group.Key,
-                        group => group.Average(g => (int)g.GradeValue)
-                    );
-            }
-        }
+        [NotMapped]
+        public IDictionary<string, List<GradeScale>> GradesPerSubject =>
+            Grades != null ? Grades
+                .GroupBy(grade_item => grade_item.Subject.Name)
+                .Select(group_item => new {
+                    subject_name = group_item.Key,
+                    grade_list = group_item.Select(x_item => x_item.GradeValue).ToList()
+                })
+                .ToDictionary(dict_item => dict_item.subject_name, dict_item => dict_item.grade_list)
+            : new Dictionary<string, List<GradeScale>>();
 
-        public IDictionary<string, List<GradeScale>> GradesPerSubject
-        {
-            get
-            {
-                if (Grades == null || !Grades.Any())
-                    return new Dictionary<string, List<GradeScale>>();
-
-                return Grades
-                    .Where(g => g.Subject != null)
-                    .GroupBy(g => g.Subject.Name)
-                    .ToDictionary(
-                        group => group.Key,
-                        group => group.Select(g => g.GradeValue).ToList()
-                    );
-            }
-        }
-
-        public Student()
-        {
-            Grades = new List<Grade>();
-        }
+        public Student() { }
     }
 }

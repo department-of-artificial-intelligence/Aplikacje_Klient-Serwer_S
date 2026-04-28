@@ -1,21 +1,22 @@
-using Microsoft.AspNetCore.Identity;
 using System;
-
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace SchoolRegister.Model.DataModels;
+namespace SchoolRegister.Model.DataModels
 {
     public class Group
     {
+        [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public IList<Student> Students { get; set; }
-        public IList<SubjectGroup> SubjectGroups { get; set; }
 
-        public Group()
-        {
-            Students = new List<Student>();
-            SubjectGroups = new List<SubjectGroup>();
-        }
+        [Required]
+        public string Name { get; set; }
+
+        public virtual IList<Student> Students { get; set; } = new List<Student>();
+        public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
+
+        public Group() { }
     }
 }

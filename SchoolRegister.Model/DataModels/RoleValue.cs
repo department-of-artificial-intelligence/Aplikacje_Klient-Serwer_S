@@ -1,11 +1,11 @@
-
-
-
-public enum RoleValue
+namespace SchoolRegister.Model.DataModels
 {
-    User = 0,
-    Student = 1,
-    Parent = 2,
-    Teacher = 3,
-    Admin = 4
+    public enum RoleValue
+    {
+        User = 0,
+        Student = 1,
+        Parent = 2,
+        Teacher = 3,
+        Admin = 4
+    }
 }

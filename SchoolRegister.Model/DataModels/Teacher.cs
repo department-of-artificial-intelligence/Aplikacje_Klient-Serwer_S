@@ -1,17 +1,15 @@
-using Microsoft.AspNetCore.Identity;
 using System;
-
 using System.Collections.Generic;
-namespace SchoolRegister.Model.DataModels;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SchoolRegister.Model.DataModels
 {
     public class Teacher : User
     {
-        public IList<Subject> Subjects { get; set; }
         public string Title { get; set; }
+        public virtual IList<Subject> Subjects { get; set; } = new List<Subject>();
 
-        public Teacher()
-        {
-            Subjects = new List<Subject>();
-        }
+        public Teacher() { }
     }
 }
