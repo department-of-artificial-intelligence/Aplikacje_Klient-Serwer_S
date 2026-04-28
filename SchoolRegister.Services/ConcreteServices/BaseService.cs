@@ -6,15 +6,15 @@ namespace SchoolRegister.Services.ConcreteServices
 {
     public abstract class BaseService
     {
-        protected readonly ApplicationDbContext DbContext;
-        protected readonly ILogger Logger;
-        protected readonly IMapper Mapper;
+        protected readonly ApplicationDbContext DbContext = null!;
+        protected readonly ILogger Logger = null!;
+        protected readonly IMapper Mapper = null!;
 
-        protected BaseService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
+        public BaseService(ApplicationDbContext db_context, IMapper mapper, ILogger logger)
         {
-            DbContext = dbContext;
-            Mapper = mapper;
+            DbContext = db_context;
             Logger = logger;
+            Mapper = mapper;
         }
     }
 }

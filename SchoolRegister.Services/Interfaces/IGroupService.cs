@@ -1,5 +1,6 @@
-﻿using System.Linq.Expressions;
-using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
@@ -7,17 +8,16 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IGroupService
     {
-        GroupVm GetGroup(Expression<Func<Group, bool>> filter);
-        IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filter = null);
-        GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm vm);
-
-        StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm vm);
-        StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm vm);
-
-        GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm vm);
-        GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm vm);
-
-        SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm vm);
-        SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm vm);
+        GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm add_or_update_group_vm);
+        StudentVm AttachStudentToGroup(AttachDetachStudentToGroupVm attach_student_to_group_vm);
+        GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attach_subject_group_vm);
+        SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attach_subject_to_teacher_vm);
+        StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detach_student_to_group_vm);
+        GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detach_subject_group_vm);
+        SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm detach_subject_to_teacher_vm);
+        GroupVm GetGroup(Expression<Func<Group, bool>> filter_predicate);
+        IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filter_predicate = null);
+        void AddStudentToGroup(int studentId, int groupId);
+        void RemoveStudentFromGroup(int studentId, int groupId);
     }
 }

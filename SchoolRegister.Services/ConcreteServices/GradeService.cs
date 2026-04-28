@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -9,45 +11,33 @@ namespace SchoolRegister.Services.ConcreteServices
 {
     public class GradeService : BaseService, IGradeService
     {
-        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-            : base(dbContext, mapper, logger) { }
+        private readonly UserManager<User> _user_manager;
 
-        public GradeVm AddGradeToStudent(AddGradeToStudentVm vm)
+        public GradeService(ApplicationDbContext db_context, IMapper mapper, ILogger logger, UserManager<User> user_manager)
+            : base(db_context, mapper, logger)
         {
-            var teacher = DbContext.Users.OfType<Teacher>()
-                .FirstOrDefault(t => t.Id == vm.TeacherId);
+            _user_manager = user_manager;
+        }
 
-            if (teacher == null)
-                throw new Exception("Not a teacher");
-
+        public GradeVm AddGradeToStudent(AddGradeToStudentVm add_grade_to_student_vm)
+        {
             var grade = new Grade
             {
-                StudentId = vm.StudentId,
-                SubjectId = vm.SubjectId,
-                GradeValue = (int)vm.GradeValue,
-                DateOfIssue = DateTime.Now,
+                StudentId = add_grade_to_student_vm.StudentId,
+                SubjectId = add_grade_to_student_vm.SubjectId,
+                GradeValue = add_grade_to_student_vm.GradeValue,
+                DateOfIssue = DateTime.Now
             };
 
             DbContext.Grades.Add(grade);
             DbContext.SaveChanges();
 
-            return Mapper.Map<GradeVm>(grade);
+            return new GradeVm();
         }
 
-        public object GetGradesReportForStudent(GetGradesReportVm vm)
+        public GradesReportVm GetGradesReportForStudent(GetGradesReportVm get_grades_vm)
         {
-            var user = DbContext.Users.FirstOrDefault(u => u.Id == vm.GetterUserId);
-            var student = DbContext.Users.OfType<Student>()
-                .FirstOrDefault(s => s.Id == vm.StudentId);
-
-            if (user is Teacher) { }
-            else if (user is Student && user.Id == student.Id) { }
-            else if (user is Parent parent && student.ParentId == parent.Id) { }
-            else throw new Exception("Access denied");
-
-            return DbContext.Grades
-                .Where(g => g.StudentId == vm.StudentId)
-                .ToList();
+            return new GradesReportVm();
         }
     }
 }

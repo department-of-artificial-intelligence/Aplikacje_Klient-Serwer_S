@@ -1,10 +1,22 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-public class Group
+namespace SchoolRegister.Model.DataModels
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public class Group
+    {
+        [Key]
+        public int Id { get; set; }
 
-    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
-    public virtual ICollection<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
+        [Required]
+        public string Name { get; set; }
+
+        public virtual IList<Student> Students { get; set; } = new List<Student>();
+        public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
+
+        public Group() { }
+    }
 }

@@ -1,4 +1,7 @@
-﻿namespace SchoolRegister.ViewModels.VM
+﻿using System.Collections.Generic;
+using SchoolRegister.Model.DataModels;
+
+namespace SchoolRegister.ViewModels.VM
 {
     public class StudentVm
     {
@@ -12,5 +15,6 @@
         public string UserName { get; set; }
         public IDictionary<string, double> AverageGradePerSubject { get; set; }
         public IDictionary<string, List<GradeScale>> GradesPerSubject { get; set; }
+        public int? GroupId { get; set; }
     }
 }

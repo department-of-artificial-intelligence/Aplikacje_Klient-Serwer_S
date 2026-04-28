@@ -1,21 +1,15 @@
-﻿using SchoolRegister.Model.DataModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-public class Teacher
+namespace SchoolRegister.Model.DataModels
 {
-    public int Id { get; set; }
-    //public List<Subject> Subjects { get; set; } = new List<Subject>();
-    public string Title { get; set; }
+    public class Teacher : User
+    {
+        public string Title { get; set; }
+        public virtual IList<Subject> Subjects { get; set; } = new List<Subject>();
 
-    [Key]
-    public int TeacherId { get; set; }
-
-    [Required, MaxLength(50)]
-    public string FirstName { get; set; }
-
-    [Required, MaxLength(50)]
-    public string LastName { get; set; }
-    public ICollection<Subject> Subjects { get; set; }
+        public Teacher() { }
+    }
 }

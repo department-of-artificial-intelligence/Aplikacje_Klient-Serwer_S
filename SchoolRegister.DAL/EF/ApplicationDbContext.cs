@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
@@ -12,22 +17,22 @@ namespace SchoolRegister.DAL.EF
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> db_options)
+            : base(db_options)
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder options_builder)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLazyLoadingProxies();
+            base.OnConfiguring(options_builder);
+            options_builder.UseLazyLoadingProxies();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder model_builder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(model_builder);
 
-            modelBuilder.Entity<User>()
+            model_builder.Entity<User>()
                 .ToTable("AspNetUsers")
                 .HasDiscriminator<int>("UserType")
                 .HasValue<User>((int)RoleValue.User)
@@ -35,20 +40,19 @@ namespace SchoolRegister.DAL.EF
                 .HasValue<Parent>((int)RoleValue.Parent)
                 .HasValue<Teacher>((int)RoleValue.Teacher);
 
-            modelBuilder.Entity<SubjectGroup>()
+            model_builder.Entity<SubjectGroup>()
                 .HasKey(sg => new { sg.GroupId, sg.SubjectId });
 
-            modelBuilder.Entity<SubjectGroup>()
-                .HasOne(sg => sg.Group)
-                .WithMany(g => g.SubjectGroups)
-                .HasForeignKey(sg => sg.GroupId);
+            model_builder.Entity<SubjectGroup>()
+                .HasOne(g => g.Group)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(g => g.GroupId);
 
-            modelBuilder.Entity<SubjectGroup>()
-                .HasOne(sg => sg.Subject)
-                .WithMany(s => s.SubjectGroups)
-                .HasForeignKey(sg => sg.SubjectId)
+            model_builder.Entity<SubjectGroup>()
+                .HasOne(s => s.Subject)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
-        
         }
     }
 }
