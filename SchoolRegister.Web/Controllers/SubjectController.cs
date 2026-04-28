@@ -67,6 +67,7 @@ public class SubjectController : BaseController
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
+    [HttpPost]
     public IActionResult AddOrEditSubject(AddOrUpdateSubjectVm addOrUpdateSubjectVm)
     {
         if (ModelState.IsValid)

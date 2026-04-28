@@ -1,0 +1,14 @@
+@model SchoolRegister.ViewModels.VM.GroupVm
+
+@{
+    ViewData["Title"] = "Group details";
+}
+
+<h1>Group details</h1>
+
+<div>
+    <p><strong>Id:</strong> @Model.Id</p>
+    <p><strong>Name:</strong> @Model.Name</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>

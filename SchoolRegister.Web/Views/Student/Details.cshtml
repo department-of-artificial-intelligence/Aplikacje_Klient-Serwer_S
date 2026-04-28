@@ -1,0 +1,75 @@
+@using SchoolRegister.ViewModels.VM
+@model StudentVm
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h2>Student Details</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">First Name</dt>
+        <dd class="col-sm-9">@Model.FirstName</dd>
+
+        <dt class="col-sm-3">Last Name</dt>
+        <dd class="col-sm-9">@Model.LastName</dd>
+
+        <dt class="col-sm-3">Parent Name</dt>
+        <dd class="col-sm-9">@Model.ParentName</dd>
+
+        <dt class="col-sm-3">Parent Id</dt>
+        <dd class="col-sm-9">@Model.ParentId</dd>
+
+        <dt class="col-sm-3">Group Name</dt>
+        <dd class="col-sm-9">@Model.GroupName</dd>
+
+        <dt class="col-sm-3">Average Grade</dt>
+        <dd class="col-sm-9">@Model.AverageGrade</dd>
+
+        <dt class="col-sm-3">User Name</dt>
+        <dd class="col-sm-9">@Model.UserName</dd>
+    </dl>
+</div>
+
+@if (Model.AverageGradePerSubject != null && Model.AverageGradePerSubject.Any())
+{
+    <h4>Average Grade Per Subject</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Average</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AverageGradePerSubject)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (Model.GradesPerSubject != null && Model.GradesPerSubject.Any())
+{
+    <h4>Grades Per Subject</h4>
+    @foreach (var subject in Model.GradesPerSubject)
+    {
+        <h5>@subject.Key</h5>
+        <ul>
+            @foreach (var grade in subject.Value)
+            {
+                <li>@grade</li>
+            }
+        </ul>
+    }
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
