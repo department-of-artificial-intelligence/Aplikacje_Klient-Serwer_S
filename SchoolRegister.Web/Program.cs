@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.ConcreteServices;
 using SchoolRegister.Services.Configuration.AutoMapperProfiles;
+using SchoolRegister.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,11 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
+builder.Services.AddScoped<ISubjectService, SubjectService> ();
+builder.Services.AddScoped<IGradeService, GradeService> ();
+builder.Services.AddScoped<IGroupService, GroupService> ();
+builder.Services.AddScoped<IStudentService, StudentService> ();
+builder.Services.AddScoped<ITeacherService, TeacherService> ();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
