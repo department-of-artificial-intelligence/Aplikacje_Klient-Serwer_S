@@ -1,5 +1,4 @@
 namespace SchoolRegister.ViewModels.VM;
-
 public class SubjectVm
 {
     public int Id { get; set; }

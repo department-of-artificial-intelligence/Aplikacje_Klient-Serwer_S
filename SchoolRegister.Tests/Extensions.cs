@@ -156,7 +156,7 @@ namespace SchoolRegister.Tests
                 UserName = "s3@eg.eg",
                 Email = "s3@eg.eg",
                 RegistrationDate = new DateTime(2017, 07, 16),
-                GroupId = 2,
+                GroupId = 1,
                 ParentId = 3
             };
             await userManager.CreateAsync(s3, userPassword);
