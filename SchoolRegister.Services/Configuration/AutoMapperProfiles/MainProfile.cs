@@ -8,7 +8,6 @@ public class MainProfile : Profile
 {
     public MainProfile()
     {
-        // Subject -> SubjectVm
         CreateMap<Subject, SubjectVm>()
             .ForMember(dest => dest.TeacherName,
                 opt => opt.MapFrom(src =>
@@ -17,15 +16,13 @@ public class MainProfile : Profile
                         : $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
             .ForMember(dest => dest.Groups,
                 opt => opt.MapFrom(src =>
-                    src.SubjectGroups.Select(x => x.Group)));
+                    src.SubjectGroups.Select(x => x.Group)))
+            .ForMember(dest => dest.TeacherId,
+                opt => opt.MapFrom(src => src.TeacherId));
 
-        // ViewModel -> Entity
         CreateMap<AddOrUpdateSubjectVm, Subject>();
-
-        // Entity -> ViewModel
         CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
 
-        // Group -> GroupVm
         CreateMap<Group, GroupVm>()
             .ForMember(dest => dest.Students,
                 opt => opt.MapFrom(src => src.Students))
@@ -33,7 +30,6 @@ public class MainProfile : Profile
                 opt => opt.MapFrom(src =>
                     src.SubjectGroups.Select(x => x.Subject)));
 
-        // Student -> StudentVm
         CreateMap<Student, StudentVm>()
             .ForMember(dest => dest.GroupName,
                 opt => opt.MapFrom(src =>
@@ -43,5 +39,11 @@ public class MainProfile : Profile
                     src.Parent == null
                         ? null
                         : $"{src.Parent.FirstName} {src.Parent.LastName}"));
+
+        CreateMap<Teacher, TeacherVm>()
+            .ForMember(dest => dest.Subjects,
+                opt => opt.MapFrom(src => src.Subjects));
+
+        CreateMap<Grade, GradeVm>();
     }
 }

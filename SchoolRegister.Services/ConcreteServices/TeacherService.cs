@@ -74,7 +74,6 @@ namespace SchoolRegister.Services.ConcreteServices
                 var groups = teacher.Subjects
                     .SelectMany(s => s.SubjectGroups)
                     .Select(sg => sg.Group)
-                    .Distinct()
                     .ToList();
 
                 return Mapper.Map<IEnumerable<GroupVm>>(groups);

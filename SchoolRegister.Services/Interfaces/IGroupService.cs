@@ -13,12 +13,12 @@ namespace SchoolRegister.Services.Interfaces
         GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm vm);
 
         GroupVm AttachStudentToGroup(AttachDetachStudentToGroupVm vm);
-        GroupVm DetachStudentFromGroup(AttachDetachStudentToGroupVm vm);
+        StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm vm);
 
         GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm vm);
         GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm vm);
 
-        GroupVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm vm);
-        GroupVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm vm);
+        SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm vm);
+        SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm vm);
     }
 }
