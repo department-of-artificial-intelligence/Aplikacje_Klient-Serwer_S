@@ -1,0 +1,14 @@
+﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+$(document).ready(function () {
+$(".student-selected, .teacher-selected").hide();
+});
+$("#NewUserVm_RoleId").change(function (data) {
+$(".student-selected, .teacher-selected").hide(500);
+if ($(this).find(":selected").text() === "Teacher") {
+$(".teacher-selected").show(500);
+}
+if ($(this).find(":selected").text() === "Student") {
+$(".student-selected").show(500);
+}
+});
