@@ -1,0 +1,42 @@
+@model SchoolRegister.ViewModels.VM.GroupVm
+@{
+    ViewData["Title"] = "Manage Students in" + Model.Name;
+}
+<h2>Group: @Model.Name</h2>
+<hr />
+<h4>Add Student To Group</h4>
+<form asp-action="AttachStudentToGroup" method="post" class="form-inline mb-4">
+    <input type="hidden" name="groupId" value="@Model.Id" />
+    <select name="StudentId" asp-items="@ViewBag.StudentsSelectList" class="form-control mr-2">
+        <option value="">Select a student</option>
+    </select>
+    <input type="submit" value="Add Student" class="btn btn-primary" />
+</form>
+
+<h4>Students in Group</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                <td>
+                    <form asp-action="DetachStudentFromGroup" method="post" class="d-inline">
+                        <input type="hidden" name="groupId" value="@Model.Id" />
+                        <input type="hidden" name="studentId" value="@student.Id" />
+                        <input type="submit" value="Remove" class="btn btn-danger btn-sm" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div><a asp-action="Index" class="btn btn-secondary">Back to Groups</a></div>
