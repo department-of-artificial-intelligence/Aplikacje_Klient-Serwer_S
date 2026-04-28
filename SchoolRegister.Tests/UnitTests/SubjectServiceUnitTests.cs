@@ -2,6 +2,7 @@ using System.Linq;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using SchoolRegister.Tests.UnitTests;
 using Xunit;
 namespace SchoolRegister.Tests.UnitTests;
 
