@@ -1,0 +1,33 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+@{
+    ViewData["Title"] = "Students";
+}
+<h2>Students</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Group</th>
+            <th>Parent</th>
+            <th>Average Grade</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                <td>@student.GroupName</td>
+                <td>@student.ParentName</td>
+                <td>@student.AverageGrade</td>
+                <td>
+                    <a asp-action="Details" asp-route-studentId="@student.Id">Details</a> |
+                    <a asp-controller="Grade" asp-action="AddGrade" asp-route-studentId="@student.Id">Add Grade</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -19,6 +19,7 @@ public class MainProfile : Profile
     CreateMap<Group, GroupVm>()
     .ForMember(dest => dest.Students, x => x.MapFrom(src => src.Students))
     .ForMember(dest => dest.Subjects, x => x.MapFrom(src => src.SubjectGroups.Select(s => s.Subject)));
+    CreateMap<GroupVm, AddOrUpdateGroupVm>();
     CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
     CreateMap<Student, StudentVm>()
     .ForMember(dest => dest.GroupName, x => x.MapFrom(src => src.Group == null ? null : src.Group.Name))

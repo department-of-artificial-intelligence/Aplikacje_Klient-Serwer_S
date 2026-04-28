@@ -1,0 +1,28 @@
+@model SchoolRegister.ViewModels.VM.GradesReportVm
+@{
+    ViewData["Title"] = "Student Details";
+}
+<h2>@Model.StudentName - Grades Report</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Grade</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Grades != null)
+        {
+            @foreach (var grade in Model.Grades)
+            {
+                <tr>
+                    <td>@grade.SubjectName</td>
+                    <td>@grade.GradeValue</td>
+                    <td>@grade.DateOfIssue.ToShortDateString()</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<a asp-action="Index">Back to List</a>
