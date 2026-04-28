@@ -20,20 +20,22 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                if (addOrUpdateVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
+                ArgumentNullException.ThrowIfNull(addOrUpdateVm);
+
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
+
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
                     DbContext.Subjects.Add(subjectEntity);
                 else
                     DbContext.Subjects.Update(subjectEntity);
+
                 DbContext.SaveChanges();
-                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
-                return subjectVm;
+
+                return Mapper.Map<SubjectVm>(subjectEntity);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error in AddOrUpdateSubject");
                 throw;
             }
         }
@@ -41,15 +43,15 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                if (filterExpression == null)
-                    throw new ArgumentNullException($" FilterExpression is null");
+                ArgumentNullException.ThrowIfNull(filterExpression);
+
                 var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
-                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
-                return subjectVm;
+
+                return Mapper.Map<SubjectVm>(subjectEntity);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error in GetSubject");
                 throw;
             }
         }
@@ -58,14 +60,15 @@ namespace SchoolRegister.Services.ConcreteServices
             try
             {
                 var subjectEntities = DbContext.Subjects.AsQueryable();
+
                 if (filterExpression != null)
                     subjectEntities = subjectEntities.Where(filterExpression);
-                var subjectVms = Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities);
-                return subjectVms;
+
+                return Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error in GetSubjects");
                 throw;
             }
         }

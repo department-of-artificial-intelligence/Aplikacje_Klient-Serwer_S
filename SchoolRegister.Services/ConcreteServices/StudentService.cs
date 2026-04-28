@@ -16,7 +16,7 @@ namespace SchoolRegister.Services.ConcreteServices
         public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
             : base(dbContext, mapper, logger) {}
 
-        public StudentVm GetStudent(Expression<Func<Student, bool>> filter)
+        public StudentVm? GetStudent(Expression<Func<Student, bool>> filter)
         {
             try
             {

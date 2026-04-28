@@ -13,15 +13,9 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.ConcreteServices
 {
-    public class TeacherService : BaseService, ITeacherService
+    public class TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : BaseService(dbContext, mapper, logger), ITeacherService
     {
-        private readonly UserManager<User> _userManager;
-
-        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager)
-            : base(dbContext, mapper, logger)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
 
         public TeacherVm? GetTeacher(Expression<Func<Teacher, bool>> filterPredicate)
         {
@@ -38,7 +32,7 @@ namespace SchoolRegister.Services.ConcreteServices
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error in GetTeacher");
                 throw;
             }
         }
@@ -58,7 +52,7 @@ namespace SchoolRegister.Services.ConcreteServices
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error in GetTeachers");
                 throw;
             }
         }
@@ -75,7 +69,7 @@ namespace SchoolRegister.Services.ConcreteServices
                     .FirstOrDefault(t => t.Id == request.TeacherId);
 
                 if (teacher == null)
-                    return Enumerable.Empty<GroupVm>();
+                    return [];
 
                 var groups = teacher.Subjects
                     .SelectMany(s => s.SubjectGroups)
@@ -87,7 +81,7 @@ namespace SchoolRegister.Services.ConcreteServices
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error in GetTeachersGroups");
                 throw;
             }
         }

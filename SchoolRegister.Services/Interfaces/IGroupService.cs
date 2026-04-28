@@ -6,8 +6,19 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IGroupService
     {
-        GroupVm GetGroup(Expression<Func<Group, bool>> filter);
+        GroupVm? GetGroup(Expression<Func<Group, bool>> filter);
 
         IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>>? filter = null);
+    
+        GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm vm);
+
+        GroupVm AttachStudentToGroup(AttachDetachStudentToGroupVm vm);
+        GroupVm DetachStudentFromGroup(AttachDetachStudentToGroupVm vm);
+
+        GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm vm);
+        GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm vm);
+
+        GroupVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm vm);
+        GroupVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm vm);
     }
 }

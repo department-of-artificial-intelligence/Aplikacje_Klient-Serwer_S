@@ -29,7 +29,48 @@ namespace SchoolRegister.Services.ConcreteServices
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(ex, "Error while getting grades");
+                throw;
+            }
+        }
+
+        public GradeVm AddGradeToStudent(AddGradeToStudentVm vm)
+        {
+            try
+            {
+                var grade = new Grade
+                {
+                    StudentId = vm.StudentId,
+                    SubjectId = vm.SubjectId,
+                    DateOfIssue = DateTime.Now,
+                    GradeValue = vm.GradeValue
+                };
+
+                DbContext.Grades.Add(grade);
+                DbContext.SaveChanges();
+
+                return Mapper.Map<GradeVm>(grade);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error while adding grade");
+                throw;
+            }
+        }
+
+        public IEnumerable<GradeVm> GetGradesReportForStudent(GetGradesReportVm vm)
+        {
+            try
+            {
+                var grades = DbContext.Grades
+                    .Where(g => g.StudentId == vm.StudentId)
+                    .ToList();
+
+                return Mapper.Map<IEnumerable<GradeVm>>(grades);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error while getting grades report");
                 throw;
             }
         }

@@ -6,6 +6,8 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IGradeService
     {
-        IEnumerable<GradeVm> GetGrades(Expression<Func<Grade, bool>>? filter = null);
+        GradeVm AddGradeToStudent(AddGradeToStudentVm vm);
+
+        IEnumerable<GradeVm> GetGradesReportForStudent(GetGradesReportVm vm);
     }
 }
