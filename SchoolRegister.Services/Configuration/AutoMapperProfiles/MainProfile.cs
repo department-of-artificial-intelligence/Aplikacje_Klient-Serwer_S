@@ -29,7 +29,7 @@ public class MainProfile : Profile
         CreateMap<Teacher, TeacherVm>();
         CreateMap<Grade, GradeVm>()
         .ForMember(dest => dest.GradeValue, x => x.MapFrom(src => (double)src.GradeValue))
-        .ForMember(dest => dest.SubjectName, x => x.MapFrom(src => src.Subject != null ? src.Subject.Name : string.Empty ));
+        .ForMember(dest => dest.SubjectName, x => x.MapFrom(src => src.Subject != null ? src.Subject.Name : string.Empty));
 
         CreateMap<AddGradeToStudentVm, Grade>();
         CreateMap<Student, GradesReportVm>()
@@ -38,6 +38,20 @@ public class MainProfile : Profile
         .ForMember(dest => dest.GroupName, x => x.MapFrom(src => src.Group == null ? null : src.Group.Name));
 
         CreateMap<AddOrUpdateGroupVm, Group>();
+
+        CreateMap<RegisterNewUserVm, User>()
+        .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+        .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
+        CreateMap<RegisterNewUserVm, Parent>()
+        .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+        .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
+        CreateMap<RegisterNewUserVm, Student>()
+        .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+        .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
+        CreateMap<RegisterNewUserVm, Teacher>()
+        .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
+        .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now))
+        .ForMember(dest => dest.Title, y => y.MapFrom(src => src.TeacherTitles));
 
     }
 }
