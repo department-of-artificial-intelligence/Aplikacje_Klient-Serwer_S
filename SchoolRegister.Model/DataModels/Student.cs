@@ -15,7 +15,9 @@ public class Student : User
 
     public virtual IList<Grade> Grades { get; set; }
 
-    public double AverageGrade { get; }
+    public double AverageGrade => Grades != null && Grades.Any()
+    ? Math.Round(Grades.Average(g => (double)g.GradeValue), 2)
+    : 0;
     public IDictionary<string, double> AverageGradePerSubject { get; } = new Dictionary<string, double>();
     public IDictionary<string, List<GradeScale>> GradesPerSubject { get; } = new Dictionary<string, List<GradeScale>>();
 

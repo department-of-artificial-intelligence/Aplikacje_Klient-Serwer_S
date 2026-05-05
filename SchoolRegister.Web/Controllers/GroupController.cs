@@ -55,6 +55,60 @@ public class GroupController : BaseController
     return View();
   }
 
+  [HttpGet]
+  [Authorize(Roles = "Admin")]
+  public IActionResult AttachSubjectToGroup(int subjectId)
+  {
+    var groups = _groupService.GetGroups();
+    ViewBag.GroupsSelectList = new SelectList(groups.Select(g => new
+    {
+      Text = g.Name,
+      Value = g.Id
+    }), "Value", "Text");
+    ViewBag.SubjectId = subjectId;
+    return View();
+  }
+
+  [HttpPost]
+  [ValidateAntiForgeryToken]
+  [Authorize(Roles = "Admin")]
+  public IActionResult AttachSubjectToGroup(AttachDetachSubjectGroupVm vm)
+  {
+    if (ModelState.IsValid)
+    {
+      _groupService.AttachSubjectToGroup(vm);
+      return RedirectToAction("Index", "Subject");
+    }
+    return View();
+  }
+
+  [HttpGet]
+  [Authorize(Roles = "Admin")]
+  public IActionResult DetachSubjectToGroup(int subjectId)
+  {
+    var groups = _groupService.GetGroups();
+    ViewBag.GroupsSelectList = new SelectList(groups.Select(g => new
+    {
+      Text = g.Name,
+      Value = g.Id
+    }), "Value", "Text");
+    ViewBag.SubjectId = subjectId;
+    return View();
+  }
+
+  [HttpPost]
+  [ValidateAntiForgeryToken]
+  [Authorize(Roles = "Admin")]
+  public IActionResult DetachSubjectToGroup(AttachDetachSubjectGroupVm vm)
+  {
+    if (ModelState.IsValid)
+    {
+      _groupService.DetachSubjectFromGroup(vm);
+      return RedirectToAction("Index", "Subject");
+    }
+    return View();
+  }
+
   [HttpPost]
   [ValidateAntiForgeryToken]
   [Authorize(Roles = "Admin")]
