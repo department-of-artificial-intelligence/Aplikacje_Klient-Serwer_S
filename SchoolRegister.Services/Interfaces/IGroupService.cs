@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using DataModels;
+using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces
@@ -13,8 +11,9 @@ namespace SchoolRegister.Services.Interfaces
         GroupVm AttachSubjectToGroup(AttachDetachSubjectGroupVm attachSubjectGroupVm);
         SubjectVm AttachTeacherToSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm);
         StudentVm DetachStudentFromGroup(AttachDetachStudentToGroupVm detachStudentToGroupVm);
-        GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachSubjectGroupVm);
+        GroupVm DetachSubjectFromGroup(AttachDetachSubjectGroupVm detachDetachSubjectVm);
         SubjectVm DetachTeacherFromSubject(AttachDetachSubjectToTeacherVm attachDetachSubjectToTeacherVm);
+
         GroupVm GetGroup(Expression<Func<Group, bool>> filterPredicate);
         IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filterPredicate = null);
     }

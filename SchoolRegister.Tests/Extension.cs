@@ -15,33 +15,16 @@ namespace SchoolRegister.Tests
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<Role>>();
             // Roles
-            var teacherRole = new Role()
-            {
-                Id = 3,
-                Name = "Teacher",
-                RoleValue = RoleValue.Teacher
-            };
+            var teacherRole = new Role("Teacher", RoleValue.Teacher) { Id = 3 };
             await roleManager.CreateAsync(teacherRole);
-            var studentRole = new Role()
-            {
-                Id = 1,
-                Name = "Student",
-                RoleValue = RoleValue.Student
-            };
+            
+            var studentRole = new Role("Student", RoleValue.Student) { Id = 1 };
             await roleManager.CreateAsync(studentRole);
-            var parentRole = new Role()
-            {
-                Id = 2,
-                Name = "Parent",
-                RoleValue = RoleValue.Parent
-            };
+
+            var parentRole = new Role("Parent", RoleValue.Parent) { Id = 2 };
             await roleManager.CreateAsync(parentRole);
-            var adminRole = new Role()
-            {
-                Id = 4,
-                Name = "Admin",
-                RoleValue = RoleValue.Admin
-            };
+
+            var adminRole = new Role("Admin", RoleValue.Admin) { Id = 4 };
             await roleManager.CreateAsync(adminRole);
             // Groups
             var groupIo = new Group()
