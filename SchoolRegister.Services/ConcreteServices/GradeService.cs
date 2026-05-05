@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 
@@ -16,12 +16,23 @@ namespace SchoolRegister.Services.ConcreteServices
         {
         }
 
-        public GradeVm AddGradeToStudent()
+        public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
-            throw new NotImplementedException();
+            if (addGradeToStudentVm == null) throw new ArgumentNullException(nameof(addGradeToStudentVm));
+
+            // Mapujemy VM na model danych
+            var grade = _mapper.Map<Grade>(addGradeToStudentVm);
+            grade.DateOfIssue = DateTime.Now;
+
+            // Dodajemy do bazy
+            _dbContext.Grades.Add(grade);
+            _dbContext.SaveChanges();
+
+            // Zwracamy zmapowany wynik
+            return _mapper.Map<GradeVm>(grade);
         }
 
-        public GradesReportVm GetGradesReportForStudent()
+        public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {
             throw new NotImplementedException();
         }

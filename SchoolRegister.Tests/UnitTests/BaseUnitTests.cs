@@ -1,11 +1,13 @@
 using SchoolRegister.DAL.EF;
-namespace SchoolRegister.Tests.UnitTests;
-
-public abstract class BaseUnitTests
+namespace SchoolRegister.Tests.UnitTests
 {
-    protected readonly ApplicationDbContext DbContext = null!;
-    public BaseUnitTests(ApplicationDbContext dbContext)
+
+    public abstract class BaseUnitTests
     {
-        DbContext = dbContext;
+        protected readonly ApplicationDbContext DbContext = null!;
+        public BaseUnitTests(ApplicationDbContext dbContext)
+        {
+            DbContext = dbContext;
+        }
     }
 }

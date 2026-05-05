@@ -8,7 +8,7 @@ public class Subject
 
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
     public virtual IList<SubjectGroup> SubjectGroups { get; set; } = new List<SubjectGroup>();
     public virtual Teacher Teacher { get; set; } = null!;
     public int? TeacherId { get; set; }
