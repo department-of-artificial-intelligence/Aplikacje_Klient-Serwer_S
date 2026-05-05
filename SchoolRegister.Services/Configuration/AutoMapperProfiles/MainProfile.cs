@@ -38,7 +38,9 @@ public class MainProfile : Profile
                 opt => opt.MapFrom(src =>
                     src.Parent == null
                         ? null
-                        : $"{src.Parent.FirstName} {src.Parent.LastName}"));
+                        : $"{src.Parent.FirstName} {src.Parent.LastName}"))
+            .ForMember(dest => dest.Email,
+                opt => opt.MapFrom(src => src.Email));
 
         CreateMap<Teacher, TeacherVm>()
             .ForMember(dest => dest.Subjects,

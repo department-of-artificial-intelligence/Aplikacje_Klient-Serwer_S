@@ -62,6 +62,10 @@ public class SubjectController : BaseController
     public IActionResult Details(int id)
     {
         var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+
+        if (subjectVm == null)
+            return NotFound();
+
         return View(subjectVm);
     }
     [HttpPost]

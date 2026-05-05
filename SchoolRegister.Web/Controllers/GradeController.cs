@@ -32,7 +32,15 @@ public class GradeController : Controller
     [Authorize(Roles = "Teacher")]
     public IActionResult AddGrade()
     {
-        ViewBag.Students = new SelectList(_studentService.GetStudents(), "Id", "FirstName");
+        ViewBag.Students = new SelectList(_studentService.GetStudents()
+            .Select(s => new
+            {
+                Id = s.Id,
+                FullName = s.FirstName + " " + s.LastName
+            }),
+        "Id",
+        "FullName"
+        );
         ViewBag.Subjects = new SelectList(_subjectService.GetSubjects(), "Id", "Name");
 
         return View();
@@ -61,13 +69,14 @@ public class GradeController : Controller
 
         if (user is Student student)
         {
+            ViewBag.Title = "My Grades";
+
             var vm = new GetGradesReportVm
             {
                 StudentId = student.Id
             };
 
-            var grades = _gradeService.GetGradesReportForStudent(vm);
-            return View(grades);
+            return View(_gradeService.GetGradesReportForStudent(vm));
         }
 
         if (user is Parent parent)
@@ -76,16 +85,17 @@ public class GradeController : Controller
 
             if (child != null)
             {
+                ViewBag.Title = "Child Grades";
+
                 var vm = new GetGradesReportVm
                 {
                     StudentId = child.Id
                 };
 
-                var grades = _gradeService.GetGradesReportForStudent(vm);
-                return View(grades);
+                return View(_gradeService.GetGradesReportForStudent(vm));
             }
         }
 
-        return View("Error");
+        return RedirectToAction("Index", "Home");
     }
 }

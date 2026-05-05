@@ -16,6 +16,8 @@ public class StudentVm
 
     public string UserName { get; set; } = null!;
 
+    public string? Email { get; set; }
+
     public IDictionary<string, double> AverageGradePerSubject { get; set; } = null!;
     public IDictionary<string, List<GradeScale>> GradesPerSubject { get; set; } = null!;
 }
