@@ -1,0 +1,47 @@
+@using SchoolRegister.ViewModels.VM
+@model IEnumerable<GroupVm>
+
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<h2>Groups</h2>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="AddOrEditGroup" class="btn btn-primary">+ New Group</a>
+    </p>
+}
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Students</th>
+            <th>Subjects</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@(item.Students?.Count() ?? 0)</td>
+                <td>@(item.Subjects?.Count() ?? 0)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="AddOrEditGroup" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="AttachStudentToGroup" asp-route-groupId="@item.Id" class="btn btn-sm btn-success">+
+                            Student</a>
+                            <a asp-action="DetachStudentFromGroup" asp-route-groupId="@item.Id" class="btn btn-sm btn-danger">-
+                                Student</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>

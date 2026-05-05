@@ -1,0 +1,71 @@
+@using SchoolRegister.ViewModels.VM
+@model GroupVm
+
+@{
+    ViewData["Title"] = "Group Details";
+}
+
+<h2>Group: @Model.Name</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Students</h4>
+        @if (Model.Students != null && Model.Students.Any())
+        {
+            <table class="table table-sm table-bordered">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Avg Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model.Students)
+                    {
+                        <tr>
+                            <td>@s.FirstName</td>
+                            <td>@s.LastName</td>
+                            <td>@s.AverageGrade.ToString("F2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No students in this group.</p>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h4>Subjects</h4>
+        @if (Model.Subjects != null && Model.Subjects.Any())
+        {
+            <ul class="list-group">
+                @foreach (var subj in Model.Subjects)
+                {
+                    <li class="list-group-item">
+                        @subj.Name <span class="text-muted small">— @subj.TeacherName</span>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="text-muted">No subjects assigned.</p>
+        }
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">← Back to list</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="AddOrEditGroup" asp-route-id="@Model.Id" class="btn btn-warning ms-2">Edit</a>
+        <a asp-action="AttachStudentToGroup" asp-route-groupId="@Model.Id" class="btn btn-success ms-2">+ Add Student</a>
+        <a asp-action="DetachStudentFromGroup" asp-route-groupId="@Model.Id" class="btn btn-danger ms-2">- Remove
+            Student</a>
+        }
+    </div>
