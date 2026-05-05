@@ -18,6 +18,7 @@
                     <td>@student.FirstName @student.LastName</td>
                     <td>@(student.GroupName ?? "Brak grupy")</td>
                     <td>
+                        <a asp-controller="Grade" asp-action="StudentGradesReport" asp-route-studentId="@student.Id" class="btn btn-success btn-sm">Oceny</a>
                         <a asp-action="AttachToGroup" asp-route-studentId="@student.Id" class="btn btn-primary btn-sm">Zmień grupę</a>
                         
                         @if (!string.IsNullOrEmpty(student.GroupName))

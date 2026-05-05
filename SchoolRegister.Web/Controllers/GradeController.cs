@@ -21,7 +21,7 @@ namespace SchoolRegister.Web.Controllers
         private readonly ISubjectService _subjectService;
         private readonly UserManager<User> _userManager;
 
-        public GradeController(IGradeService gradeService, IStudentService studentService, ISubjectService subjectService, UserManager<User> userManager, ILogger<GradeController> logger, IMapper mapper, IStringLocalizer<BaseController> localizer) 
+        public GradeController(IGradeService gradeService, IStudentService studentService, ISubjectService subjectService, UserManager<User> userManager, ILogger<GradeController> logger, IMapper mapper, IStringLocalizer<BaseController> localizer)
             : base(logger, mapper, localizer)
         {
             _gradeService = gradeService;
@@ -65,7 +65,7 @@ namespace SchoolRegister.Web.Controllers
                 _gradeService.AddGradeToStudent(vm);
                 return RedirectToAction(nameof(StudentGradesReport), new { studentId = vm.StudentId });
             }
-            
+
             ViewBag.SubjectsSelectList = new SelectList(_subjectService.GetSubjects(s => s.TeacherId == vm.TeacherId), "Id", "Name");
             ViewBag.GradeValues = new SelectList(Enum.GetValues(typeof(GradeScale)));
             return View(vm);
@@ -73,20 +73,28 @@ namespace SchoolRegister.Web.Controllers
 
         [Authorize(Roles = "Student, Parent, Teacher, Admin")]
         [HttpGet]
-        public IActionResult StudentGradesReport(int studentId)
+        public IActionResult StudentGradesReport(int? studentId)
         {
             var user = _userManager.GetUserAsync(User).Result;
-            
-            var getGradesVm = new GetGradesReportVm 
-            { 
-                StudentId = studentId, 
-                GetterUserId = user.Id 
-            };
+            if (studentId.HasValue)
+            {
+                var getGradesVm = new GetGradesReportVm { StudentId = studentId.Value, GetterUserId = user.Id };
+                var report = _gradeService.GetGradesReportForStudent(getGradesVm);
+                return View(report);
+            }
+            if (User.IsInRole("Parent"))
+            {
+                var children = _studentService.GetStudents(s => s.ParentId == user.Id);
 
-            var report = _gradeService.GetGradesReportForStudent(getGradesVm);
-            if (report == null) return NotFound();
-
-            return View(report);
+                if (children.Count() == 0) return NotFound("Nie masz przypisanych dzieci.");
+                if (children.Count() == 1)
+                {
+                    var singleChildId = children.First().Id;
+                    return RedirectToAction(nameof(StudentGradesReport), new { studentId = singleChildId });
+                }
+                return View("PickChild", children);
+            }
+            return RedirectToAction(nameof(StudentGradesReport), new { studentId = user.Id });
         }
     }
 }

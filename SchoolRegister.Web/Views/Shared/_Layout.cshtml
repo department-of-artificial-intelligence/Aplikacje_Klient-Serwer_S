@@ -24,30 +24,42 @@
                         @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Subject"
-                                   asp-action="Index">Subjects</a>
+                                <a class="nav-link text-dark" asp-controller="Group" asp-action="Index">Groups</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Subject" asp-action="Index">Subjects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index">Students</a>
                             </li>
                         }
-                    </ul>
-                    <partial name="_LoginPartial" />
+                        @if (User.IsInRole("Student") || User.IsInRole("Parent"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Grade" asp-action="StudentGradesReport">Grades</a>
+                                </li>
+                            }
+
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="border-top footer text-muted">
+            </nav>
+        </header>
         <div class="container">
-            &copy; 2022 - SchoolRegister.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2022 - SchoolRegister.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 
 </html>

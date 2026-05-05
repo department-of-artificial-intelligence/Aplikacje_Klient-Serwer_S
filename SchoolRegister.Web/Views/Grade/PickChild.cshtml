@@ -1,0 +1,16 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+@{
+    ViewData["Title"] = "Wybierz dziecko";
+}
+
+<h2>Twoje dzieci</h2>
+<p>Wybierz dziecko, którego oceny chcesz zobaczyć:</p>
+
+<div class="list-group">
+    @foreach (var child in Model)
+    {
+        <a asp-action="StudentGradesReport" asp-route-studentId="@child.Id" class="list-group-item list-group-item-action">
+            @child.FirstName @child.LastName
+        </a>
+    }
+</div>

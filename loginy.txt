@@ -1,0 +1,15 @@
+Admin:
+a1@eg.eg
+User1234
+
+Student:
+s1@eg.eg
+User1234
+
+Rodzic:
+p1@eg.eg
+User1234
+
+Nauczyciel:
+t1@eg.eg
+User1234
