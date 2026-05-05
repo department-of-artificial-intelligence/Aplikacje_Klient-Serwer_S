@@ -22,8 +22,19 @@
                         @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Subject"
-                                asp-action="Index">Subjects</a>
+                                <a class="nav-link text-dark" asp-controller="Subject" asp-action="Index">Subjects</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Group" asp-action="Index">Groups</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index">Students</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Grade" asp-action="AddGrade">Add Grade</a>
                             </li>
                         }
                     </ul>

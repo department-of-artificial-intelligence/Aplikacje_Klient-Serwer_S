@@ -51,10 +51,18 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
+
                     <a asp-controller="Group" asp-action="AttachSubjectToGroup"
-                       asp-route-subjectId="@item.Id">Attach Subject to Group</a> @:|
+                    asp-route-subjectId="@item.Id"
+                    asp-route-groupId="1">
+                    Attach Subject to Group
+                    </a> @:|
+
                     <a asp-controller="Group" asp-action="DetachSubjectToGroup"
-                       asp-route-subjectId="@item.Id">Detach Subject from Group</a> @:|
+                    asp-route-subjectId="@item.Id"
+                    asp-route-groupId="1">
+                    Detach Subject from Group
+                    </a> @:|
                 }
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>

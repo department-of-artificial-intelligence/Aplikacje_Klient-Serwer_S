@@ -1,0 +1,23 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.GradeVm>
+
+<h2>My Grades</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Grade</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>@item.SubjectId</td>
+            <td>@item.Value</td>
+            <td>@item.DateOfIssue.ToShortDateString()</td>
+        </tr>
+}
+    </tbody>
+</table>
