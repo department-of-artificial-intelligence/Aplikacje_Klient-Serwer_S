@@ -1,74 +1,144 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Web.Controllers;
 
-[Authorize(Roles = "Teacher, Admin, Student")]
-public class GroupController : BaseController
+public class GroupController : Controller
 {
     private readonly IGroupService _groupService;
+    private readonly IStudentService _studentService;
+    private readonly ISubjectService _subjectService;
 
-    public GroupController(
-        IGroupService groupService,
-        IStringLocalizer localizer,
-        ILogger logger,
-        IMapper mapper) : base(logger, mapper, localizer)
+    public GroupController(IGroupService groupService, IStudentService studentService, ISubjectService subjectService)
     {
         _groupService = groupService;
+        _studentService = studentService;
+        _subjectService = subjectService;
     }
+
+    // ─── GROUPS ────────────────────────────────────────────────
 
     public IActionResult Index()
     {
-        return View(_groupService.GetGroups());
+        var groups = _groupService.GetGroups();
+        return View(groups);
     }
 
     public IActionResult Details(int id)
     {
-        var groupVm = _groupService.GetGroup(x => x.Id == id);
-        if (groupVm == null)
-            return View("Error");
+        var group = _groupService.GetGroup(g => g.Id == id);
+        if (group == null) return NotFound();
 
-        return View(groupVm);
+        var studentsInGroup = group.Students?.Select(s => s.Id).ToHashSet() ?? new HashSet<int>();
+        ViewBag.AvailableStudents = _studentService.GetStudents()
+            .Where(s => !studentsInGroup.Contains(s.Id))
+            .Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = $"{s.FirstName} {s.LastName}"
+            }).ToList();
+
+        var subjectsInGroup = group.Subjects?.Select(s => s.Id).ToHashSet() ?? new HashSet<int>();
+        ViewBag.AvailableSubjects = _subjectService.GetSubjects()
+            .Where(s => !subjectsInGroup.Contains(s.Id))
+            .Select(s => new SelectListItem
+            {
+                Value = s.Id.ToString(),
+                Text = s.Name
+            }).ToList();
+
+        return View(group);
     }
 
+    // ─── ADD / EDIT GROUP ──────────────────────────────────────
+
     [HttpGet]
-    [Authorize(Roles = "Admin")]
-    public IActionResult AddOrEditGroup(int? id = null)
+    public IActionResult AddOrEditGroup(int? id)
     {
-        if (id.HasValue)
+        if (id == null)
         {
-            var groupVm = _groupService.GetGroup(x => x.Id == id.Value);
-            if (groupVm == null)
-                return View("Error");
-
-            ViewBag.ActionType = "Edit";
-            return View(new AddOrUpdateGroupVm
-            {
-                Id = groupVm.Id,
-                Name = groupVm.Name
-            });
+            ViewBag.ActionType = "Add";
+            return View(new AddOrUpdateGroupVm());
         }
-
-        ViewBag.ActionType = "Add";
-        return View(new AddOrUpdateGroupVm());
+        var group = _groupService.GetGroup(g => g.Id == id);
+        if (group == null) return NotFound();
+        ViewBag.ActionType = "Edit";
+        return View(new AddOrUpdateGroupVm { Id = group.Id, Name = group.Name });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public IActionResult AddOrEditGroup(AddOrUpdateGroupVm vm)
     {
-        if (!ModelState.IsValid)
-        {
-            ViewBag.ActionType = vm.Id == 0 ? "Add" : "Edit";
-            return View(vm);
-        }
-
+        if (!ModelState.IsValid) return View(vm);
         _groupService.AddOrUpdateGroup(vm);
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index");
+    }
+
+    // ─── STUDENTS ──────────────────────────────────────────────
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AddStudentToGroup(AttachDetachStudentToGroupVm vm)
+    {
+        _groupService.AttachStudentToGroup(vm);
+        return RedirectToAction("Details", new { id = vm.GroupId });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult RemoveStudentFromGroup(AttachDetachStudentToGroupVm vm)
+    {
+        _groupService.DetachStudentFromGroup(vm);
+        return RedirectToAction("Details", new { id = vm.GroupId });
+    }
+
+    // ─── SUBJECTS ──────────────────────────────────────────────
+
+    [HttpGet]
+    public IActionResult AttachSubjectToGroup(int subjectId)
+    {
+        var groups = _groupService.GetGroups();
+        ViewBag.GroupList = groups.Select(g => new SelectListItem
+        {
+            Value = g.Id.ToString(),
+            Text = g.Name
+        }).ToList();
+        ViewBag.SubjectId = subjectId;
+        ViewBag.ActionType = "Attach";
+        return View("AttachDetachSubjectToGroup");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AddSubjectToGroup(AttachDetachSubjectGroupVm vm)
+    {
+        _groupService.AttachSubjectToGroup(vm);
+        return RedirectToAction("Index", "Subject");
+    }
+
+    [HttpGet]
+    public IActionResult DetachSubjectToGroup(int subjectId)
+    {
+        var groups = _groupService.GetGroups(g =>
+            g.SubjectGroups != null && g.SubjectGroups.Any(sg => sg.SubjectId == subjectId));
+        ViewBag.GroupList = groups.Select(g => new SelectListItem
+        {
+            Value = g.Id.ToString(),
+            Text = g.Name
+        }).ToList();
+        ViewBag.SubjectId = subjectId;
+        ViewBag.ActionType = "Detach";
+        return View("AttachDetachSubjectToGroup");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult RemoveSubjectFromGroup(AttachDetachSubjectGroupVm vm)
+    {
+        _groupService.DetachSubjectFromGroup(vm);
+        return RedirectToAction("Index", "Subject");
     }
 }

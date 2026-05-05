@@ -1,0 +1,48 @@
+@model SchoolRegister.ViewModels.VM.AddGradeToStudentVm
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using SchoolRegister.Model.DataModels
+
+@{
+    ViewData["Title"] = "Add Grade";
+}
+
+<h2>Wystaw ocenę</h2>
+
+@if (ViewBag.Student != null)
+{
+    <p class="text-muted">
+        Student: <strong>@ViewBag.Student.FirstName @ViewBag.Student.LastName</strong>
+    </p>
+}
+
+<form asp-action="AddGrade" method="post">
+    @Html.AntiForgeryToken()
+    <input asp-for="StudentId" type="hidden" />
+    <input asp-for="TeacherId" type="hidden" />
+
+    <div class="mb-3">
+        <label asp-for="SubjectId" class="form-label">Przedmiot</label>
+        <select asp-for="SubjectId" class="form-select"
+                asp-items="@(ViewBag.SubjectList as IEnumerable<SelectListItem>)">
+            <option value="">-- Wybierz przedmiot --</option>
+        </select>
+        <span asp-validation-for="SubjectId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GradeValue" class="form-label">Ocena</label>
+        <select asp-for="GradeValue" class="form-select"
+                asp-items="@(ViewBag.GradeList as IEnumerable<SelectListItem>)">
+            <option value="">-- Wybierz ocenę --</option>
+        </select>
+        <span asp-validation-for="GradeValue" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Wystaw ocenę</button>
+    <a asp-controller="Student" asp-action="Details"
+       asp-route-id="@Model.StudentId" class="btn btn-secondary">Anuluj</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

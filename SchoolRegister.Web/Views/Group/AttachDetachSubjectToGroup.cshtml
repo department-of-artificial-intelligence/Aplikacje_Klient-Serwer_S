@@ -1,0 +1,40 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    bool isAttach = ViewBag.ActionType == "Attach";
+    ViewData["Title"] = isAttach ? "Attach Subject to Group" : "Detach Subject from Group";
+    string postAction = isAttach ? "AddSubjectToGroup" : "RemoveSubjectFromGroup";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (ViewBag.GroupList != null && ((IEnumerable<SelectListItem>)ViewBag.GroupList).Any())
+{
+    <form asp-action="@postAction" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="SubjectId" value="@ViewBag.SubjectId" />
+
+        <div class="mb-3">
+            <label class="form-label">
+                @(isAttach ? "Wybierz grupę do przypisania" : "Wybierz grupę do odpięcia")
+            </label>
+            <select name="GroupId" class="form-select">
+                @foreach (var g in (IEnumerable<SelectListItem>)ViewBag.GroupList)
+                {
+                    <option value="@g.Value">@g.Text</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn @(isAttach ? "btn-success" : "btn-danger")">
+            @(isAttach ? "Attach" : "Detach")
+        </button>
+        <a asp-controller="Subject" asp-action="Index" class="btn btn-secondary">Back</a>
+    </form>
+}
+else
+{
+    <p class="text-muted">
+        @(isAttach ? "Brak dostępnych grup." : "Ten przedmiot nie jest przypisany do żadnej grupy.")
+    </p>
+    <a asp-controller="Subject" asp-action="Index" class="btn btn-secondary">Back</a>
+}

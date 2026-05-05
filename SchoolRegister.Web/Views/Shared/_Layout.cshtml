@@ -27,14 +27,30 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Subject"
                                    asp-action="Index">Subjects</a>
                             </li>
-
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Group"
                                    asp-action="Index">Groups</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Student"
-                                   asp-action="Index">Students</a> </li>
+                                   asp-action="Index">Students</a>
+                            </li>
+                        }
+
+                        @* ─── DODANE ─── *@
+                        @if (User.IsInRole("Student"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Student"
+                                   asp-action="Index">Moje oceny</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Parent"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Grade"
+                                   asp-action="GradesReport">Oceny dzieci</a>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
