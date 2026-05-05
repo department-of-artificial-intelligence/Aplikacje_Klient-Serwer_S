@@ -19,12 +19,45 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @*  *@
+                        @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Index">Subjects</a>
+                            </li>
+                        }
+                        
+                        @*  *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Group" asp-action="Index">Groups</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Subject" asp-action="Index">Subjects</a>
+    </li>
+    <li class="nav-item">
+        @*  *@
+        <a class="nav-link text-dark" asp-area="" asp-controller="Grade" asp-action="AddGrade">Add Grade</a>
+    </li>
+}
+@if (User.IsInRole("Student"))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">My Grades</a>
+    </li>
+}
+
+@if (User.IsInRole("Parent"))
+{
+    <li class="nav-item">
+        @*  *@
+        <a class="nav-link text-dark" asp-area="" asp-controller="Student" asp-action="Index">Child's Grades</a>
+    </li>
+}
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

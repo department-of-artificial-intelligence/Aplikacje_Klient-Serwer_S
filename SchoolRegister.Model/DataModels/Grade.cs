@@ -12,4 +12,9 @@ public class Grade
     
     public int StudentId { get; set; }
     public virtual Student Student { get; set; } = null!;
+
+    public static explicit operator int(Grade v)
+    {
+        throw new NotImplementedException();
+    }
 }
