@@ -45,7 +45,7 @@ public class MainProfile : Profile
         .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
         .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now))
         .ForMember(dest => dest.Title, y => y.MapFrom(src => src.TeacherTitles));
-        
+        CreateMap<GroupVm, AddOrUpdateGroupVm>();
     }
 }
 

@@ -28,7 +28,7 @@ namespace SchoolRegister.Web.Controllers
         }
 
 
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher, Admin")]
         [HttpGet]
         public IActionResult AddGrade(int studentId)
         {
@@ -38,35 +38,52 @@ namespace SchoolRegister.Web.Controllers
             return View(new AddGradeToStudentVm { StudentId = studentId });
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Teacher")]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddGrade(AddGradeToStudentVm model)
-        {
-            if (ModelState.IsValid)
-            {
-                _gradeService.AddGradeToStudent(model);
-                return RedirectToAction("Index", "Student");
-            }
+[HttpPost]
+[Authorize(Roles = "Teacher,Admin")] 
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> AddGrade(AddGradeToStudentVm model)
+{
+    ModelState.Remove("TeacherId"); 
 
-            ViewBag.SubjectsSelectList = new SelectList(_subjectService.GetSubjects(), "Id", "Name");
-            return View(model);
-        }
-        [Authorize(Roles = "Student, Parent")]
-        public IActionResult MyGrades(int? studentId)
-        {
-            var user = _userManager.GetUserAsync(User).Result;
-            int targetStudentId = studentId ?? 0;
+    if (ModelState.IsValid)
+    {
+     
+        var user = await _userManager.GetUserAsync(User);
+        model.TeacherId = user.Id;
 
-            if (User.IsInRole("Student"))
-            {
-                targetStudentId = user.Id;
-            }
+        // 3. Zapisujemy
+        _gradeService.AddGradeToStudent(model);
+        return RedirectToAction("Index", "Student"); 
+    }
 
-            var reportVm = new GetGradesReportVm { StudentId = targetStudentId };
-            var grades = _gradeService.GetGradesReportForStudent(reportVm);
+  
+    ViewBag.SubjectsSelectList = new SelectList(_subjectService.GetSubjects(), "Id", "Name");
+    return View(model);
+}
 
-            return View(grades);
-        }
+[Authorize(Roles = "Student,Parent,Teacher,Admin")] 
+[HttpGet]
+
+public async Task<IActionResult> MyGrades(int? studentId) 
+{
+    var user = await _userManager.GetUserAsync(User);
+    
+    int targetStudentId = studentId ?? 0;
+
+    if (User.IsInRole("Student"))
+    {
+        targetStudentId = user.Id;
+    }
+
+    var reportVm = new GetGradesReportVm 
+    { 
+        StudentId = targetStudentId,
+        GetterUserId = user.Id 
+    };
+    
+    var grades = _gradeService.GetGradesReportForStudent(reportVm);
+
+    return View(grades);
+}
     }
 }

@@ -1,20 +1,32 @@
-@model IEnumerable<SchoolRegister.ViewModels.VM.GradeVm>
+@model SchoolRegister.ViewModels.VM.GradesReportVm
+
 @{
-    ViewData["Title"] = "My Grades";
+    ViewData["Title"] = "Moje Oceny";
 }
-<h2>My Grades</h2>
-<table class="table">
+
+<h2>Raport Ocen</h2>
+<hr />
+
+<div>
+    <h4>Uczeń: @Model.StudentFullName</h4>
+    <h5>Grupa: @Model.GroupName</h5>
+    <h5>Średnia ocen: <span class="badge bg-success">@Model.AverageGrade</span></h5>
+</div>
+
+<br />
+
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Subject</th>
-            <th>Grade</th>
-            <th>Date</th>
+            <th>Przedmiot</th>
+            <th>Ocena</th>
+            <th>Data</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model != null && Model.Any())
+        @if (Model != null && Model.Grades != null && Model.Grades.Any())
         {
-            foreach (var grade in Model)
+            foreach (var grade in Model.Grades)
             {
                 <tr>
                     <td>@grade.SubjectName</td>
@@ -26,7 +38,7 @@
         else
         {
             <tr>
-                <td colspan="3">No grades available.</td>
+                <td colspan="3" class="text-center text-muted">Brak ocen.</td>
             </tr>
         }
     </tbody>

@@ -61,8 +61,10 @@ public class SubjectController : BaseController
     }
     public IActionResult Details(int id)
     {
-        var subjectVm = _subjectService.GetSubject(x => x.Id == id);
-        return View(subjectVm);
+   
+    var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+    
+    return View(subjectVm);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]

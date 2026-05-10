@@ -22,27 +22,26 @@ namespace SchoolRegister.Services.ConcreteServices
         }
 
 
-        public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
-        {
+       public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
+{
+    var user = DbContext.Users.FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
+    
+    if (user == null) return null;
 
-            var teacher = DbContext.Users.OfType<Teacher>()
-            .FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
+  
+    var isTeacher = _userManager.IsInRoleAsync(user, "Teacher").GetAwaiter().GetResult();
+    var isAdmin = _userManager.IsInRoleAsync(user, "Admin").GetAwaiter().GetResult();
 
-            if (teacher == null) return null;
+   
+    if (!isTeacher && !isAdmin) return null; 
+    var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
+    gradeEntity.DateOfIssue = DateTime.Now;
 
+    DbContext.Grades.Add(gradeEntity);
+    DbContext.SaveChanges();
 
-            var isTeacher = _userManager.IsInRoleAsync(teacher, "Teacher").GetAwaiter().GetResult();
-            if (!isTeacher) return null;
-
-
-            var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
-            gradeEntity.DateOfIssue = DateTime.Now;
-
-            DbContext.Grades.Add(gradeEntity);
-            DbContext.SaveChanges();
-
-            return Mapper.Map<GradeVm>(gradeEntity);
-        }
+    return Mapper.Map<GradeVm>(gradeEntity);
+}
 
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {

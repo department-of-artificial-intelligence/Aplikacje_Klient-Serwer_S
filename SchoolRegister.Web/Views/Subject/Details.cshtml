@@ -1,0 +1,39 @@
+@model SchoolRegister.ViewModels.VM.SubjectVm
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details for @Model.Name</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+
+        <dt class="col-sm-2">Teacher</dt>
+        <dd class="col-sm-10">@Model.TeacherName</dd>
+
+        <dt class="col-sm-2">Assigned Groups</dt>
+        <dd class="col-sm-10">
+            @if (Model.Groups != null && Model.Groups.Any())
+            {
+                <ul>
+                    @foreach (var group in Model.Groups)
+                    {
+                        <li>@group.Name</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span class="text-muted">No groups assigned to this subject.</span>
+            }
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

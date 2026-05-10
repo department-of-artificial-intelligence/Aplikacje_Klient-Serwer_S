@@ -14,10 +14,13 @@ public class GroupController : BaseController
 {
     private readonly IGroupService _groupService;
     private readonly IStudentService _studentService;
-    public GroupController(IGroupService groupService, IStudentService studentService, ILogger<GroupController> logger, IMapper mapper, IStringLocalizer<BaseController> localizer) : base(logger, mapper, localizer)
+
+    private readonly ISubjectService _subjectService;
+    public GroupController(IGroupService groupService, IStudentService studentService, ISubjectService subjectService, ILogger<GroupController> logger, IMapper mapper, IStringLocalizer<BaseController> localizer) : base(logger, mapper, localizer)
     {
         _groupService = groupService;
         _studentService = studentService;
+        _subjectService = subjectService;
     }
     public IActionResult Index()
     {
@@ -60,18 +63,65 @@ public class GroupController : BaseController
         }), "Value", "Text");
         return View(groupVm);
     }
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult AttachStudentToGroup(AttachDetachStudentToGroupVm model)
+
+[HttpGet]
+public IActionResult AttachSubjectToGroup(int subjectId)
+{
+    var subjectVm = _subjectService.GetSubject(x => x.Id == subjectId);
+
+    var allGroups = _groupService.GetGroups();
+
+    var assignedGroupIds = subjectVm.Groups.Select(g => g.Id).ToList();
+
+    var availableGroups = allGroups.Where(g => !assignedGroupIds.Contains(g.Id)).ToList();
+    
+    ViewBag.GroupsSelectList = new SelectList(availableGroups, "Id", "Name");
+
+    var model = new AttachDetachSubjectGroupVm { SubjectId = subjectId };
+    return View(model);
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult AttachSubjectToGroup(AttachDetachSubjectGroupVm model)
+{
+    if (ModelState.IsValid)
     {
-        _groupService.AttachStudentToGroup(model);
-        return RedirectToAction("Details", new { id = model.GroupId });
+        _groupService.AttachSubjectToGroup(model);
+        return RedirectToAction("Index", "Subject"); 
     }
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult DetachStudentFromGroup(AttachDetachStudentToGroupVm model)
+    return View(model);
+}
+
+[HttpGet]
+public IActionResult DetachSubjectToGroup(int subjectId) 
+{
+    // 1. Pobieramy konkretny przedmiot wraz z jego grupami
+    // Zakładam, że Twój serwis ma metodę GetSubject, która zwraca model z listą grup (SubjectVm)
+    var subjectVm = _subjectService.GetSubject(s => s.Id == subjectId);
+
+    if (subjectVm == null || subjectVm.Groups == null)
     {
-        _groupService.DetachStudentFromGroup(model);
-        return RedirectToAction("Details", new { id = model.GroupId });
+        return NotFound();
     }
+
+    // 2. Tworzymy SelectList TYLKO z grup przypisanych do tego przedmiotu
+    ViewBag.GroupsSelectList = new SelectList(subjectVm.Groups, "Id", "Name");
+
+    // 3. Przekazujemy model do widoku
+    var model = new AttachDetachSubjectGroupVm { SubjectId = subjectId };
+    return View(model);
+}
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult DetachSubjectToGroup(AttachDetachSubjectGroupVm model)
+{
+    if (ModelState.IsValid)
+    {
+        // Tutaj musisz wywołać odpowiednią metodę z serwisu do odłączania
+        _groupService.DetachSubjectFromGroup(model); 
+        return RedirectToAction("Index", "Subject");
+    }
+    return View(model);
+}
 }
