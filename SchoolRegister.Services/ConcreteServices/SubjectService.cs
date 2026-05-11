@@ -9,7 +9,6 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using SchoolRegister.Services.Interfaces;
 
 namespace SchoolRegister.Services.ConcreteServices
 {

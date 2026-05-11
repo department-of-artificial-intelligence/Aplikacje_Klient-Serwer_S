@@ -1,4 +1,5 @@
 using AutoMapper;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
@@ -24,7 +25,7 @@ namespace SchoolRegister.Services.ConcreteServices
         public GroupVm AddOrUpdateGroup(AddOrUpdateGroupVm addOrUpdateGroupVm)
         {
             var groupEntity = Mapper.Map<Group>(addOrUpdateGroupVm);
-            if (groupEntity.Id == 0)
+            if (addOrUpdateGroupVm.Id == null || addOrUpdateGroupVm.Id == 0)
                 DbContext.Groups.Add(groupEntity);
             else
                 DbContext.Groups.Update(groupEntity);

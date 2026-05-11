@@ -1,0 +1,57 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+
+@{
+    ViewData["Title"] = "Lista Uczniów";
+}
+
+<h2>Lista Uczniów</h2>
+<hr />
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Grupa</th>
+            <th>Rodzic</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName</td>
+                    <td>@student.LastName</td>
+                    <td>@(student.GroupName ?? "Brak grupy")</td>
+                    <td>@(student.ParentName ?? "Brak przypisanego rodzica")</td>
+                    <td>
+                        @* Przycisk widoczny tylko dla Nauczyciela *@
+                        @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Grade" asp-action="AddGrade" asp-route-studentId="@student.Id" class="btn btn-sm btn-primary">
+                                Wystaw Ocenę
+                            </a>
+                        }
+
+                        @* Przycisk widoczny dla Ucznia i Rodzica *@
+                        @if (User.IsInRole("Student") || User.IsInRole("Parent") || User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Grade" asp-action="MyGrades" asp-route-studentId="@student.Id" class="btn btn-sm btn-info">
+                                Zobacz Oceny
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center text-muted">Brak uczniów w bazie.</td>
+            </tr>
+        }
+    </tbody>
+</table>
