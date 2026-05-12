@@ -10,5 +10,7 @@ namespace SchoolRegister.Services.Interfaces
     {
         StudentVm GetStudent(Expression<Func<Student, bool>> filterPredicate);
         IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterPredicate = null);
+        bool AttachStudentToGroup(AttachDetachStudentToGroupVm vm);
+        bool DetachStudentFromGroup(AttachDetachStudentToGroupVm vm);
     }
 }

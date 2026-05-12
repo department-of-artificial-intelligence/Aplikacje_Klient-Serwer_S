@@ -13,7 +13,7 @@ namespace SchoolRegister.Services.ConcreteServices
 {
     public class StudentService : BaseService, IStudentService
     {
-        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger<StudentService> logger) 
+        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger<StudentService> logger)
             : base(dbContext, mapper, logger) { }
 
         public StudentVm GetStudent(Expression<Func<Student, bool>> filterPredicate)
@@ -30,6 +30,40 @@ namespace SchoolRegister.Services.ConcreteServices
                 query = query.Where(filterPredicate);
             }
             return Mapper.Map<IEnumerable<StudentVm>>(query.ToList());
+        }
+
+        public bool AttachStudentToGroup(AttachDetachStudentToGroupVm vm)
+        {
+            try
+            {
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == vm.StudentId);
+                if (student == null) return false;
+                student.GroupId = vm.GroupId;
+                DbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                return false;
+            }
+        }
+
+        public bool DetachStudentFromGroup(AttachDetachStudentToGroupVm vm)
+        {
+            try
+            {
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == vm.StudentId);
+                if (student == null) return false;
+                student.GroupId = null;
+                DbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                return false;
+            }
         }
     }
 }
