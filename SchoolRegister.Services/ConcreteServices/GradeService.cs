@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
@@ -14,18 +15,21 @@ namespace SchoolRegister.Services.ConcreteServices
     public class GradeService : BaseService, IGradeService
     {
         public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-            : base(dbContext, mapper, logger) {}
+            : base(dbContext, mapper, logger) { }
 
         public IEnumerable<GradeVm> GetGrades(Expression<Func<Grade, bool>>? filter = null)
         {
             try
             {
-                var entities = DbContext.Grades.AsQueryable();
+                var entities = DbContext.Grades
+                    .Include(g => g.Subject)
+                        .ThenInclude(s => s.Teacher)
+                    .AsQueryable();
 
                 if (filter != null)
                     entities = entities.Where(filter);
 
-                return Mapper.Map<IEnumerable<GradeVm>>(entities);
+                return Mapper.Map<IEnumerable<GradeVm>>(entities.ToList());
             }
             catch (Exception ex)
             {
@@ -63,6 +67,8 @@ namespace SchoolRegister.Services.ConcreteServices
             try
             {
                 var grades = DbContext.Grades
+                    .Include(g => g.Subject)
+                        .ThenInclude(s => s.Teacher)
                     .Where(g => g.StudentId == vm.StudentId)
                     .ToList();
 

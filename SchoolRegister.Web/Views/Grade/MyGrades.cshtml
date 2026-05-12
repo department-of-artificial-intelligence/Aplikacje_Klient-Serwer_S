@@ -5,8 +5,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Subject</th>
+            <th>Subject Name</th>
+            <th>Subject ID</th>
             <th>Grade</th>
+            <th>Teacher</th>
             <th>Date</th>
         </tr>
     </thead>
@@ -14,8 +16,10 @@
 @foreach (var item in Model)
 {
         <tr>
+            <td>@item.SubjectName</td>
             <td>@item.SubjectId</td>
             <td>@item.GradeValue</td>
+            <td>@item.TeacherName</td>
             <td>@item.DateOfIssue.ToShortDateString()</td>
         </tr>
 }

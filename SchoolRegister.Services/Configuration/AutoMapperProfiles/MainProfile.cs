@@ -46,7 +46,14 @@ public class MainProfile : Profile
             .ForMember(dest => dest.Subjects,
                 opt => opt.MapFrom(src => src.Subjects));
 
-        CreateMap<Grade, GradeVm>();
+        CreateMap<Grade, GradeVm>()
+            .ForMember(dest => dest.SubjectName,
+                opt => opt.MapFrom(src => src.Subject.Name))
+            .ForMember(dest => dest.TeacherName,
+                opt => opt.MapFrom(src =>
+                    src.Subject.Teacher == null
+                        ? null
+                        : src.Subject.Teacher.FirstName + " " + src.Subject.Teacher.LastName));
 
         CreateMap<RegisterNewUserVm, User>()
                 .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
