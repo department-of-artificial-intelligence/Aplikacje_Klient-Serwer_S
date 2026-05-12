@@ -1,0 +1,38 @@
+@model SchoolRegister.ViewModels.VM.AddOrUpdateGroupVm
+
+@{
+    ViewData["Title"] = $"{ViewBag.ActionType} Group";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddOrEditGroup">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            @if (Model.Id.HasValue)
+            {
+                <input type="hidden" asp-for="Id" />
+            }
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label font-weight-bold"></label>
+                <input asp-for="Name" class="form-control" placeholder="Enter group name (e.g. IO 2024)" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    @(Model.Id.HasValue ? "Update Group" : "Create Group")
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

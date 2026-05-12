@@ -16,7 +16,7 @@ namespace SchoolRegister.Services.ConcreteServices
         public StudentService(
             ApplicationDbContext dbContext, 
             IMapper mapper, 
-            ILogger logger) 
+            ILogger<StudentService> logger) 
             : base(dbContext, mapper, logger)
         {
         }
@@ -35,6 +35,29 @@ namespace SchoolRegister.Services.ConcreteServices
                 query = query.Where(filterPredicate);
             }
             return Mapper.Map<IEnumerable<StudentVm>>(query.ToList());
+        }
+
+        public void AttachStudentToGroup(AttachDetachStudentToGroupVm vm)
+        {
+            var student = DbContext.Set<Student>().FirstOrDefault(s => s.Id == vm.StudentId);
+            var group = DbContext.Set<Group>().FirstOrDefault(g => g.Id == vm.GroupId);
+
+            if (student != null && group != null)
+            {
+                student.GroupId = group.Id;
+                DbContext.SaveChanges();
+            }
+        }
+
+        public void DetachStudentFromGroup(AttachDetachStudentToGroupVm vm)
+        {
+            var student = DbContext.Set<Student>().FirstOrDefault(s => s.Id == vm.StudentId);
+
+            if (student != null && student.GroupId == vm.GroupId)
+            {
+                student.GroupId = null;
+                DbContext.SaveChanges();
+            }
         }
     }
 }

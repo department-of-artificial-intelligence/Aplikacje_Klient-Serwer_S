@@ -1,0 +1,44 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
+
+@{
+    ViewData["Title"] = "Groups List";
+}
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Groups</h2>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="AddOrEditGroup" class="btn btn-success">Create New Group</a>
+    }
+</div>
+
+<hr />
+
+<table class="table table-striped table-hover mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>Students Count</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@item.Students.Count</td>
+                <td class="text-end">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="AddOrEditGroup" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="ManageStudents" asp-route-id="@item.Id" class="btn btn-sm btn-info">Manage Students</a>
+                        @:| 
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" 
+                           onclick="return confirm('Are you sure you want to delete this group?')">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

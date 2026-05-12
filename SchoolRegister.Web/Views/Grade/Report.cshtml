@@ -1,0 +1,48 @@
+@model SchoolRegister.ViewModels.VM.GradeReportVm
+
+@{
+    ViewData["Title"] = "Grades Report";
+}
+
+<h2 class="mb-4">Grades Report</h2>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Student: @Model.StudentFirstName @Model.StudentLastName</h5>
+        <span class="badge bg-light text-dark fs-6">Overall Average: @Model.AverageGrade.ToString("0.00")</span>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                    <th>Date of Issue</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Grades != null && Model.Grades.Any())
+                {
+                    foreach (var grade in Model.Grades)
+                    {
+                        <tr>
+                            <td class="align-middle fw-bold">@grade.SubjectName</td>
+                            <td class="align-middle">
+                                <span class="badge bg-secondary fs-6">@((int)grade.GradeValue)</span>
+                            </td>
+                            <td class="align-middle">
+                                @grade.DateOfIssue.ToShortDateString()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center py-3">No grades recorded yet.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+@model SchoolRegister.ViewModels.VM.AddGradeToStudentVm
+
+@{
+    ViewData["Title"] = "Add Grade";
+}
+
+<h2>Add Grade for Student</h2>
+<hr />
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="AddGrade">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label font-weight-bold">Student</label>
+                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.Students">
+                    <option value="">-- Select Student --</option>
+                </select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label font-weight-bold">Subject</label>
+                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.Subjects">
+                    <option value="">-- Select Subject --</option>
+                </select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="GradeValue" class="control-label font-weight-bold">Grade</label>
+                <select asp-for="GradeValue" class="form-control">
+                    <option value="">-- Select Grade --</option>
+                    <option value="2">2.0 (Niedostateczny)</option>
+                    <option value="3">3.0 (Dostateczny)</option>
+                    <option value="4">4.0 (Dobry)</option>
+                    <option value="5">5.0 (Bardzo dobry)</option>
+                </select>
+                <span asp-validation-for="GradeValue" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit Grade</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
