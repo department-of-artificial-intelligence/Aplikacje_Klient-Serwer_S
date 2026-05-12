@@ -5,9 +5,10 @@ using System.Linq.Expressions;
 namespace SchoolRegister.ViewModels.VM
 {
     public interface ISubjectService
-{
-    SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm);
-    SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression);
-    IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null!);
-}
+    {
+        SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm);
+        SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression);
+        IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null!);
+        bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression);
+    }
 }

@@ -45,12 +45,11 @@ namespace SchoolRegister.Services.ConcreteServices
 
 public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
 {
-    // Pobieramy wszystko do pamięci RAM (ToList) i dopiero tam filtrujemy
+    
     var allSubjectGroups = DbContext.SubjectGroups
         .Include(sg => sg.Subject)
         .Include(sg => sg.Group)
-        .ToList(); // Tu uciekamy z EF do zwykłego C#
-
+        .ToList(); 
     var teacherGroups = allSubjectGroups
         .Where(sg => sg.Subject != null && sg.Subject.TeacherId == getTeachersGroups.TeacherId)
         .Select(sg => sg.Group)

@@ -15,7 +15,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolRegister.DAL.EF;
 
-namespace SchoolRegister.Services.ConcreteServices{
+namespace SchoolRegister.Services.ConcreteServices
+{
     public class SubjectService : BaseService, ISubjectService
     {
         public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
@@ -26,7 +27,7 @@ namespace SchoolRegister.Services.ConcreteServices{
         {
             try
             {
-                if(addOrUpdateVm == null)
+                if (addOrUpdateVm == null)
                     throw new ArgumentNullException($"View model parameter is null");
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
@@ -76,6 +77,10 @@ namespace SchoolRegister.Services.ConcreteServices{
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+        public bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression)
+        {
+            throw new NotImplementedException();
         }
     }
 }
