@@ -13,7 +13,7 @@ namespace SchoolRegister.Services.Configuration.AutoMapperProfiles
 
             CreateMap<AddOrUpdateSubjectVm, Subject>();
             CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
-
+            CreateMap<GroupVm,AddOrUpdateGroupVm>();
             CreateMap<Group, GroupVm>()
                 .ForMember(dest => dest.Students, x => x.MapFrom(src => src.Students))
                 .ForMember(dest => dest.Subjects, x => x.MapFrom(src => src.SubjectGroups.Select(s => s.Subject)));

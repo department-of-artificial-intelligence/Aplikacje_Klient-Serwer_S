@@ -11,8 +11,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="StudentId" type="hidden" />
             <div class="form-group">
-                <label asp-for="SubjectId" class="control-label"></label>
-                <select asp-for="SubjectId" class="form-control" asp-items="@ViewBag.SubjectsSelectList">
+                <label asp-for="SubjectId" class="control-label">SubjectId</label>
+                <select asp-for="SubjectId" class="form-control" asp-items="@(new SelectList( ViewBag.Subjects, "Id", "Name"))">
                     <option value="">Select a subject</option>
                 </select>
                 <span asp-validation-for="SubjectId" class="text-danger"></span>

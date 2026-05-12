@@ -39,7 +39,7 @@
                         @* Przycisk widoczny dla Ucznia i Rodzica *@
                         @if (User.IsInRole("Student") || User.IsInRole("Parent") || User.IsInRole("Admin"))
                         {
-                            <a asp-controller="Grade" asp-action="MyGrades" asp-route-studentId="@student.Id" class="btn btn-sm btn-info">
+                            <a asp-controller="Grade" asp-action="GradesReport" asp-route-studentId="@student.Id" class="btn btn-sm btn-info">
                                 Zobacz Oceny
                             </a>
                         }

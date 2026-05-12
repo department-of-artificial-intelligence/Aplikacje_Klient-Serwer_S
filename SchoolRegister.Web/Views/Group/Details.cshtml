@@ -7,7 +7,7 @@
 <h4>Add Student To Group</h4>
 <form asp-action="AttachStudentToGroup" method="post" class="form-inline mb-4">
     <input type="hidden" name="groupId" value="@Model.Id" />
-    <select name="StudentId" asp-items="@ViewBag.StudentsSelectList" class="form-control mr-2">
+    <select name="StudentId" asp-items="@(new SelectList( ViewBag.Subjects, "Id", "Name"))"" class="form-control mr-2">
         <option value="">Select a student</option>
     </select>
     <input type="submit" value="Add Student" class="btn btn-primary" />
