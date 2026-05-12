@@ -71,5 +71,9 @@ namespace SchoolRegister.Services.ConcreteServices
                 throw;
             }
         }
+        bool ISubjectService.RemoveSubject(Expression<Func<Subject, bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
