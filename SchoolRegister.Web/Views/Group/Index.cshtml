@@ -23,7 +23,7 @@
             <td>
                 <a asp-action="AddOrEditGroup" asp-route-id="@item.Id">Edit</a> |
 
-                <a asp-action="AttachStudentToGroup"
+                @* <a asp-action="AttachStudentToGroup"
                    asp-route-studentId="1"
                    asp-route-groupId="@item.Id">
                    Add Student
@@ -33,7 +33,31 @@
                    asp-route-studentId="1"
                    asp-route-groupId="@item.Id">
                    Remove Student
-                </a>
+                </a> *@
+
+                <!-- ADD STUDENT -->
+                <form asp-action="AttachStudentToGroup" method="get">
+                    <input type="hidden" name="groupId" value="@item.Id">
+                    <select name="studentId">
+                        @foreach (var s in ViewBag.Students)
+                        {
+                            <option value="@s.Id">@s.FirstName @s.LastName</option>
+                        }
+                    </select>
+                    <button type="submit">Add</button>
+                </form>
+
+                <!-- REMOVE STUDENT -->
+                <form asp-action="DetachStudentFromGroup" method="get">
+                    <input type="hidden" name="groupId" value="@item.Id">
+                    <select name="studentId">
+                        @foreach (var s in item.Students)
+                        {
+                            <option value="@s.Id">@s.FirstName @s.LastName</option>
+                        }
+                    </select>
+                    <button type="submit">Remove</button>
+                </form>
             </td>
         </tr>
 }

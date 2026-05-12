@@ -76,7 +76,13 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             var student = DbContext.Users
                 .OfType<Student>()
-                .First(s => s.Id == vm.StudentId);
+                .FirstOrDefault(s => s.Id == vm.StudentId);
+
+
+            if (student == null)
+            {
+                throw new Exception($"Student {vm.StudentId} not found");
+            }
 
             student.GroupId = vm.GroupId;
 
@@ -90,7 +96,13 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             var student = DbContext.Users
                 .OfType<Student>()
-                .First(s => s.Id == vm.StudentId);
+                .FirstOrDefault(s => s.Id == vm.StudentId);
+
+
+            if (student == null)
+            {
+                throw new Exception($"Student {vm.StudentId} not found");
+            }
 
             student.GroupId = null;
             student.Group = null;

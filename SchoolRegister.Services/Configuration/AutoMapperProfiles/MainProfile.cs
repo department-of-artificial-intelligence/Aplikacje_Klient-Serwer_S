@@ -30,6 +30,9 @@ public class MainProfile : Profile
                 opt => opt.MapFrom(src =>
                     src.SubjectGroups.Select(x => x.Subject)));
 
+        CreateMap<GroupVm, AddOrUpdateGroupVm>();
+        CreateMap<AddOrUpdateGroupVm, GroupVm>();
+
         CreateMap<Student, StudentVm>()
             .ForMember(dest => dest.GroupName,
                 opt => opt.MapFrom(src =>
@@ -40,7 +43,11 @@ public class MainProfile : Profile
                         ? null
                         : $"{src.Parent.FirstName} {src.Parent.LastName}"))
             .ForMember(dest => dest.Email,
-                opt => opt.MapFrom(src => src.Email));
+                opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.ParentEmail,
+                opt => opt.MapFrom(src =>
+                    src.Parent == null ? null :
+                        src.Parent.Email));
 
         CreateMap<Teacher, TeacherVm>()
             .ForMember(dest => dest.Subjects,

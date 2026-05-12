@@ -12,6 +12,7 @@ public class StudentVm
     public int ParentId { get; set; }
 
     public string GroupName { get; set; } = null!;
+    public string ParentEmail { get; set; } = null!;
     public double AverageGrade { get; set; }
 
     public string UserName { get; set; } = null!;

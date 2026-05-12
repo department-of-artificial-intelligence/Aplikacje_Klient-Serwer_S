@@ -8,6 +8,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolRegister.Services.ConcreteServices
 {
@@ -22,6 +23,8 @@ namespace SchoolRegister.Services.ConcreteServices
             {
                 var entity = DbContext.Users
                     .OfType<Student>()
+                    .Include(s => s.Parent)
+                    .Include(s => s.Group)
                     .FirstOrDefault(filter);
 
                 if (entity == null)
@@ -42,6 +45,8 @@ namespace SchoolRegister.Services.ConcreteServices
             {
                 var entities = DbContext.Users
                     .OfType<Student>()
+                    .Include(s => s.Parent)
+                    .Include(s => s.Group)
                     .AsQueryable();
 
                 if (filter != null)

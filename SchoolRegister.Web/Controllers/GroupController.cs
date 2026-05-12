@@ -10,17 +10,22 @@ namespace SchoolRegister.Web.Controllers;
 public class GroupController : Controller
 {
     private readonly IGroupService _groupService;
+    private readonly IStudentService _studentService;
     private readonly IMapper _mapper;
 
-    public GroupController(IGroupService groupService, IMapper mapper)
+    public GroupController(IGroupService groupService, IMapper mapper, IStudentService studentService)
     {
         _groupService = groupService;
         _mapper = mapper;
+        _studentService = studentService;
     }
 
     public IActionResult Index()
     {
         var groups = _groupService.GetGroups();
+
+        ViewBag.Students = _studentService.GetStudents();
+
         return View(groups);
     }
 
