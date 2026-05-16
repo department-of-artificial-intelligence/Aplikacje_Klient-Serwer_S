@@ -39,6 +39,8 @@ public class MainProfile : Profile
 
         CreateMap<AddOrUpdateGroupVm, Group>();
 
+        CreateMap<GroupVm, AddOrUpdateGroupVm>();
+
         CreateMap<RegisterNewUserVm, User>()
         .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
         .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));

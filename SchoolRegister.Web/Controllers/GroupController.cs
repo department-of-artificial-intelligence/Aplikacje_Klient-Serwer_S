@@ -44,6 +44,7 @@ public class GroupController : BaseController
         var groupVm = _groupService.GetGroup(x => x.Id == id);
         return View(groupVm);
     }
+    
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult AddOrEditGroup(int? id = null)
@@ -61,7 +62,7 @@ public class GroupController : BaseController
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
-    public IActionResult AddOrEditSubject(AddOrUpdateGroupVm addOrUpdateGroupVm)
+    public IActionResult AddOrEditGroup(AddOrUpdateGroupVm addOrUpdateGroupVm)
     {
         if (ModelState.IsValid)
         {
@@ -69,6 +70,27 @@ public class GroupController : BaseController
             return RedirectToAction("Index");
         }
         return View();
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult AttachSubjectToGroup(int subjectId)
+    {
+        var groupsVm = _groupService
+            .GetGroups(g => !g.SubjectGroups // Tylko grupy, do ktorych przedmiot nie nalezy
+                .Any(sg => sg.SubjectId == subjectId)
+            );
+        ViewBag.GroupSelectList = new SelectList(groupsVm.Select(g => new
+        {
+            Text = $"{g.Name}",
+            Value = g.Id
+        }), "Value", "Text");
+        ViewBag.ActionType = "Add";
+        var vm = new AttachDetachSubjectToGroupVm()
+        {
+            SubjectId = subjectId
+        };
+        return View(vm);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -82,6 +104,33 @@ public class GroupController : BaseController
         }
         return View();
     }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult DetachSubjectFromGroup(int subjectId)
+    {
+        var groupsVm = _groupService
+            .GetGroups(g => g.SubjectGroups
+                .Any(sg => sg.SubjectId == subjectId)
+            );
+
+        if (groupsVm == null || !groupsVm.Any())
+        {
+            TempData["ErrorMessage"] = "Ten przedmiot nie jest obecnie przypisany do żadnej grupy.";
+            return RedirectToAction("Index", "Subject");
+        }
+        ViewBag.GroupSelectList = new SelectList(groupsVm.Select(g => new
+        {
+            Text = $"{g.Name}",
+            Value = g.Id
+        }), "Value", "Text");
+        ViewBag.ActionType = "Add";
+        var vm = new AttachDetachSubjectToGroupVm()
+        {
+            SubjectId = subjectId
+        };
+        return View(vm);
+    }
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
@@ -94,6 +143,30 @@ public class GroupController : BaseController
         }
         return View();
     }
+
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult AttachStudentToGroup(int studentId)
+    {
+        var groupsVm = _groupService
+            .GetGroups(g => !g.Students // tylko grupy, do ktorych student nie nalezy
+                .Any(s => s.Id == studentId) 
+            );
+
+        ViewBag.GroupSelectList = new SelectList(groupsVm.Select(g => new
+        {
+            Text = $"{g.Name}",
+            Value = g.Id
+        }), "Value", "Text");
+        ViewBag.ActionType = "Add";
+        var vm = new AttachDetachStudentToGroupVm()
+        {
+            StudentId = studentId
+        };
+        return View(vm);
+    }
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
@@ -105,6 +178,29 @@ public class GroupController : BaseController
             return RedirectToAction("Index", "Student");
         }
         return View();
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public IActionResult DetachStudentFromGroup(int studentId)
+    {
+        var groupVm = _groupService
+            .GetGroup(g => g.Students
+                .Any(st => st.Id == studentId)
+            );
+
+        if (groupVm == null)
+        {
+            TempData["ErrorMessage"] = "Ten student nie jest obecnie przypisany do żadnej grupy.";
+            return RedirectToAction("Index", "Student");
+        }
+
+        var vm = new AttachDetachStudentToGroupVm()
+        {
+            GroupId = groupVm.Id,
+            StudentId = studentId
+        };
+        return View(vm);
     }
     [HttpPost]
     [ValidateAntiForgeryToken]

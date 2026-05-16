@@ -4,9 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Student</h1>
 
-
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 <table class="table">
     <thead>
         <tr>
@@ -53,6 +59,13 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Group" asp-action="AttachStudentToGroup" asp-route-studentId="@item.Id">Attach
+                        Student to Group</a> @:|
+                    <a asp-controller="Group" asp-action="DetachStudentFromGroup" asp-route-studentId="@item.Id">Detach
+                        Student from Group</a> @:|
+                }
                 @if (User.IsInRole("Teacher") || User.IsInRole("Parent"))
                 {
                     <a asp-action="Index" asp-controller="Grade" asp-route-studentId="@item.Id">Grades</a>

@@ -1,0 +1,19 @@
+@model SchoolRegister.ViewModels.VM.AttachDetachStudentToGroupVm
+
+@{
+    ViewData["Title"] = "DetachStudentFromGroup";
+}
+
+<h1>DetachStudentFromGroup</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AttachDetachStudentToGroupVm</h4>
+    <hr />
+    <form asp-action="DetachStudentFromGroup">
+        <input type="hidden" asp-for="GroupId" />
+        <input type="hidden" asp-for="StudentId" />
+        <input type="submit" value="Detach" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-controller="Student">Back to List</a>
+    </form>
+</div>

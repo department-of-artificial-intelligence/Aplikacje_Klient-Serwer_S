@@ -40,6 +40,7 @@ public class SubjectController : BaseController
         else
             return View("Error");
     }
+    
     [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult AddOrEditSubject(int? id = null)
