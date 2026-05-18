@@ -1,0 +1,36 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+
+<div class="container mt-4">
+    <h2>Lista Uczniów</h2>
+
+    <table class="table table-striped mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th>Imię i Nazwisko</th>
+                <th>Obecna Grupa</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName @student.LastName</td>
+                    <td>@(student.GroupName ?? "Brak grupy")</td>
+                    <td>
+                        <a asp-controller="Grade" asp-action="StudentGradesReport" asp-route-studentId="@student.Id" class="btn btn-success btn-sm">Oceny</a>
+                        <a asp-action="AttachToGroup" asp-route-studentId="@student.Id" class="btn btn-primary btn-sm">Zmień grupę</a>
+                        
+                        @if (!string.IsNullOrEmpty(student.GroupName))
+                        {
+                            <form asp-action="DetachFromGroup" method="post" style="display:inline;">
+                                <input type="hidden" name="studentId" value="@student.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">Wypisz z grupy</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

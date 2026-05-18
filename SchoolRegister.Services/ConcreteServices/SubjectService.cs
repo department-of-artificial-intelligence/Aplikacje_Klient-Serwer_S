@@ -1,76 +1,139 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+
 namespace SchoolRegister.Services.ConcreteServices
 {
-    public class SubjectService:BaseService,ISubjectService
+    public class SubjectService : BaseService, ISubjectService
     {
         public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-        : base(dbContext, mapper, logger) {}
+        : base(dbContext, mapper, logger) { }
+
         public SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm)
         {
             try
             {
-            if (addOrUpdateVm == null)
-            throw new ArgumentNullException($"View model parameter is null");
-            var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
-            if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
-            DbContext.Subjects.Add(subjectEntity);
-            else
-            DbContext.Subjects.Update(subjectEntity);
-            DbContext.SaveChanges();
-            var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
-            return subjectVm;
+                if (addOrUpdateVm == null)
+                    throw new ArgumentNullException($"View model parameter is null");
+                
+                var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
+                
+                if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
+                    DbContext.Subjects.Add(subjectEntity);
+                else
+                    DbContext.Subjects.Update(subjectEntity);
+                
+                DbContext.SaveChanges();
+                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
+                return subjectVm;
             }
             catch (Exception ex)
             {
-            Logger.LogError(ex, ex.Message);
-            throw;
+                Logger.LogError(ex, ex.Message);
+                throw;
             }
-                    }
+        }
+
         public SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression)
         {
-        try
-        {
-            if (filterExpression == null)
-            throw new ArgumentNullException($" FilterExpression is null");
-            var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
-            var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
-            return subjectVm;
+            try
+            {
+                if (filterExpression == null)
+                    throw new ArgumentNullException($" FilterExpression is null");
+                
+                var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
+                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
+                return subjectVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, ex.Message);
-            throw;
-        }
-        }
+
         public IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null)
         {
-        try
-        {
-            var subjectEntities = DbContext.Subjects.AsQueryable();
-            if (filterExpression != null)
-            subjectEntities = subjectEntities.Where(filterExpression);
-            var subjectVms = Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities);
-            return subjectVms;
+            try
+            {
+                var subjectEntities = DbContext.Subjects.AsQueryable();
+                if (filterExpression != null)
+                    subjectEntities = subjectEntities.Where(filterExpression);
+                
+                var subjectVms = Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities);
+                return subjectVms;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
-        catch (Exception ex)
+
+        public bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression)
         {
-            Logger.LogError(ex, ex.Message);
-            throw;
+             try
+             {
+                 var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
+                 if (subjectEntity == null) return false;
+
+                 DbContext.Subjects.Remove(subjectEntity);
+                 DbContext.SaveChanges();
+                 return true;
+             }
+             catch (Exception ex)
+             {
+                 Logger.LogError(ex, ex.Message);
+                 throw;
+             }
         }
+
+        public void AttachSubjectToGroup(AttachDetachSubjectGroupVm vm)
+        {
+            try
+            {
+                var exists = DbContext.SubjectGroups.Any(x => x.SubjectId == vm.SubjectId && x.GroupId == vm.GroupId);
+                if (!exists)
+                {
+                    var subjectGroup = new SubjectGroup
+                    {
+                        SubjectId = vm.SubjectId,
+                        GroupId = vm.GroupId
+                    };
+                    DbContext.SubjectGroups.Add(subjectGroup);
+                    DbContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public void DetachSubjectFromGroup(AttachDetachSubjectGroupVm vm)
+        {
+            try
+            {
+                var subjectGroup = DbContext.SubjectGroups.FirstOrDefault(x => x.SubjectId == vm.SubjectId && x.GroupId == vm.GroupId);
+                if (subjectGroup != null)
+                {
+                    DbContext.SubjectGroups.Remove(subjectGroup);
+                    DbContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
 }

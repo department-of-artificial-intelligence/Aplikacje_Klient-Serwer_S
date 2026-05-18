@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.TeacherName)
             </th>
             <th>
-                <label>Groups Count</label>
+                <label>Groups</label>
             </th>
             <th></th>
         </tr>
@@ -46,14 +46,28 @@
                     @Html.DisplayFor(modelItem => item.TeacherName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Groups.Count)
+                    @foreach(var group in item.Groups)
+                    {
+                        <span class="badge bg-secondary me-1 mb-1">
+                            @group.Name
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Group" 
+                                   asp-action="DetachSubjectToGroup" 
+                                   asp-route-subjectId="@item.Id" 
+                                   asp-route-groupId="@group.Id" 
+                                   class="text-white text-decoration-none ms-1">
+                                   &times;
+                                </a>
+                            }
+                        </span>
+                    }
                 </td>
                 <td>
                     @if (User.IsInRole("Admin"))
                     {
                         <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
                         <a asp-controller="Group" asp-action="AttachSubjectToGroup" asp-route-subjectId="@item.Id">Attach Subject to Group</a> @:|
-                        <a asp-controller="Group" asp-action="DetachSubjectToGroup" asp-route-subjectId="@item.Id">Detach Subject from Group</a> @:|
                     }
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>

@@ -1,0 +1,25 @@
+@model SchoolRegister.ViewModels.VM.AttachDetachStudentToGroupVm
+
+<div class="container mt-4">
+    <h2>Przypisz ucznia do grupy</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="AttachToGroup" method="post">
+                <input type="hidden" asp-for="StudentId" />
+                
+                <div class="form-group mb-3">
+                    <label asp-for="GroupId" class="control-label">Wybierz nową grupę</label>
+                    <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupsSelectList"></select>
+                    <span asp-validation-for="GroupId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

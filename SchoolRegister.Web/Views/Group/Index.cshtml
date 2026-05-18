@@ -27,6 +27,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                
                 <td>@item.Students.Count</td>
                 <td class="text-end">
                     @if (User.IsInRole("Admin"))

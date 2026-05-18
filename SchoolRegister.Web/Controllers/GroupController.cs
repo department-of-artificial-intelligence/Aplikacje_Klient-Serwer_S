@@ -12,11 +12,13 @@ namespace SchoolRegister.Web.Controllers
     {
         private readonly IGroupService _groupService;
         private readonly IStudentService _studentService;
+        private readonly ISubjectService _subjectService;
 
-        public GroupController(IGroupService groupService, IStudentService studentService)
+        public GroupController(IGroupService groupService, IStudentService studentService, ISubjectService subjectService)
         {
             _groupService = groupService;
             _studentService = studentService;
+            _subjectService = subjectService;
         }
 
         public IActionResult Index()
@@ -88,5 +90,48 @@ namespace SchoolRegister.Web.Controllers
             _studentService.DetachStudentFromGroup(vm);
             return RedirectToAction(nameof(ManageStudents), new { id = vm.GroupId });
         }
+
+        [HttpGet]
+        public IActionResult AttachSubjectToGroup(int subjectId)
+        {
+            var vm = new AttachDetachSubjectGroupVm()
+            {
+                SubjectId = subjectId
+            };
+
+            var groups = _groupService.GetGroups();
+            ViewBag.GroupsSelectList = new SelectList(groups, "Id", "Name");
+            
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AttachSubjectToGroup(AttachDetachSubjectGroupVm vm)
+        {
+            if (ModelState.IsValid)
+            {
+                _subjectService.AttachSubjectToGroup(vm); 
+                return RedirectToAction("Index", "Subject"); 
+            }
+
+            var groups = _groupService.GetGroups();
+            ViewBag.GroupsSelectList = new SelectList(groups, "Id", "Name");
+            return View(vm);
+        }
+
+        [HttpGet] 
+        public IActionResult DetachSubjectToGroup(int subjectId, int groupId)
+        {
+            var vm = new AttachDetachSubjectGroupVm()
+            {
+                SubjectId = subjectId,
+                GroupId = groupId
+            };
+
+            _subjectService.DetachSubjectFromGroup(vm); 
+            return RedirectToAction("Index", "Subject"); 
+        }
+        
     }
 }
