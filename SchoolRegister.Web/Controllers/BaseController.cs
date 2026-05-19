@@ -1,0 +1,25 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+
+namespace SchoolRegister.Web.Controllers
+{
+    public class BaseController : Controller
+    {
+        protected readonly IStringLocalizer Localizer;
+        protected readonly ILogger Logger;
+        protected readonly IMapper Mapper;
+        public BaseController(ILogger logger, IMapper mapper, IStringLocalizer localizer)
+        {
+            Localizer = localizer;
+            Mapper = mapper;
+            Logger = logger;
+            
+        }
+        
+    }
+}

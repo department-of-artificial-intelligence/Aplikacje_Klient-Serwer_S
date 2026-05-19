@@ -1,14 +1,20 @@
-using Microsoft.AspNetCore.Identity;
 using System;
-namespace SchoolRegister.Model.DataModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
-public class Role : IdentityRole<int>
+namespace SchoolRegister.Model.DataModels
 {
-    public RoleValue RoleValue {get; set;}
-
-    public Role(string name, RoleValue roleValue) 
-        : base(name)
+    public class Role : IdentityRole<int>
     {
-        RoleValue = roleValue;
+        public RoleValue RoleValue { get; set; }
+        public Role(string name, RoleValue roleValue) : base(name)
+        {
+            RoleValue = roleValue;
+        }
+        public Role() { }
     }
+
+
 }
