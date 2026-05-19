@@ -15,6 +15,7 @@ namespace SchoolRegister.ViewModels.VM
         public GradeScale GradeValue { get; set; }
         
         [Required]
-        public int TeacherId { get; set; }         
+        public int TeacherId { get; set; }  
+               
     }
 }
