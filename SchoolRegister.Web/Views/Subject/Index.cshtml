@@ -52,7 +52,7 @@
                 {
                     <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
 
-                    <a asp-controller="Group" asp-action="AttachSubjectToGroup"
+                    @* <a asp-controller="Group" asp-action="AttachSubjectToGroup"
                     asp-route-subjectId="@item.Id"
                     asp-route-groupId="1">
                     Attach Subject to Group
@@ -62,7 +62,35 @@
                     asp-route-subjectId="@item.Id"
                     asp-route-groupId="1">
                     Detach Subject from Group
-                    </a> @:|
+                    </a> @:| *@
+
+                    <!-- ATTACH -->
+                    <form asp-controller="Subject" asp-action="AttachSubjectToGroup" method="post" style="display:inline;">
+                        <input type="hidden" name="subjectId" value="@item.Id" />
+
+                        <select name="groupId">
+                            @foreach (var g in ViewBag.Groups)
+                            {
+                                <option value="@g.Id">@g.Name</option>
+                            }
+                        </select>
+
+                        <button type="submit">Add</button>
+                    </form>
+
+                    <!-- DETACH -->
+                    <form asp-controller="Subject" asp-action="DetachSubjectFromGroup" method="post" style="display:inline;">
+                        <input type="hidden" name="subjectId" value="@item.Id" />
+
+                        <select name="groupId">
+                            @foreach (var g in ViewBag.Groups)
+                            {
+                                <option value="@g.Id">@g.Name</option>
+                            }
+                        </select>
+
+                        <button type="submit">Remove</button>
+                    </form>
                 }
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>

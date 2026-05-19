@@ -45,7 +45,11 @@ namespace SchoolRegister.Services.ConcreteServices
             {
                 ArgumentNullException.ThrowIfNull(filterExpression);
 
-                var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
+                var subjectEntity = DbContext.Subjects
+                    .Include(s => s.SubjectGroups)
+                        .ThenInclude(sg => sg.Group)
+                    .Include(s => s.Teacher)
+                    .FirstOrDefault(filterExpression);
 
                 return Mapper.Map<SubjectVm>(subjectEntity);
             }
@@ -59,12 +63,16 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                var subjectEntities = DbContext.Subjects.AsQueryable();
+                var subjectEntities = DbContext.Subjects
+                    .Include(s => s.SubjectGroups)
+                        .ThenInclude(sg => sg.Group)
+                    .Include(s => s.Teacher)
+                    .AsQueryable();
 
                 if (filterExpression != null)
                     subjectEntities = subjectEntities.Where(filterExpression);
 
-                return Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities);
+                return Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities.ToList());
             }
             catch (Exception ex)
             {

@@ -60,10 +60,10 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage
                 {
                     _logger.LogInformation("User created a new account with password.");
                     result = await _userManager.AddToRoleAsync(tupleUserRole.Item1,
-                    tupleUserRole.Item2.Name);
+                    tupleUserRole.Item2.RoleValue.ToString());
                     if (result.Succeeded)
                     {
-                        OnGet();
+                        // OnGet();
                         StatusMessage = "User created";
                         return RedirectToPage();
                     }
@@ -71,8 +71,10 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);
             }
-            OnGet();
-            return RedirectToPage();
+
+            // OnGet(); // i tak się wykona
+            // return RedirectToPage(); // gubi błędy
+            return Page(); 
         }
         private Tuple<User, Role> CreateUserBasedOnRole(RegisterNewUserVm inputModel)
         {
