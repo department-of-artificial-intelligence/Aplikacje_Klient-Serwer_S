@@ -1,0 +1,68 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+@{
+    var group = ViewBag.Group;
+}
+
+<h2>Zarządzanie studentami grupy: @group.Name</h2>
+
+<hr />
+
+<h4>Dodaj studenta do tej grupy</h4>
+<form asp-action="AttachStudent" method="post" class="row g-3 align-items-center mb-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="groupId" value="@group.Id" />
+    
+    <div class="col-auto">
+        <select name="studentId" class="form-control" asp-items="ViewBag.AvailableStudents">
+            <option value="">-- Wybierz wolnego studenta --</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Dodaj do grupy</button>
+    </div>
+</form>
+
+<hr />
+
+<h4>Studenci w tej grupie</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Imię i nazwisko</th>
+            <th>Nazwa użytkownika</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="3" class="text-center text-muted">Brak studentów w tej grupie.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName @student.LastName</td>
+                    <td>@student.UserName</td>
+                    <td>
+                        <form asp-action="DetachStudent" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="groupId" value="@group.Id" />
+                            <input type="hidden" name="studentId" value="@student.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć studenta z grupy?');">
+                                Usuń z grupy
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<p class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Powrót do listy grup</a>
+</p>
