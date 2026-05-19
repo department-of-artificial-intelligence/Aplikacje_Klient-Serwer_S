@@ -21,15 +21,15 @@ namespace SchoolRegister.Services.ConcreteServices
             if (addGradeToStudentVm == null) throw new ArgumentNullException(nameof(addGradeToStudentVm));
 
             // Mapujemy VM na model danych
-            var grade = _mapper.Map<Grade>(addGradeToStudentVm);
+            var grade = Mapper.Map<Grade>(addGradeToStudentVm);
             grade.DateOfIssue = DateTime.Now;
 
             // Dodajemy do bazy
-            _dbContext.Grades.Add(grade);
-            _dbContext.SaveChanges();
+            DbContext.Grades.Add(grade);
+            DbContext.SaveChanges();
 
             // Zwracamy zmapowany wynik
-            return _mapper.Map<GradeVm>(grade);
+            return Mapper.Map<GradeVm>(grade);
         }
 
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)

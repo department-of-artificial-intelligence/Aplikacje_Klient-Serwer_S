@@ -55,7 +55,10 @@ namespace SchoolRegister.Services.ConcreteServices
                 throw;
             }
         }
-
+        public bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
         public IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null)
         {
             try
