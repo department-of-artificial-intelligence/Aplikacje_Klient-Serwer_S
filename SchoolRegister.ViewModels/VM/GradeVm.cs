@@ -6,6 +6,7 @@ namespace SchoolRegister.ViewModels.VM
     {
         public int Id { get; set; }
         public DateTime DateOfIssue { get; set; }
+        [Required]
         public GradeScale GradeValue { get; set; }
         public string SubjectName { get; set; } = null!;
         public string StudentFirstName { get; set; } = null!;
