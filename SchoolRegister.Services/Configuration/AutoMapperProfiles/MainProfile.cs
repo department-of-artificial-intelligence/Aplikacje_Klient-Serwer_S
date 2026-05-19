@@ -20,8 +20,9 @@ public class MainProfile : Profile
             .ForMember(dest => dest.Students, x => x.MapFrom(src => src.Students))
             .ForMember(dest => dest.Subjects, x => x.MapFrom(src => src.SubjectGroups.Select(s => s.Subject)));
 
-        CreateMap<AddOrUpdateGroupVm, Group>()
-            .IncludeAllDerived();  // ← dodaj
+        CreateMap<AddOrUpdateGroupVm, Group>();
+
+        CreateMap<GroupVm, AddOrUpdateGroupVm>();
 
         CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
 
@@ -32,9 +33,10 @@ public class MainProfile : Profile
                 x => x.MapFrom(src => src.Parent == null ? null : $"{src.Parent.FirstName} {src.Parent.LastName}"));
 
         CreateMap<Teacher, TeacherVm>().IncludeAllDerived();
-        CreateMap<Grade, GradeVm>().IncludeAllDerived();
+        CreateMap<Grade, GradeVm>()
+        .ForMember(dest => dest.Value, x => x.MapFrom(src => (double)src.GradeValue))
+        .ForMember(dest => dest.SubjectId, x => x.MapFrom(src => src.Subject != null ? src.Subject.Name : string.Empty));
 
-        //... previous maps in MainProfile constructor
         CreateMap<RegisterNewUserVm, User>()
         .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
         .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));

@@ -1,0 +1,52 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.GradeVm>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @if (User.IsInRole("Teacher"))
+    {
+        var urlStudentId = Context.Request.Query["studentId"];
+        <a asp-action="AddGradeToStudent" asp-route-studentId="@urlStudentId">Add New</a>
+    }   
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectId)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<p>
+    @if (!User.IsInRole("Student"))
+    {
+        <a asp-action="Index" asp-controller="Student">Back to students</a>
+    }   
+</p>
