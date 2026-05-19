@@ -68,4 +68,9 @@ public class SubjectService : BaseService, ISubjectService
             throw;
         }
     }
+
+    public bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression)
+    {
+        throw new NotImplementedException();
+    }
 }
