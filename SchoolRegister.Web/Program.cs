@@ -18,11 +18,13 @@ builder.Services.AddAutoMapper(typeof(MainProfile));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<Role>()
-    .AddRoleManager<RoleManager<Role>>()
-    .AddUserManager<UserManager<User>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<User, Role>()
+    //.AddRoles<Role>()
+    //.AddRoleManager<RoleManager<Role>>()
+    //.AddUserManager<UserManager<User>>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 builder.Services.AddScoped<IStringLocalizer, StringLocalizer<BaseController>> ();
 builder.Services.AddScoped<ISubjectService, SubjectService> ();
@@ -72,6 +74,21 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+
+    string[] roles = { "User", "Admin", "Teacher", "Student", "Parent" };
+
+    foreach (var role in roles)
+    {
+        if (!roleManager.RoleExistsAsync(role).Result)
+        {
+            roleManager.CreateAsync(new Role { Name = role }).Wait();
+        }
+    }
+}
 
 var localizationOption = new RequestLocalizationOptions ()
     .SetDefaultCulture (supportedCultures[0])

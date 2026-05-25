@@ -10,12 +10,12 @@ public class RegisterModel : PageModel
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<Role> _roleManager; // ✅ ZMIANA
 
     public RegisterModel(
         UserManager<User> userManager,
         SignInManager<User> signInManager,
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<Role> roleManager) // ✅ ZMIANA
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -58,13 +58,13 @@ public class RegisterModel : PageModel
 
         if (result.Succeeded)
         {
-            // sprawdzenie, czy rola istnieje
+            // ✅ sprawdzenie roli
             if (!await _roleManager.RoleExistsAsync("User"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("User"));
+                await _roleManager.CreateAsync(new Role { Name = "User" }); // ✅ ZMIANA
             }
 
-            // przypisanie roli
+            // ✅ przypisanie roli
             await _userManager.AddToRoleAsync(user, "User");
 
             await _signInManager.SignInAsync(user, isPersistent: false);
