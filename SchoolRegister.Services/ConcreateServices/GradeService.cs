@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -54,9 +53,8 @@ namespace SchoolRegister.Services.ConcreteServices
             }
         }
 
-        public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
+        public GradesReportVm GetGradesReportForStudent(GetGradeReportVm getGradesVm)
         {
-            //ArgumentNullException.ThrowIfNull(getGradesVm);
             try
             {
                 if (getGradesVm == null)
@@ -85,7 +83,7 @@ namespace SchoolRegister.Services.ConcreteServices
                 var reportVm = new GradesReportVm
                 {
                     Student = Mapper.Map<StudentVm>(studentEntity),
-                    Grades = Mapper.Map<IEnumerable<GradeVm>>(studentEntity?.Grades)
+                    Grades = Mapper.Map<System.Collections.Generic.IEnumerable<GradeVm>>(studentEntity?.Grades)
                 };
 
                 return reportVm;
@@ -97,9 +95,9 @@ namespace SchoolRegister.Services.ConcreteServices
             }
         }
 
-        // public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

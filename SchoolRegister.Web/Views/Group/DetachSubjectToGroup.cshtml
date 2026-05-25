@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Usuń przedmiot z grupy";
+    var subject = ViewBag.Subject as SchoolRegister.ViewModels.VM.SubjectVm;
+    var assignedGroups = ViewData["AssignedGroups"] as SelectList;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Usuń przedmiot z grupy</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Przedmiot: <strong class="text-primary">@subject?.Name</strong></h5>
+                    <p class="text-muted">Wybierz grupę, z której chcesz usunąć (odpiąć) ten przedmiot.</p>
+                    
+                    <form asp-controller="Group" asp-action="DetachSubjectToGroup" method="post" class="mt-4">
+                        <input type="hidden" name="subjectId" value="@subject?.Id" />
+
+                        <div class="form-group mb-4">
+                            <label class="form-label font-weight-bold">Grupy realizujące ten przedmiot:</label>
+                            <select name="groupId" asp-items="assignedGroups" class="form-select" required>
+                                <option value="">-- Wybierz grupę --</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Subject" asp-action="Index" class="btn btn-secondary">Anuluj</a>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-unlink"></i> Usuń z grupy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

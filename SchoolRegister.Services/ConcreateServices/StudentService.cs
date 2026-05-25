@@ -35,7 +35,7 @@ namespace SchoolRegister.Services.ConcreteServices
             }
         }
 
-        public IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>>? filterPredicate = null)
+        public IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterPredicate = null)
         {
             try
             {
