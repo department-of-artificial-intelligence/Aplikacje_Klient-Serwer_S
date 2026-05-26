@@ -24,7 +24,7 @@ public class GradeApiController : BaseApiController
     {
         try
         {
-            var user = await _userManager.FindByNameAsync(User.Identity?.Name);
+            var user = await _userManager.GetUserAsync(User);
 
             if (await _userManager.IsInRoleAsync(user, "Student"))
             {
@@ -36,7 +36,7 @@ public class GradeApiController : BaseApiController
                             }
                         )
                     );
-                return BadRequest("Teacher is assigned to role, but to the Teacher type.");
+                return BadRequest("Student is assigned to role, but to the Student type.");
             }
             else
                 return BadRequest("Error occurred");
@@ -62,7 +62,7 @@ public class GradeApiController : BaseApiController
                 var report = _gradeService.GetGradesReportForStudent(
                     new GetGradesReportVm {
                         StudentId = id,
-                        GetterUserId = id
+                        GetterUserId = user.Id
                     }
                 );
                 if (report == null)
@@ -91,7 +91,7 @@ public class GradeApiController : BaseApiController
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var subjectVm = _gradeService.AddGradeToStudent(addGradeToStudenVm);
+            var subjectVm = _gradeService.AddGradeToStudent(addGradeToStudentVm);
             return Ok(subjectVm);
         }
         catch (Exception ex)
@@ -100,6 +100,4 @@ public class GradeApiController : BaseApiController
             return BadRequest("Error occurred");
         }
     }
-
-
 }
