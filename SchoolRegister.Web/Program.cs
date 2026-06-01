@@ -23,7 +23,7 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
                 .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(); 
 builder.Services.AddScoped<IStringLocalizer, StringLocalizer<BaseController>>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IGradeService, GradeService>();
